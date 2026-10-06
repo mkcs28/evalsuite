@@ -1,0 +1,179 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run test
+      - name: Registry export is up to date
+        run: npm run registry:export && git diff --exit-code backend/app/data/metrics.json
+      - run: npm run build
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next
+          include-hidden-files: true
+          retention-days: 1
+
+  backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: evalsuite
+          POSTGRES_PASSWORD: evalsuite
+          POSTGRES_DB: evalsuite_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U evalsuite" --health-interval 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      EVALSUITE_TEST_DATABASE_URL: postgresql://evalsuite:evalsuite@localhost:5432/evalsuite_test
+      EVALSUITE_TEST_REDIS_URL: redis://localhost:6379/1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -e ".[dev]" build
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy app
+      - name: Tests on PostgreSQL and Redis
+        run: pytest -q
+      - name: Tests on SQLite with the in-process limiter
+        run: pytest -q
+        env:
+          EVALSUITE_TEST_DATABASE_URL: ""
+          EVALSUITE_TEST_REDIS_URL: ""
+      - name: Migrations have no drift from the models
+        run: alembic upgrade head && alembic check
+        env:
+          EVALSUITE_DATABASE_URL: postgresql://evalsuite:evalsuite@localhost:5432/evalsuite_test
+      - run: python -m build
+      - run: pip-audit --skip-editable
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: [web, backend]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: evalsuite
+          POSTGRES_PASSWORD: evalsuite
+          POSTGRES_DB: evalsuite
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U evalsuite" --health-interval 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    env:
+      EVALSUITE_ENV: development
+      EVALSUITE_DATABASE_URL: postgresql://evalsuite:evalsuite@localhost:5432/evalsuite
+      EVALSUITE_REDIS_URL: redis://localhost:6379/0
+      EVALSUITE_AUTO_CREATE_TABLES: "false"
+      EVALSUITE_JWT_SECRET: ci-only-jwt-secret-0123456789-abcdefghijklmnop
+      EVALSUITE_API_KEY_PEPPER: ci-only-pepper-9876543210-zyxwvutsrqponmlkji
+      EVALSUITE_DOWNLOAD_TOKEN_SECRET: ci-only-download-secret-0123456789-abcdef
+      EVALSUITE_SITE_URL: http://localhost:3000
+      EVALSUITE_CORS_ORIGINS: '["http://localhost:3000"]'
+      EVALSUITE_EMAIL_BACKEND: console
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: pip install -e ./backend
+      - name: Start the API through the container entrypoint (migrations, then server)
+        working-directory: backend
+        run: |
+          sh docker-entrypoint.sh uvicorn app.main:app --port 8000 > "$RUNNER_TEMP/api.log" 2>&1 &
+          for i in $(seq 1 30); do curl -fs localhost:8000/api/v1/health/ready && break; sleep 1; done
+      - name: Full-stack checks with the website's own API clients
+        run: npm run test:integration
+        env:
+          API_BASE_URL: http://localhost:8000
+          SITE_URL: http://localhost:3000
+          API_LOG: ${{ runner.temp }}/api.log
+      - name: No secrets or request data in the API log
+        run: '! grep -E ''es_live_|password-[0-9]|yTrue'' "$RUNNER_TEMP/api.log"'
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [web, backend]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API image
+        run: docker build -t evalsuite-api:ci backend
+      - name: Build website image
+        run: docker build -t evalsuite-web:ci --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 .
+
+  e2e:
+    needs: web
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
