@@ -1,0 +1,1573 @@
+[
+  {
+    "id": "classification.accuracy",
+    "name": "Accuracy",
+    "category": "classification",
+    "description": "Fraction of observations whose predicted label equals the true label.",
+    "formula": "Accuracy = (TP + TN) / (TP + TN + FP + FN)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Misleading under class imbalance: a constant majority-class predictor can score highly."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.accuracy"
+  },
+  {
+    "id": "classification.precision",
+    "name": "Precision",
+    "category": "classification",
+    "description": "Of the observations predicted positive, the fraction that are truly positive.",
+    "formula": "Precision = TP / (TP + FP)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float or per-class array",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Multiclass and multilabel inputs require an explicit `average` (micro, macro, weighted, samples, or None)."
+    ],
+    "limitations": [
+      "Undefined when there are no positive predictions; handled by `zero_division`."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.precision"
+  },
+  {
+    "id": "classification.recall",
+    "name": "Recall",
+    "category": "classification",
+    "description": "Of the truly positive observations, the fraction predicted positive. Equal to sensitivity in the binary case.",
+    "formula": "Recall = TP / (TP + FN)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float or per-class array",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Multiclass and multilabel inputs require an explicit `average` (micro, macro, weighted, samples, or None)."
+    ],
+    "limitations": [
+      "Undefined when a class has no true instances; handled by `zero_division`."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.recall"
+  },
+  {
+    "id": "classification.f1",
+    "name": "F1 score",
+    "category": "classification",
+    "description": "Harmonic mean of precision and recall.",
+    "formula": "F1 = 2 · Precision · Recall / (Precision + Recall) = 2TP / (2TP + FP + FN)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float or per-class array",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Multiclass and multilabel inputs require an explicit `average` (micro, macro, weighted, samples, or None)."
+    ],
+    "limitations": [
+      "Ignores true negatives.",
+      "Macro, micro, and weighted averages can rank models differently."
+    ],
+    "references": [
+      {
+        "citation": "van Rijsbergen, C. J. (1979). Information Retrieval (2nd ed.). Butterworths."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.f1"
+  },
+  {
+    "id": "classification.balanced_accuracy",
+    "name": "Balanced accuracy",
+    "category": "classification",
+    "description": "Mean of per-class recall. Reduces the influence of class imbalance compared with accuracy.",
+    "formula": "Balanced accuracy = (1/K) Σₖ TPₖ / (TPₖ + FNₖ)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Brodersen, K. H., Ong, C. S., Stephan, K. E., & Buhmann, J. M. (2010). The balanced accuracy and its posterior distribution. Proceedings of the 20th International Conference on Pattern Recognition, 3121–3124."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.balanced_accuracy"
+  },
+  {
+    "id": "classification.mcc",
+    "name": "Matthews correlation coefficient",
+    "category": "classification",
+    "description": "Correlation between observed and predicted binary labels that uses all four confusion-matrix cells.",
+    "formula": "MCC = (TP·TN − FP·FN) / √((TP+FP)(TP+FN)(TN+FP)(TN+FN))",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float",
+    "range": "[−1, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Undefined when any marginal of the confusion matrix is zero; EvalSuite reports this explicitly rather than returning a silent value."
+    ],
+    "references": [
+      {
+        "citation": "Matthews, B. W. (1975). Comparison of the predicted and observed secondary structure of T4 phage lysozyme. Biochimica et Biophysica Acta, 405(2), 442–451."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.mcc"
+  },
+  {
+    "id": "classification.cohen_kappa",
+    "name": "Cohen's kappa",
+    "category": "classification",
+    "description": "Agreement between predicted and true labels corrected for agreement expected by chance.",
+    "formula": "κ = (pₒ − pₑ) / (1 − pₑ)",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "float",
+    "range": "[−1, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Depends on the marginal distributions, so values are hard to compare across datasets with different prevalence."
+    ],
+    "references": [
+      {
+        "citation": "Cohen, J. (1960). A coefficient of agreement for nominal scales. Educational and Psychological Measurement, 20(1), 37–46."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.cohen_kappa"
+  },
+  {
+    "id": "classification.roc_auc",
+    "name": "ROC AUC",
+    "category": "classification",
+    "description": "Area under the receiver operating characteristic curve; the probability that a random positive is ranked above a random negative.",
+    "formula": "AUC = ∫₀¹ TPR(FPR) dFPR",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Requires both classes to be present in y_true."
+    ],
+    "limitations": [
+      "Insensitive to calibration.",
+      "Can look optimistic on heavily imbalanced data; consider PR AUC alongside it."
+    ],
+    "references": [
+      {
+        "citation": "Hanley, J. A., & McNeil, B. J. (1982). The meaning and use of the area under a receiver operating characteristic (ROC) curve. Radiology, 143(1), 29–36."
+      },
+      {
+        "citation": "Fawcett, T. (2006). An introduction to ROC analysis. Pattern Recognition Letters, 27(8), 861–874."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.roc_auc"
+  },
+  {
+    "id": "classification.pr_auc",
+    "name": "PR AUC (average precision)",
+    "category": "classification",
+    "description": "Summary of the precision-recall curve, computed as average precision over recall steps.",
+    "formula": "AP = Σₙ (Rₙ − Rₙ₋₁) · Pₙ",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "The baseline equals prevalence, so values are not comparable across datasets with different prevalence.",
+      "Trapezoidal interpolation of PR curves is optimistic; average precision avoids it."
+    ],
+    "references": [
+      {
+        "citation": "Davis, J., & Goadrich, M. (2006). The relationship between precision-recall and ROC curves. Proceedings of the 23rd International Conference on Machine Learning, 233–240."
+      },
+      {
+        "citation": "Saito, T., & Rehmsmeier, M. (2015). The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. PLOS ONE, 10(3), e0118432."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.pr_auc"
+  },
+  {
+    "id": "classification.log_loss",
+    "name": "Log loss",
+    "category": "classification",
+    "description": "Negative mean log-likelihood of the true labels under the predicted probabilities.",
+    "formula": "LogLoss = −(1/N) Σᵢ [yᵢ log pᵢ + (1 − yᵢ) log(1 − pᵢ)]",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Unbounded for confident wrong predictions; probabilities are clipped and the clipping value is reported."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.log_loss"
+  },
+  {
+    "id": "classification.confusion_matrix",
+    "name": "Confusion matrix",
+    "category": "classification",
+    "description": "Counts of true versus predicted labels. Computed once per evaluation and shared by every count-based metric.",
+    "formula": "Cᵢⱼ = #{n : yₙ = i and ŷₙ = j}",
+    "inputs": [
+      "y_true: array of class labels",
+      "y_pred: array of predicted labels"
+    ],
+    "outputs": "K×K integer array",
+    "range": "non-negative counts",
+    "assumptions": [],
+    "limitations": [],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.classification.confusion_matrix"
+  },
+  {
+    "id": "regression.mae",
+    "name": "Mean absolute error",
+    "category": "regression",
+    "description": "Average absolute difference between predictions and targets, in target units.",
+    "formula": "MAE = (1/N) Σᵢ |yᵢ − ŷᵢ|",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Willmott, C. J., & Matsuura, K. (2005). Advantages of the mean absolute error (MAE) over the root mean square error (RMSE) in assessing average model performance. Climate Research, 30(1), 79–82."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.mae"
+  },
+  {
+    "id": "regression.mse",
+    "name": "Mean squared error",
+    "category": "regression",
+    "description": "Average squared difference between predictions and targets.",
+    "formula": "MSE = (1/N) Σᵢ (yᵢ − ŷᵢ)²",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Sensitive to outliers because errors are squared."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.mse"
+  },
+  {
+    "id": "regression.rmse",
+    "name": "Root mean squared error",
+    "category": "regression",
+    "description": "Square root of MSE, expressed in target units.",
+    "formula": "RMSE = √MSE",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Sensitive to outliers."
+    ],
+    "references": [
+      {
+        "citation": "Willmott, C. J., & Matsuura, K. (2005). Advantages of the mean absolute error (MAE) over the root mean square error (RMSE) in assessing average model performance. Climate Research, 30(1), 79–82."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.rmse"
+  },
+  {
+    "id": "regression.r2",
+    "name": "Coefficient of determination (R²)",
+    "category": "regression",
+    "description": "Proportion of variance in the target explained by the predictions, relative to predicting the mean.",
+    "formula": "R² = 1 − Σᵢ (yᵢ − ŷᵢ)² / Σᵢ (yᵢ − ȳ)²",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "(−∞, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Undefined for constant targets; reported explicitly rather than returned as a number."
+    ],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.r2"
+  },
+  {
+    "id": "regression.adjusted_r2",
+    "name": "Adjusted R²",
+    "category": "regression",
+    "description": "R² penalised for the number of predictors in the model.",
+    "formula": "R²ₐ = 1 − (1 − R²)(N − 1) / (N − p − 1)",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional",
+      "n_features: number of predictors p"
+    ],
+    "outputs": "float",
+    "range": "(−∞, 1]",
+    "assumptions": [
+      "Requires N > p + 1."
+    ],
+    "limitations": [],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.adjusted_r2"
+  },
+  {
+    "id": "regression.mape",
+    "name": "Mean absolute percentage error",
+    "category": "regression",
+    "description": "Average absolute error relative to the magnitude of the target.",
+    "formula": "MAPE = (1/N) Σᵢ |yᵢ − ŷᵢ| / |yᵢ|",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [
+      "All targets must be non-zero; zero targets raise a validation error."
+    ],
+    "limitations": [
+      "Asymmetric: penalises over-prediction and under-prediction differently."
+    ],
+    "references": [
+      {
+        "citation": "Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679–688."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.mape"
+  },
+  {
+    "id": "regression.smape",
+    "name": "Symmetric MAPE",
+    "category": "regression",
+    "description": "Percentage error scaled by the mean magnitude of target and prediction.",
+    "formula": "sMAPE = (1/N) Σᵢ 2|yᵢ − ŷᵢ| / (|yᵢ| + |ŷᵢ|)",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, 2]",
+    "assumptions": [],
+    "limitations": [
+      "Several conflicting definitions exist; EvalSuite documents the one it uses."
+    ],
+    "references": [
+      {
+        "citation": "Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679–688."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.smape"
+  },
+  {
+    "id": "regression.rmsle",
+    "name": "Root mean squared log error",
+    "category": "regression",
+    "description": "RMSE computed on log(1 + value), emphasising relative rather than absolute error.",
+    "formula": "RMSLE = √((1/N) Σᵢ (log(1 + yᵢ) − log(1 + ŷᵢ))²)",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [
+      "Targets and predictions must be greater than −1; invalid domains raise a validation error."
+    ],
+    "limitations": [],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.rmsle"
+  },
+  {
+    "id": "regression.median_absolute_error",
+    "name": "Median absolute error",
+    "category": "regression",
+    "description": "Median of absolute errors; robust to outliers.",
+    "formula": "MedAE = median(|yᵢ − ŷᵢ|)",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [],
+    "references": [],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.median_absolute_error"
+  },
+  {
+    "id": "regression.huber_loss",
+    "name": "Huber loss",
+    "category": "regression",
+    "description": "Quadratic for small errors and linear for large errors, controlled by δ.",
+    "formula": "Lδ(e) = ½e² if |e| ≤ δ, else δ(|e| − ½δ)",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional",
+      "delta: positive float"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Huber, P. J. (1964). Robust estimation of a location parameter. The Annals of Mathematical Statistics, 35(1), 73–101."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.huber_loss"
+  },
+  {
+    "id": "regression.quantile_loss",
+    "name": "Quantile (pinball) loss",
+    "category": "regression",
+    "description": "Asymmetric loss used to evaluate quantile predictions.",
+    "formula": "Lτ(e) = max(τe, (τ − 1)e),  e = y − ŷ",
+    "inputs": [
+      "y_true: array of real targets",
+      "y_pred: array of real predictions",
+      "sample_weight: optional",
+      "quantile τ in (0, 1)"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Koenker, R., & Bassett, G. (1978). Regression quantiles. Econometrica, 46(1), 33–50."
+      }
+    ],
+    "version": "v0.1.0",
+    "status": "planned",
+    "apiPath": "es.regression.quantile_loss"
+  },
+  {
+    "id": "clinical.sensitivity",
+    "name": "Sensitivity",
+    "category": "clinical",
+    "description": "Proportion of people with the condition whom the test correctly identifies as positive.",
+    "formula": "Sensitivity = TP / (TP + FN)",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Binary reference standard is treated as ground truth.",
+      "Defined for binary tasks only."
+    ],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 1: sensitivity and specificity. BMJ, 308(6943), 1552."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.sensitivity"
+  },
+  {
+    "id": "clinical.specificity",
+    "name": "Specificity",
+    "category": "clinical",
+    "description": "Proportion of people without the condition whom the test correctly identifies as negative.",
+    "formula": "Specificity = TN / (TN + FP)",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Defined for binary tasks only."
+    ],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 1: sensitivity and specificity. BMJ, 308(6943), 1552."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.specificity"
+  },
+  {
+    "id": "clinical.ppv",
+    "name": "Positive predictive value",
+    "category": "clinical",
+    "description": "Probability that a person with a positive result has the condition.",
+    "formula": "PPV = TP / (TP + FP)",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Depends on prevalence; values from one population do not transfer to another with different prevalence."
+    ],
+    "references": [
+      {
+        "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 2: predictive values. BMJ, 309(6947), 102."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.ppv"
+  },
+  {
+    "id": "clinical.npv",
+    "name": "Negative predictive value",
+    "category": "clinical",
+    "description": "Probability that a person with a negative result does not have the condition.",
+    "formula": "NPV = TN / (TN + FN)",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Depends on prevalence."
+    ],
+    "references": [
+      {
+        "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 2: predictive values. BMJ, 309(6947), 102."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.npv"
+  },
+  {
+    "id": "clinical.lr_positive",
+    "name": "Positive likelihood ratio",
+    "category": "clinical",
+    "description": "How much a positive result increases the odds of the condition.",
+    "formula": "LR+ = Sensitivity / (1 − Specificity)",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Infinite when specificity is 1; reported explicitly."
+    ],
+    "references": [],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.lr_positive"
+  },
+  {
+    "id": "clinical.lr_negative",
+    "name": "Negative likelihood ratio",
+    "category": "clinical",
+    "description": "How much a negative result decreases the odds of the condition.",
+    "formula": "LR− = (1 − Sensitivity) / Specificity",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [],
+    "references": [],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.lr_negative"
+  },
+  {
+    "id": "clinical.diagnostic_odds_ratio",
+    "name": "Diagnostic odds ratio",
+    "category": "clinical",
+    "description": "Ratio of the odds of a positive result in people with the condition to the odds in people without it.",
+    "formula": "DOR = (TP · TN) / (FP · FN) = LR+ / LR−",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Undefined when FP or FN is zero unless a continuity correction is requested explicitly."
+    ],
+    "references": [
+      {
+        "citation": "Glas, A. S., Lijmer, J. G., Prins, M. H., Bonsel, G. J., & Bossuyt, P. M. M. (2003). The diagnostic odds ratio: a single indicator of test performance. Journal of Clinical Epidemiology, 56(11), 1129–1135."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.diagnostic_odds_ratio"
+  },
+  {
+    "id": "clinical.youden_j",
+    "name": "Youden's J",
+    "category": "clinical",
+    "description": "Single summary of sensitivity and specificity at one threshold.",
+    "formula": "J = Sensitivity + Specificity − 1",
+    "inputs": [
+      "y_true: binary reference standard",
+      "y_pred: binary test result"
+    ],
+    "outputs": "float",
+    "range": "[−1, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Weights false positives and false negatives equally, which rarely matches clinical costs."
+    ],
+    "references": [
+      {
+        "citation": "Youden, W. J. (1950). Index for rating diagnostic tests. Cancer, 3(1), 32–35."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.youden_j"
+  },
+  {
+    "id": "clinical.net_benefit",
+    "name": "Net benefit (decision curve analysis)",
+    "category": "clinical",
+    "description": "Clinical utility of a model across threshold probabilities, compared with treat-all and treat-none strategies.",
+    "formula": "NB(pₜ) = TP/N − (FP/N) · pₜ / (1 − pₜ)",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]",
+      "thresholds: threshold probabilities in (0, 1)"
+    ],
+    "outputs": "DCAResult (threshold, model, treat_all, treat_none)",
+    "assumptions": [
+      "Threshold probability reflects the relative harm of false positives and false negatives."
+    ],
+    "limitations": [
+      "Net benefit is relative to the evaluation population and its prevalence."
+    ],
+    "references": [
+      {
+        "citation": "Vickers, A. J., & Elkin, E. B. (2006). Decision curve analysis: a novel method for evaluating prediction models. Medical Decision Making, 26(6), 565–574."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.decision_curve"
+  },
+  {
+    "id": "calibration.brier_score",
+    "name": "Brier score",
+    "category": "calibration",
+    "description": "Mean squared difference between predicted probabilities and binary outcomes.",
+    "formula": "BS = (1/N) Σᵢ (pᵢ − yᵢ)²",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Mixes calibration and discrimination; a low score alone does not show good calibration."
+    ],
+    "references": [
+      {
+        "citation": "Brier, G. W. (1950). Verification of forecasts expressed in terms of probability. Monthly Weather Review, 78(1), 1–3."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.calibration.brier_score"
+  },
+  {
+    "id": "calibration.ece",
+    "name": "Expected calibration error",
+    "category": "calibration",
+    "description": "Weighted average gap between predicted confidence and observed frequency across probability bins.",
+    "formula": "ECE = Σₘ (|Bₘ| / N) · |acc(Bₘ) − conf(Bₘ)|",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]",
+      "n_bins, strategy: uniform | quantile"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Depends on the number of bins and the binning strategy, which are always reported with the value."
+    ],
+    "references": [
+      {
+        "citation": "Naeini, M. P., Cooper, G. F., & Hauskrecht, M. (2015). Obtaining well calibrated probabilities using Bayesian binning. Proceedings of the AAAI Conference on Artificial Intelligence, 29(1)."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.calibration.ece"
+  },
+  {
+    "id": "calibration.mce",
+    "name": "Maximum calibration error",
+    "category": "calibration",
+    "description": "Largest gap between confidence and observed frequency over all bins.",
+    "formula": "MCE = maxₘ |acc(Bₘ) − conf(Bₘ)|",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]",
+      "n_bins, strategy"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Dominated by sparsely populated bins."
+    ],
+    "references": [
+      {
+        "citation": "Naeini, M. P., Cooper, G. F., & Hauskrecht, M. (2015). Obtaining well calibrated probabilities using Bayesian binning. Proceedings of the AAAI Conference on Artificial Intelligence, 29(1)."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.calibration.mce"
+  },
+  {
+    "id": "calibration.calibration_slope",
+    "name": "Calibration slope and intercept",
+    "category": "calibration",
+    "description": "Coefficients of a logistic regression of the outcome on the logit of the predicted probability.",
+    "formula": "logit P(y = 1) = a + b · logit(p);  ideal a = 0, b = 1",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]"
+    ],
+    "outputs": "slope, intercept with confidence intervals",
+    "assumptions": [],
+    "limitations": [
+      "Summarises calibration with two numbers; inspect the calibration curve as well."
+    ],
+    "references": [
+      {
+        "citation": "Cox, D. R. (1958). Two further applications of a model for binary regression. Biometrika, 45(3/4), 562–565."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.calibration.calibration_slope"
+  },
+  {
+    "id": "calibration.hosmer_lemeshow",
+    "name": "Hosmer–Lemeshow test",
+    "category": "calibration",
+    "description": "Goodness-of-fit test comparing observed and expected event counts across risk groups.",
+    "formula": "H = Σ_g (O_g − E_g)² / (E_g (1 − E_g / n_g)),  df = G − 2",
+    "inputs": [
+      "y_true: array of binary labels {0, 1}",
+      "y_prob: predicted probability of the positive class in [0, 1]",
+      "n_groups (default 10)"
+    ],
+    "outputs": "statistic, degrees_of_freedom, p_value, n_groups",
+    "assumptions": [],
+    "limitations": [
+      "Results depend on the grouping.",
+      "Low power in small samples and near-certain rejection in very large samples.",
+      "A non-significant result does not show that calibration is good."
+    ],
+    "references": [
+      {
+        "citation": "Hosmer, D. W., & Lemeshow, S. (1980). Goodness of fit tests for the multiple logistic regression model. Communications in Statistics – Theory and Methods, 9(10), 1035–1049."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.clinical.hosmer_lemeshow"
+  },
+  {
+    "id": "confidence.wilson",
+    "name": "Wilson score interval",
+    "category": "confidence",
+    "description": "Confidence interval for a binomial proportion with good coverage for small samples and extreme proportions.",
+    "formula": "(p̂ + z²/2n ± z√(p̂(1 − p̂)/n + z²/4n²)) / (1 + z²/n)",
+    "inputs": [
+      "successes k",
+      "trials n",
+      "confidence level"
+    ],
+    "outputs": "ConfidenceInterval",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22(158), 209–212."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.confidence.interval"
+  },
+  {
+    "id": "confidence.clopper_pearson",
+    "name": "Clopper–Pearson interval",
+    "category": "confidence",
+    "description": "Exact binomial interval obtained by inverting two one-sided binomial tests.",
+    "formula": "Lower = B(α/2; k, n − k + 1),  Upper = B(1 − α/2; k + 1, n − k)",
+    "inputs": [
+      "successes k",
+      "trials n",
+      "confidence level"
+    ],
+    "outputs": "ConfidenceInterval",
+    "assumptions": [],
+    "limitations": [
+      "Conservative: coverage is at least the nominal level, so intervals are wider than necessary."
+    ],
+    "references": [
+      {
+        "citation": "Clopper, C. J., & Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika, 26(4), 404–413."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.confidence.interval"
+  },
+  {
+    "id": "confidence.bootstrap_percentile",
+    "name": "Percentile bootstrap",
+    "category": "confidence",
+    "description": "Interval from the empirical quantiles of a statistic recomputed on resampled data.",
+    "formula": "[θ̂*(α/2), θ̂*(1 − α/2)]",
+    "inputs": [
+      "data",
+      "statistic",
+      "n_resamples",
+      "random_state"
+    ],
+    "outputs": "BootstrapResult",
+    "assumptions": [],
+    "limitations": [
+      "Can under-cover for skewed or biased statistics; BCa corrects for bias and skewness."
+    ],
+    "references": [
+      {
+        "citation": "Efron, B. (1979). Bootstrap methods: another look at the jackknife. The Annals of Statistics, 7(1), 1–26."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.bootstrap.bootstrap"
+  },
+  {
+    "id": "confidence.bootstrap_bca",
+    "name": "BCa bootstrap",
+    "category": "confidence",
+    "description": "Bias-corrected and accelerated bootstrap interval.",
+    "formula": "Percentiles adjusted by bias correction z₀ and acceleration a (jackknife)",
+    "inputs": [
+      "data",
+      "statistic",
+      "n_resamples",
+      "random_state"
+    ],
+    "outputs": "BootstrapResult",
+    "assumptions": [],
+    "limitations": [
+      "Requires a jackknife pass, which adds N extra evaluations of the statistic."
+    ],
+    "references": [
+      {
+        "citation": "Efron, B. (1987). Better bootstrap confidence intervals. Journal of the American Statistical Association, 82(397), 171–185."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.bootstrap.bootstrap"
+  },
+  {
+    "id": "statistics.t_test_independent",
+    "name": "Independent-samples t-test",
+    "category": "statistics",
+    "description": "Tests whether two independent groups have equal means. Welch's version does not assume equal variances.",
+    "formula": "t = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)",
+    "inputs": [
+      "sample a",
+      "sample b",
+      "equal_var: bool"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [
+      "Independent observations.",
+      "Approximately normal sampling distribution of the mean."
+    ],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Student. (1908). The probable error of a mean. Biometrika, 6(1), 1–25."
+      },
+      {
+        "citation": "Welch, B. L. (1947). The generalization of 'Student's' problem when several different population variances are involved. Biometrika, 34(1–2), 28–35."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.t_test"
+  },
+  {
+    "id": "statistics.t_test_paired",
+    "name": "Paired t-test",
+    "category": "statistics",
+    "description": "Tests whether the mean of paired differences is zero, for example per-fold scores of two models.",
+    "formula": "t = d̄ / (s_d / √n)",
+    "inputs": [
+      "paired sample a",
+      "paired sample b"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [
+      "Differences are approximately normal."
+    ],
+    "limitations": [
+      "Cross-validation folds are not independent; the test can be anti-conservative for model comparison."
+    ],
+    "references": [
+      {
+        "citation": "Student. (1908). The probable error of a mean. Biometrika, 6(1), 1–25."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.paired_t_test"
+  },
+  {
+    "id": "statistics.mann_whitney",
+    "name": "Mann–Whitney U test",
+    "category": "statistics",
+    "description": "Rank-based test for whether one of two independent samples tends to have larger values.",
+    "formula": "U = R₁ − n₁(n₁ + 1)/2",
+    "inputs": [
+      "sample a",
+      "sample b"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Mann, H. B., & Whitney, D. R. (1947). On a test of whether one of two random variables is stochastically larger than the other. The Annals of Mathematical Statistics, 18(1), 50–60."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.mann_whitney"
+  },
+  {
+    "id": "statistics.wilcoxon",
+    "name": "Wilcoxon signed-rank test",
+    "category": "statistics",
+    "description": "Rank-based test for paired samples.",
+    "formula": "W = Σ rank(|dᵢ|) over positive dᵢ",
+    "inputs": [
+      "paired sample a",
+      "paired sample b"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [
+      "Differences are symmetric about the median."
+    ],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Wilcoxon, F. (1945). Individual comparisons by ranking methods. Biometrics Bulletin, 1(6), 80–83."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.wilcoxon"
+  },
+  {
+    "id": "statistics.kruskal_wallis",
+    "name": "Kruskal–Wallis test",
+    "category": "statistics",
+    "description": "Rank-based test comparing three or more independent groups.",
+    "formula": "H = (12 / N(N + 1)) Σ Rⱼ²/nⱼ − 3(N + 1)",
+    "inputs": [
+      "k independent samples"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Kruskal, W. H., & Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. Journal of the American Statistical Association, 47(260), 583–621."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.kruskal_wallis"
+  },
+  {
+    "id": "statistics.friedman",
+    "name": "Friedman test",
+    "category": "statistics",
+    "description": "Rank-based test for three or more related samples, such as several models evaluated on the same datasets.",
+    "formula": "χ²_F = (12 / nk(k + 1)) Σ Rⱼ² − 3n(k + 1)",
+    "inputs": [
+      "n × k matrix of scores"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Friedman, M. (1937). The use of ranks to avoid the assumption of normality implicit in the analysis of variance. Journal of the American Statistical Association, 32(200), 675–701."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.friedman"
+  },
+  {
+    "id": "statistics.mcnemar",
+    "name": "McNemar's test",
+    "category": "statistics",
+    "description": "Compares two classifiers on the same observations using their discordant predictions.",
+    "formula": "χ² = (b − c)² / (b + c)",
+    "inputs": [
+      "y_true",
+      "predictions of model A",
+      "predictions of model B"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [
+      "Use the exact binomial version when b + c is small."
+    ],
+    "references": [
+      {
+        "citation": "McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12(2), 153–157."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.mcnemar"
+  },
+  {
+    "id": "statistics.shapiro_wilk",
+    "name": "Shapiro–Wilk test",
+    "category": "statistics",
+    "description": "Tests the null hypothesis that a sample comes from a normal distribution.",
+    "formula": "W = (Σ aᵢ x₍ᵢ₎)² / Σ (xᵢ − x̄)²",
+    "inputs": [
+      "sample"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [
+      "With large samples, trivial departures from normality become significant."
+    ],
+    "references": [
+      {
+        "citation": "Shapiro, S. S., & Wilk, M. B. (1965). An analysis of variance test for normality (complete samples). Biometrika, 52(3–4), 591–611."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.statistics.shapiro_wilk"
+  },
+  {
+    "id": "statistics.delong",
+    "name": "DeLong test for correlated ROC AUCs",
+    "category": "statistics",
+    "description": "Compares the ROC AUCs of two models evaluated on the same observations.",
+    "formula": "z = (AUC₁ − AUC₂) / √Var(AUC₁ − AUC₂), variance from structural components",
+    "inputs": [
+      "y_true",
+      "scores of model A",
+      "scores of model B"
+    ],
+    "outputs": "StatisticalTestResult",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "DeLong, E. R., DeLong, D. M., & Clarke-Pearson, D. L. (1988). Comparing the areas under two or more correlated receiver operating characteristic curves: a nonparametric approach. Biometrics, 44(3), 837–845."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.comparison.delong"
+  },
+  {
+    "id": "effect-size.cohens_d",
+    "name": "Cohen's d",
+    "category": "effect-size",
+    "description": "Standardised mean difference using the pooled standard deviation.",
+    "formula": "d = (x̄₁ − x̄₂) / s_pooled",
+    "inputs": [
+      "sample a",
+      "sample b"
+    ],
+    "outputs": "EffectSizeResult",
+    "assumptions": [],
+    "limitations": [
+      "Conventional small/medium/large thresholds are context-free rules of thumb."
+    ],
+    "references": [
+      {
+        "citation": "Cohen, J. (1988). Statistical Power Analysis for the Behavioral Sciences (2nd ed.). Lawrence Erlbaum Associates."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.effect_size.cohens_d"
+  },
+  {
+    "id": "effect-size.hedges_g",
+    "name": "Hedges' g",
+    "category": "effect-size",
+    "description": "Cohen's d with a small-sample bias correction.",
+    "formula": "g = d · (1 − 3 / (4(n₁ + n₂) − 9))",
+    "inputs": [
+      "sample a",
+      "sample b"
+    ],
+    "outputs": "EffectSizeResult",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Hedges, L. V. (1981). Distribution theory for Glass's estimator of effect size and related estimators. Journal of Educational Statistics, 6(2), 107–128."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.effect_size.hedges_g"
+  },
+  {
+    "id": "effect-size.cramers_v",
+    "name": "Cramér's V",
+    "category": "effect-size",
+    "description": "Strength of association between two categorical variables.",
+    "formula": "V = √(χ² / (N · (min(r, c) − 1)))",
+    "inputs": [
+      "contingency table"
+    ],
+    "outputs": "EffectSizeResult",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Cramér, H. (1946). Mathematical Methods of Statistics. Princeton University Press."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.effect_size.cramers_v"
+  },
+  {
+    "id": "multiple-testing.bonferroni",
+    "name": "Bonferroni correction",
+    "category": "multiple-testing",
+    "description": "Controls the family-wise error rate by multiplying each p-value by the number of tests.",
+    "formula": "p̃ᵢ = min(1, m · pᵢ)",
+    "inputs": [
+      "p_values",
+      "alpha"
+    ],
+    "outputs": "adjusted p-values, reject flags",
+    "assumptions": [],
+    "limitations": [
+      "Conservative when tests are positively correlated."
+    ],
+    "references": [
+      {
+        "citation": "Dunn, O. J. (1961). Multiple comparisons among means. Journal of the American Statistical Association, 56(293), 52–64."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.multiple_testing.correct"
+  },
+  {
+    "id": "multiple-testing.holm",
+    "name": "Holm step-down",
+    "category": "multiple-testing",
+    "description": "Sequentially rejective procedure that controls the family-wise error rate and is uniformly more powerful than Bonferroni.",
+    "formula": "p̃₍ᵢ₎ = maxⱼ≤ᵢ min(1, (m − j + 1) p₍ⱼ₎)",
+    "inputs": [
+      "p_values",
+      "alpha"
+    ],
+    "outputs": "adjusted p-values, reject flags",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.multiple_testing.correct"
+  },
+  {
+    "id": "multiple-testing.hochberg",
+    "name": "Hochberg step-up",
+    "category": "multiple-testing",
+    "description": "Step-up procedure controlling the family-wise error rate under independence or certain positive dependence.",
+    "formula": "Reject H₍₁₎…H₍ₖ₎ for the largest k with p₍ₖ₎ ≤ α / (m − k + 1)",
+    "inputs": [
+      "p_values",
+      "alpha"
+    ],
+    "outputs": "adjusted p-values, reject flags",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Hochberg, Y. (1988). A sharper Bonferroni procedure for multiple tests of significance. Biometrika, 75(4), 800–802."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.multiple_testing.correct"
+  },
+  {
+    "id": "multiple-testing.benjamini_hochberg",
+    "name": "Benjamini–Hochberg (FDR)",
+    "category": "multiple-testing",
+    "description": "Controls the expected proportion of false discoveries among rejected hypotheses.",
+    "formula": "Reject H₍₁₎…H₍ₖ₎ for the largest k with p₍ₖ₎ ≤ (k / m) α",
+    "inputs": [
+      "p_values",
+      "alpha"
+    ],
+    "outputs": "adjusted p-values, reject flags",
+    "assumptions": [
+      "Independent or positively dependent test statistics."
+    ],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Benjamini, Y., & Hochberg, Y. (1995). Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society: Series B, 57(1), 289–300."
+      }
+    ],
+    "version": "v0.2.0",
+    "status": "planned",
+    "apiPath": "es.multiple_testing.correct"
+  },
+  {
+    "id": "segmentation.dice",
+    "name": "Dice coefficient",
+    "category": "segmentation",
+    "description": "Overlap between predicted and ground-truth masks, weighting the intersection twice.",
+    "formula": "Dice = 2|A ∩ B| / (|A| + |B|)",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape"
+    ],
+    "outputs": "float or per-class array",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Undefined when both masks are empty; the `empty` policy (1.0, NaN, or exclude) is always explicit."
+    ],
+    "references": [
+      {
+        "citation": "Dice, L. R. (1945). Measures of the amount of ecologic association between species. Ecology, 26(3), 297–302."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.dice"
+  },
+  {
+    "id": "segmentation.iou",
+    "name": "Intersection over union",
+    "category": "segmentation",
+    "description": "Ratio of the intersection to the union of predicted and ground-truth masks (Jaccard index).",
+    "formula": "IoU = |A ∩ B| / |A ∪ B|",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape"
+    ],
+    "outputs": "float or per-class array",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Jaccard, P. (1912). The distribution of the flora in the alpine zone. New Phytologist, 11(2), 37–50."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.iou"
+  },
+  {
+    "id": "segmentation.miou",
+    "name": "Mean IoU",
+    "category": "segmentation",
+    "description": "IoU averaged over classes, with support for ignore_index.",
+    "formula": "mIoU = (1/K) Σₖ IoUₖ",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape",
+      "num_classes",
+      "ignore_index"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Long, J., Shelhamer, E., & Darrell, T. (2015). Fully convolutional networks for semantic segmentation. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, 3431–3440."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.miou"
+  },
+  {
+    "id": "segmentation.pixel_accuracy",
+    "name": "Pixel accuracy",
+    "category": "segmentation",
+    "description": "Fraction of correctly labelled pixels.",
+    "formula": "PA = Σₖ nₖₖ / Σₖ tₖ",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Dominated by large classes such as background."
+    ],
+    "references": [
+      {
+        "citation": "Long, J., Shelhamer, E., & Darrell, T. (2015). Fully convolutional networks for semantic segmentation. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, 3431–3440."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.pixel_accuracy"
+  },
+  {
+    "id": "segmentation.boundary_iou",
+    "name": "Boundary IoU",
+    "category": "segmentation",
+    "description": "IoU computed on contour bands of fixed width, emphasising boundary quality.",
+    "formula": "Boundary IoU = |(G_d ∩ G) ∩ (P_d ∩ P)| / |(G_d ∩ G) ∪ (P_d ∩ P)|",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape",
+      "dilation ratio d"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [],
+    "references": [
+      {
+        "citation": "Cheng, B., Girshick, R., Dollár, P., Berg, A. C., & Kirillov, A. (2021). Boundary IoU: Improving object-centric image segmentation evaluation. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 15334–15342."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.boundary_iou"
+  },
+  {
+    "id": "segmentation.hausdorff",
+    "name": "Hausdorff distance",
+    "category": "segmentation",
+    "description": "Largest distance from a point on one boundary to the nearest point on the other.",
+    "formula": "H(A, B) = max(supₐ inf_b d(a, b), sup_b infₐ d(a, b))",
+    "inputs": [
+      "y_true: ground-truth mask (H×W or N×H×W)",
+      "y_pred: predicted mask with the same shape",
+      "voxel spacing"
+    ],
+    "outputs": "float (physical units)",
+    "range": "[0, ∞)",
+    "assumptions": [],
+    "limitations": [
+      "Sensitive to single outlier pixels; a percentile variant (HD95) is planned."
+    ],
+    "references": [
+      {
+        "citation": "Huttenlocher, D. P., Klanderman, G. A., & Rucklidge, W. J. (1993). Comparing images using the Hausdorff distance. IEEE Transactions on Pattern Analysis and Machine Intelligence, 15(9), 850–863."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.segmentation.hausdorff"
+  },
+  {
+    "id": "detection.box_iou",
+    "name": "Box IoU",
+    "category": "detection",
+    "description": "Intersection over union of two axis-aligned bounding boxes.",
+    "formula": "IoU = area(A ∩ B) / area(A ∪ B)",
+    "inputs": [
+      "boxes A [x1, y1, x2, y2]",
+      "boxes B [x1, y1, x2, y2]"
+    ],
+    "outputs": "pairwise IoU matrix",
+    "range": "[0, 1]",
+    "assumptions": [
+      "Boxes must satisfy x2 ≥ x1 and y2 ≥ y1; invalid boxes raise a validation error."
+    ],
+    "limitations": [],
+    "references": [],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.detection.box_iou"
+  },
+  {
+    "id": "detection.average_precision",
+    "name": "Average precision",
+    "category": "detection",
+    "description": "Area under the interpolated precision-recall curve for one class at one IoU threshold.",
+    "formula": "AP = Σ (r_{n+1} − r_n) · p_interp(r_{n+1})",
+    "inputs": [
+      "ground truth: boxes [x1, y1, x2, y2] with class labels",
+      "predictions: boxes with class labels and confidence scores",
+      "iou_threshold"
+    ],
+    "outputs": "float per class",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Interpolation and matching conventions differ between VOC and COCO; the convention used is documented with every result."
+    ],
+    "references": [
+      {
+        "citation": "Everingham, M., Van Gool, L., Williams, C. K. I., Winn, J., & Zisserman, A. (2010). The PASCAL Visual Object Classes (VOC) challenge. International Journal of Computer Vision, 88(2), 303–338."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.detection.average_precision"
+  },
+  {
+    "id": "detection.map50_95",
+    "name": "mAP@[.50:.95]",
+    "category": "detection",
+    "description": "Mean AP over classes and over IoU thresholds 0.50, 0.55, …, 0.95.",
+    "formula": "mAP = (1/10) Σ_{t ∈ {0.50, …, 0.95}} (1/K) Σₖ AP_k(t)",
+    "inputs": [
+      "ground truth: boxes [x1, y1, x2, y2] with class labels",
+      "predictions: boxes with class labels and confidence scores"
+    ],
+    "outputs": "float",
+    "range": "[0, 1]",
+    "assumptions": [],
+    "limitations": [
+      "Not claimed to be COCO-compatible unless verified against the reference COCO evaluation protocol."
+    ],
+    "references": [
+      {
+        "citation": "Lin, T.-Y., Maire, M., Belongie, S., Hays, J., Perona, P., Ramanan, D., Dollár, P., & Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. European Conference on Computer Vision (ECCV), 740–755."
+      }
+    ],
+    "version": "v0.3.0",
+    "status": "planned",
+    "apiPath": "es.detection.map"
+  }
+]
