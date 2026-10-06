@@ -34,6 +34,10 @@ services:
         sync: false
       - key: EVALSUITE_CORS_ORIGINS
         sync: false
+      # Optional: also allow Vercel's per-deployment preview addresses, for example
+      # ^https://evalsuite-[a-z0-9-]+-mkcs\.vercel\.app$   (leave empty to allow only the exact origins)
+      - key: EVALSUITE_CORS_ORIGIN_REGEX
+        sync: false
       - key: EVALSUITE_EMAIL_BACKEND
         value: smtp
       - key: EVALSUITE_SMTP_HOST

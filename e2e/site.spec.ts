@@ -72,10 +72,10 @@ test("site search opens with the keyboard", async ({ page }) => {
 
 test("playground runs in demo mode", async ({ page }) => {
   await page.goto("/playground");
-  await expect(page.getByText("Demo mode")).toBeVisible();
+  await expect(page.getByText("Demo mode.", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Run evaluation" }).click();
   await expect(page.getByRole("table", { name: /Metric estimates/ })).toBeVisible();
-  await expect(page.getByText("ROC curve")).toBeVisible();
+  await expect(page.getByText("ROC curve", { exact: true })).toBeVisible();
 });
 
 test("theme toggle switches to dark mode", async ({ page }) => {

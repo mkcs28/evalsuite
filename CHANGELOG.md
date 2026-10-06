@@ -36,6 +36,19 @@ This file covers the web platform (website and API), not the EvalSuite Python pa
 - Responsive improvements: hamburger navigation below 1280px, tighter section spacing on phones, no
   negative margins that could cause sideways scrolling, two-column footer on small screens.
 
+### Fixed
+
+- Playground: changing the interval method after an invalid bootstrap setting no longer blocks later runs;
+  hidden settings are not validated, a message explains when a run did not start, and the resamples box can
+  be cleared while typing.
+- API requests that fail at the network level are retried once (free hosts wake up slowly) and the error
+  names the API address and likely causes instead of a generic "unavailable".
+- CI: pip caching points at `backend/pyproject.toml`; two end-to-end checks matched duplicate text.
+
+### Added (CORS)
+
+- Optional `EVALSUITE_CORS_ORIGIN_REGEX` to allow Vercel per-deployment preview addresses.
+
 ### Added (deployment)
 
 - Free-hosting setup: `render.yaml` Blueprint for the API, `DEPLOY.md` guide (Vercel, Render, Neon, Upstash,

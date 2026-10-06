@@ -103,6 +103,24 @@ every 14 minutes from 03:00 to 18:59 UTC (08:30 to 00:29 IST). Enable it by addi
 `API_BASE_URL` (GitHub: Settings → Secrets and variables → Actions → Variables). It stays within Render's 750
 free instance-hours per month for one service.
 
+## Troubleshooting
+
+**"Could not reach the EvalSuite API"** (sign-in, download email step, playground on the API):
+
+1. Open `https://<your-api>.onrender.com/api/v1/health/ready` in a browser.
+   - It loads slowly, then shows `"status":"ok"`: the API was asleep. Try the site again.
+   - Render shows an error page or the service is "Failed" in the dashboard: open **Logs**. Production mode
+     prints exactly which setting is missing (for example `EVALSUITE_SMTP_HOST` or a secret).
+   - `"database":false` or `"rateLimitStore":false`: check `EVALSUITE_DATABASE_URL` (Neon direct string) or
+     `EVALSUITE_REDIS_URL` (read-write `rediss://default:...`, not `default_ro`).
+2. Check the address in your browser's address bar. It must be listed **exactly** in `EVALSUITE_CORS_ORIGINS`
+   (scheme, no trailing slash), for example `["https://evalsuite-mkcs28.vercel.app"]`. Vercel also serves each
+   deployment at addresses like `evalsuite-abc123-mkcs.vercel.app`; to allow those, set
+   `EVALSUITE_CORS_ORIGIN_REGEX` to `^https://evalsuite-[a-z0-9-]+-mkcs\.vercel\.app$`.
+3. On Vercel, `NEXT_PUBLIC_API_BASE_URL` must be the API address with `https://` and no path. It is built into
+   the pages: after changing it, **redeploy**.
+4. Run `npm run check:deploy` (section 7); it reports which of these is wrong.
+
 ## Updating
 
 Push to the main branch: Vercel and Render redeploy automatically, and the API applies any new database

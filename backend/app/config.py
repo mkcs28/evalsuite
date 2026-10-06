@@ -35,6 +35,9 @@ class Settings(BaseSettings):
     # Public URL of the website, used to build password-reset links.
     site_url: str = "http://localhost:3000"
     cors_origins: list[str] = ["http://localhost:3000"]
+    # Optional regular expression for extra origins, e.g. Vercel's per-deployment preview addresses:
+    # ^https://evalsuite-[a-z0-9-]+-mkcs\.vercel\.app$
+    cors_origin_regex: str | None = None
 
     password_reset_minutes: int = Field(default=30, ge=5, le=24 * 60)
     email_backend: Literal["console", "smtp", "memory"] = "console"
@@ -68,6 +71,8 @@ class Settings(BaseSettings):
             raise ValueError("Use PostgreSQL (EVALSUITE_DATABASE_URL) in production.")
         if self.email_backend != "smtp" or not self.smtp_host:
             raise ValueError("Production needs EVALSUITE_EMAIL_BACKEND=smtp and EVALSUITE_SMTP_HOST.")
+        if self.cors_origin_regex and not self.cors_origin_regex.startswith("^https://"):
+            raise ValueError("EVALSUITE_CORS_ORIGIN_REGEX must start with ^https:// in production.")
         if not self.site_url.startswith("https://"):
             raise ValueError("EVALSUITE_SITE_URL must use https in production.")
         return self

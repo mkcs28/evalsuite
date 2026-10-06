@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { fetchApi } from "./network";
 import { EvaluationClientError } from "./types";
 
 /** Contract for the account endpoints of the EvalSuite API (backend/app/routers). */
@@ -102,9 +103,10 @@ export class AccountClient {
     init: RequestInit = {},
   ): Promise<z.infer<S>> {
     const token = this.getToken();
-    let response: Response;
-    try {
-      response = await this.fetchImpl(`${this.baseUrl}/api/v1${path}`, {
+    const response = await fetchApi(
+      this.baseUrl,
+      `${this.baseUrl}/api/v1${path}`,
+      {
         ...init,
         credentials: "omit",
         headers: {
@@ -112,13 +114,9 @@ export class AccountClient {
           ...(init.body ? { "Content-Type": "application/json" } : {}),
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-      });
-    } catch {
-      throw new EvaluationClientError(
-        "The EvalSuite API is unavailable. Try again later.",
-        "unavailable",
-      );
-    }
+      },
+      this.fetchImpl,
+    );
     if (response.status === 204) return undefined as z.infer<S>;
     const body: unknown = await response.json().catch(() => null);
     if (!response.ok) {

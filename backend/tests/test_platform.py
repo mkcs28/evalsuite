@@ -126,3 +126,39 @@ def test_hosted_database_url_forms_use_psycopg() -> None:
         assert engine.url.drivername == "postgresql+psycopg"
         assert engine.url.query.get("sslmode") == "require"
         engine.dispose()
+
+
+def test_cors_allows_exact_origins_and_optional_pattern(make_client: Callable[..., TestClient]) -> None:
+    c = make_client(
+        cors_origins=["https://evalsuite-mkcs28.vercel.app"],
+        cors_origin_regex=r"^https://evalsuite-[a-z0-9-]+-mkcs\.vercel\.app$",
+    )
+
+    def allowed(origin: str) -> str | None:
+        r = c.options(
+            "/api/v1/downloads/request",
+            headers={"Origin": origin, "Access-Control-Request-Method": "POST"},
+        )
+        return r.headers.get("access-control-allow-origin")
+
+    assert allowed("https://evalsuite-mkcs28.vercel.app") == "https://evalsuite-mkcs28.vercel.app"
+    assert allowed("https://evalsuite-abc123-mkcs.vercel.app") == "https://evalsuite-abc123-mkcs.vercel.app"
+    assert allowed("https://evil.vercel.app") is None
+    assert allowed("https://evalsuite-x-mkcs.vercel.app.evil.com") is None
+
+
+def test_production_regex_must_be_https() -> None:
+    from app.config import Settings
+
+    with pytest.raises(ValueError, match="CORS_ORIGIN_REGEX"):
+        Settings(
+            env="production",
+            database_url="postgresql://u:p@h/db",
+            jwt_secret="a" * 40,
+            api_key_pepper="b" * 40,
+            download_token_secret="c" * 40,
+            email_backend="smtp",
+            smtp_host="smtp.example.org",
+            site_url="https://evalsuite.example.org",
+            cors_origin_regex=".*",
+        )

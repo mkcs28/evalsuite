@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { fetchApi } from "./network";
 import { EvaluationClientError } from "./types";
 
 export const DownloadGrantSchema = z.object({
@@ -17,20 +18,12 @@ async function post<S extends z.ZodType>(
   body: unknown,
   schema: S,
 ): Promise<z.infer<S>> {
-  let res: Response;
-  try {
-    res = await fetch(`${base}/api/v1${path}`, {
-      method: "POST",
-      credentials: "omit",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(body),
-    });
-  } catch {
-    throw new EvaluationClientError(
-      "The EvalSuite API is unavailable. Try again later.",
-      "unavailable",
-    );
-  }
+  const res = await fetchApi(base, `${base}/api/v1${path}`, {
+    method: "POST",
+    credentials: "omit",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
   const json: unknown = await res.json().catch(() => null);
   if (!res.ok) {
     const parsed = ErrorSchema.safeParse(json);

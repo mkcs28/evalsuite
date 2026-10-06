@@ -133,12 +133,24 @@ export function Playground() {
     if (!p.ok) nextErrors.yPred = p.error;
     if (pr && !pr.ok) nextErrors.yProb = pr.error;
     if (selected.length === 0) nextErrors.metrics = "Select at least one metric.";
-    if (!Number.isInteger(nBoot) || nBoot < LIMITS.minBootstrap || nBoot > LIMITS.maxBootstrap) {
+    // Resamples and seed only matter for the bootstrap; when it is not selected they are hidden,
+    // so they must never block a run (send safe defaults instead).
+    const bootstrap = ciMethod === "bootstrap-percentile";
+    if (
+      bootstrap &&
+      (!Number.isInteger(nBoot) || nBoot < LIMITS.minBootstrap || nBoot > LIMITS.maxBootstrap)
+    ) {
       nextErrors.nBoot = `Use between ${LIMITS.minBootstrap} and ${LIMITS.maxBootstrap} resamples.`;
     }
-    if (!Number.isInteger(seed) || seed < 0) nextErrors.seed = "Use a non-negative whole number.";
+    if (bootstrap && (!Number.isInteger(seed) || seed < 0))
+      nextErrors.seed = "Use a non-negative whole number.";
+    if (Object.keys(nextErrors).length) {
+      nextErrors.form = "The evaluation did not run: fix the highlighted field and try again.";
+    }
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length || !t.ok || !p.ok) return;
+    const nBootstrap = bootstrap ? nBoot : 1000;
+    const randomState = bootstrap ? seed : 42;
 
     setRunning(true);
     try {
@@ -148,7 +160,7 @@ export function Playground() {
         yPred: p.values,
         yProb: pr && pr.ok ? pr.values : undefined,
         metrics: selected,
-        confidence: { method: ciMethod, level, nBootstrap: nBoot, randomState: seed },
+        confidence: { method: ciMethod, level, nBootstrap, randomState },
       });
       setResult(res);
     } catch (error) {
@@ -244,6 +256,7 @@ export function Playground() {
 
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
         <form
+          noValidate
           className="space-y-8"
           onSubmit={(e) => {
             e.preventDefault();
@@ -380,7 +393,10 @@ export function Playground() {
                 <select
                   id={`${uid}-ci`}
                   value={ciMethod}
-                  onChange={(e) => setCiMethod(e.target.value as CiMethod)}
+                  onChange={(e) => {
+                    setCiMethod(e.target.value as CiMethod);
+                    setErrors({});
+                  }}
                   className={input}
                 >
                   <option value="none">None</option>
@@ -416,9 +432,13 @@ export function Playground() {
                       type="number"
                       min={LIMITS.minBootstrap}
                       max={LIMITS.maxBootstrap}
-                      step={100}
-                      value={nBoot}
-                      onChange={(e) => setNBoot(Number(e.target.value))}
+                      step={1}
+                      inputMode="numeric"
+                      // Empty while the user is typing, instead of snapping to 0.
+                      value={Number.isFinite(nBoot) && nBoot > 0 ? nBoot : ""}
+                      onChange={(e) =>
+                        setNBoot(e.target.value === "" ? Number.NaN : Number(e.target.value))
+                      }
                       className={input}
                     />
                   </Field>
