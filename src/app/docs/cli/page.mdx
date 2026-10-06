@@ -1,0 +1,23 @@
+export const metadata = { title: "CLI reference", description: "Planned command-line interface for EvalSuite.", alternates: { canonical: "/docs/cli" } };
+
+# CLI reference
+
+<StatusBadge status="planned" label="Planned for v0.1.0" />
+
+<CodeBlock lang="bash" status="planned" statusLabel="Planned CLI" code={`
+evalsuite version
+evalsuite list-metrics
+evalsuite evaluate \\
+    --task classification \\
+    --true y_true.csv \\
+    --pred y_pred.csv \\
+    --prob y_prob.csv \\
+    --output report.html
+`} />
+
+## Behaviour
+
+- `--help` is available on every command.
+- Exit code 0 means success; non-zero codes distinguish validation errors from internal errors.
+- Output paths must be given explicitly. Existing files are not overwritten unless `--overwrite` is passed.
+- Input files are parsed as CSV only. The CLI never executes shell commands or user-supplied code.

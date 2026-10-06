@@ -1,0 +1,23 @@
+export const metadata = { title: "Reporting", description: "Publication-ready reports and exports in EvalSuite.", alternates: { canonical: "/docs/reporting" } };
+
+# Reporting
+
+<StatusBadge status="planned" label="Planned for v0.1.0" />
+
+Reports are built from one structured evaluation result and exported to HTML, Markdown, JSON, CSV, or LaTeX. Output paths are always explicit, and existing files are not overwritten unless requested.
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+report = es.report(result)
+
+report.to_latex(
+    path="results_table.tex",
+    caption="Model evaluation results",
+    label="tab:model_results",
+)
+report.to_html(path="report.html")
+report.to_json(path="report.json")
+`} />
+
+## Report contents
+
+Depending on the task, a report can include a dataset summary, overall and per-class metrics, confidence intervals, statistical tests and effect sizes, calibration and decision curves, ROC and PR analysis, a methodology section, and the software version used. Raw predictions are excluded by default to avoid exposing sensitive data.

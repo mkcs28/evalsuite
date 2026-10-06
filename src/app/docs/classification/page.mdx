@@ -1,0 +1,31 @@
+export const metadata = { title: "Classification", description: "Binary, multiclass, and multilabel classification metrics in EvalSuite.", alternates: { canonical: "/docs/classification" } };
+
+# Classification
+
+<StatusBadge status="planned" label="Planned for v0.1.0" />
+
+Binary, multiclass, and multilabel classification are planned for the first release.
+
+## Usage
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.classification.accuracy(y_true, y_pred)
+es.classification.f1(y_true, y_pred, average="macro", zero_division="warn")
+es.classification.roc_auc(y_true, y_prob)
+
+cm = es.classification.confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
+`} />
+
+## Averaging
+
+For more than two classes, the `average` parameter is required for precision, recall, and F1. `macro` treats every class equally, `weighted` weights by support, and `micro` pools counts across classes. These can rank models differently, so the averaging method is stored with every result.
+
+## Metrics
+
+<MetricTable category="classification" />
+
+## Choosing metrics
+
+Accuracy is easy to read but misleading under class imbalance. Balanced accuracy, MCC, and PR AUC are more informative when classes are imbalanced. ROC AUC measures ranking, not calibration; use the [calibration](/docs/calibration) guide to assess probabilities.

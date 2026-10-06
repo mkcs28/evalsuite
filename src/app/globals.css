@@ -1,0 +1,475 @@
+@import "tailwindcss";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   Design tokens. Components use these through Tailwind utilities
+   (bg-surface, text-muted-foreground, border-border, ...).
+   ------------------------------------------------------------------ */
+:root {
+  --background: #fbfbfd;
+  --foreground: #0b0c10;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-muted: #f3f4f7;
+  --border: #e3e5ea;
+  --border-subtle: #eceef2;
+  --muted: #f3f4f7;
+  --muted-foreground: #5d6270;
+  --primary: #7f31ff;
+  --primary-foreground: #ffffff;
+  --accent: #a1ffaa;
+  --accent-2: #7f31ff;
+  --grad-start: #7f31ff;
+  --grad-end: #a1ffaa;
+  --on-brand: #ffffff;
+  /* Headings end on deep teal (mint text vanishes on white); buttons use the blue half for white text. */
+  --grad-text-start: #7f31ff;
+  --grad-text-end: #0f9b8e;
+  --success: #128a55;
+  --warning: #a16207;
+  --danger: #c2332b;
+  --info: #2563eb;
+  --plot-reference: #d97706;
+  --grid-line: rgb(11 12 16 / 0.05);
+  --glow: rgb(127 49 255 / 0.13);
+  --glow-2: rgb(161 255 170 / 0.38);
+  --shadow-panel: 0 1px 2px rgb(11 12 16 / 0.04), 0 12px 40px -12px rgb(127 49 255 / 0.16);
+  --grad-ui-end: #9150ff;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #08090c;
+  --foreground: #f1f2f5;
+  --surface: #101217;
+  --surface-elevated: #151821;
+  --surface-muted: #161922;
+  --border: #252935;
+  --border-subtle: #1b1f29;
+  --muted: #161922;
+  --muted-foreground: #9aa1b2;
+  --primary: #b48cff;
+  --primary-foreground: #0b0f3a;
+  --accent: #a1ffaa;
+  --accent-2: #7f31ff;
+  --grad-start: #7f31ff;
+  --grad-end: #a1ffaa;
+  --on-brand: #ffffff;
+  --grad-text-start: #b48cff;
+  --grad-text-end: #a1ffaa;
+  --success: #4ade9a;
+  --warning: #f2c14e;
+  --danger: #ff8a80;
+  --info: #7cb0ff;
+  --plot-reference: #f5b04a;
+  --grid-line: rgb(241 242 245 / 0.045);
+  --glow: rgb(127 49 255 / 0.32);
+  --glow-2: rgb(161 255 170 / 0.1);
+  --shadow-panel: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 24px 60px -20px rgb(0 0 0 / 0.8);
+  --grad-ui-end: #9150ff;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-plot-reference: var(--plot-reference);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-brand: var(--on-brand);
+  --font-sans: "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-panel: var(--shadow-panel);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+  /* One typeface everywhere; the monospace face is reserved for code blocks and inline code. */
+  button,
+  input,
+  select,
+  textarea,
+  svg text {
+    font-family: inherit;
+  }
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Plot-paper grid used behind the hero and diagrams. */
+.plot-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Shiki dual-theme output. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: transparent !important;
+}
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+}
+.shiki code {
+  display: grid;
+  counter-reset: line;
+}
+.code-lines .shiki .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2ch;
+  margin-right: 1.25rem;
+  text-align: right;
+  color: var(--muted-foreground);
+  opacity: 0.6;
+}
+
+/* Long-form documentation text. */
+.doc-prose {
+  max-width: none;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+.doc-prose > h1 {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.doc-prose h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 2.75rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: 6rem;
+}
+.doc-prose h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 6rem;
+}
+.doc-prose p:not(.not-prose p) {
+  margin: 0.85rem 0;
+}
+.doc-prose ul,
+.doc-prose ol {
+  margin: 0.85rem 0;
+  padding-left: 1.25rem;
+}
+.doc-prose ul {
+  list-style: disc;
+}
+.doc-prose ol {
+  list-style: decimal;
+}
+.doc-prose li {
+  margin: 0.3rem 0;
+}
+.doc-prose a:not(.not-prose a) {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.doc-prose :not(pre) > code:not(.not-prose code) {
+  font-size: 0.875em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+}
+.doc-prose table:not(.not-prose table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.925rem;
+  margin: 1.25rem 0;
+}
+.doc-prose th:not(.not-prose th) {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0.9rem;
+}
+.doc-prose td:not(.not-prose td) {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.6rem 0.9rem;
+  vertical-align: top;
+}
+.doc-prose td:first-child:not(.not-prose td) {
+  min-width: 9rem;
+  font-weight: 500;
+}
+.doc-prose .table-wrap {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  margin: 1.25rem 0;
+}
+.doc-prose .table-wrap table {
+  margin: 0;
+}
+.doc-prose .table-wrap td,
+.doc-prose .table-wrap th {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .doc-prose .table-wrap th,
+  .doc-prose .table-wrap td {
+    white-space: normal;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  .doc-prose td:first-child:not(.not-prose td) {
+    min-width: 0;
+  }
+}
+.doc-prose .table-wrap tr:last-child td {
+  border-bottom: 0;
+}
+.doc-prose strong:not(.not-prose strong) {
+  font-weight: 700;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Modern surface helpers ---------- */
+.hero-glow {
+  background:
+    radial-gradient(60% 55% at 72% 18%, var(--glow), transparent 70%),
+    radial-gradient(45% 40% at 12% 8%, var(--glow-2), transparent 70%);
+}
+.text-gradient {
+  background: linear-gradient(
+    180deg,
+    var(--foreground) 35%,
+    color-mix(in srgb, var(--foreground) 55%, transparent)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Buttons, pills, logo: blue half of the palette so white text stays readable. */
+.brand-gradient {
+  background-color: #7f31ff; /* fallback */
+  background-image: linear-gradient(45deg, var(--grad-start) 0%, var(--grad-ui-end) 100%);
+}
+/* Full #7F31FF to #A1FFAA gradient for large decorative surfaces. */
+.brand-gradient-full {
+  background-color: #7f31ff;
+  background-image: linear-gradient(45deg, var(--grad-start) 0%, var(--grad-end) 100%);
+}
+.text-brand {
+  background: linear-gradient(45deg, var(--grad-text-start) 0%, var(--grad-text-end) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.gradient-ring {
+  position: relative;
+}
+.gradient-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--primary) 75%, transparent),
+    transparent 40%,
+    transparent 60%,
+    color-mix(in srgb, var(--accent) 65%, transparent)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.card-hover {
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  box-shadow: var(--shadow-panel);
+}
+.icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+/* Code wraps instead of scrolling sideways. */
+.shiki,
+.shiki code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Thin, theme-aware scrollbars wherever vertical scrolling remains. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--muted-foreground) 35%, transparent) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 35%, transparent);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+html,
+body {
+  overflow-x: clip;
+}
+
+/* ---------- Checkboxes: one modern style on every page ---------- */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  border: 1.5px solid var(--border);
+  border-radius: 0.375rem;
+  background-color: var(--surface);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 0.75rem;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 100ms ease;
+}
+input[type="checkbox"]:hover {
+  border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+}
+input[type="checkbox"]:active {
+  transform: scale(0.92);
+}
+input[type="checkbox"]:checked {
+  border-color: transparent;
+  background-color: var(--grad-start, var(--primary));
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"),
+    linear-gradient(45deg, var(--grad-start, var(--primary)), var(--grad-ui-end, var(--primary)));
+  background-size:
+    0.75rem,
+    100% 100%;
+  box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--primary) 60%, transparent);
+}
+input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+input[type="checkbox"][aria-invalid="true"]:not(:checked) {
+  border-color: var(--danger);
+}
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+@media (forced-colors: active) {
+  input[type="checkbox"] {
+    appearance: auto;
+  }
+}

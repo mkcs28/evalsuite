@@ -1,0 +1,30 @@
+export const metadata = { title: "Model comparison", description: "Paired statistical comparison of models in EvalSuite.", alternates: { canonical: "/docs/model-comparison" } };
+
+# Model comparison
+
+<StatusBadge status="planned" label="Planned for v0.1.0, extended in v0.2.0 and v0.3.0" />
+
+`es.compare_models` evaluates several models on the same data and applies a paired test appropriate to the metric.
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+comparison = es.compare_models(
+    y_true,
+    predictions={"baseline": p_base, "candidate": p_new},
+    metrics=["roc_auc", "f1"],
+    test="delong",
+)
+comparison.to_dataframe()
+`} />
+
+## Choosing a paired test
+
+| Situation | Test |
+| --- | --- |
+| Two classifiers, same observations, binary predictions | McNemar |
+| Two ROC AUCs on the same observations | DeLong |
+| Paired scores across folds or datasets | paired t-test or Wilcoxon signed-rank |
+| Three or more models across datasets | Friedman |
+
+A significant difference on one test set does not establish that a model is superior in general. Report effect sizes, intervals, and the evaluation design alongside any test.

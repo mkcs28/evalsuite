@@ -1,0 +1,118 @@
+export const metadata = { title: "API reference", description: "Planned public Python API and HTTP API contract for EvalSuite.", alternates: { canonical: "/docs/api" } };
+
+# API reference
+
+<Callout tone="warning" title="Planned API">
+  This page documents the planned public interface. It will be generated from docstrings once the package exists.
+</Callout>
+
+## Python modules
+
+| Module | Purpose | Planned release |
+| --- | --- | --- |
+| `es.evaluate`, `es.full_evaluation` | High-level evaluation | v0.1.0 |
+| `es.classification`, `es.regression` | Task metrics | v0.1.0 |
+| `es.compare_models`, `es.report` | Comparison and reporting | v0.1.0 |
+| `es.list_metrics`, `es.metric_info` | Metric registry | v0.1.0 |
+| `es.clinical`, `es.calibration` | Clinical and calibration | v0.2.0 |
+| `es.confidence`, `es.bootstrap` | Uncertainty | v0.2.0 |
+| `es.statistics`, `es.effect_size`, `es.multiple_testing` | Statistics | v0.2.0 |
+| `es.segmentation`, `es.detection` | Computer vision | v0.3.0 |
+
+## Common signature
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+metric(
+    y_true,
+    y_pred,
+    *,
+    labels=None,
+    average=None,
+    sample_weight=None,
+    zero_division="warn",
+)
+`} />
+
+## HTTP API
+
+<StatusBadge status="in-development" label="Built, not yet deployed" />
+
+The FastAPI service lives in `backend/` of the website repository. It provides accounts, personal API keys and authenticated evaluation. Until EvalSuite v0.1.0 is released, evaluation runs an **interim NumPy engine**, and every response says so in `engine.label`.
+
+### Authentication
+
+1. Create an account on the website. You must be **18 or over**; registration asks for your name, date of birth, role, country and intended use (organisation is optional).
+2. Sign in and open the [dashboard](/dashboard), then create your API key. Each account has **one active key**. It is shown **once**; only a hash is stored. To replace it, use **Rotate key**: the old key stops working immediately and a new one is issued.
+3. Send it with every request, either as `X-API-Key: <key>` or `Authorization: Bearer <key>`.
+
+Keys can be revoked instantly from the dashboard. A key can call evaluation endpoints but cannot create or revoke other keys.
+
+<CodeBlock lang="bash" status="in-development" statusLabel="Requires a deployed API" code={`
+curl https://YOUR-API-HOST/api/v1/evaluate \\
+  -H "X-API-Key: $EVALSUITE_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "task": "binary-classification",
+    "yTrue": [1, 0, 1, 1, 0],
+    "yPred": [1, 0, 0, 1, 0],
+    "yProb": [0.9, 0.2, 0.4, 0.8, 0.1],
+    "metrics": ["classification.accuracy", "classification.roc_auc"],
+    "confidence": {"method": "wilson", "level": 0.95, "nBootstrap": 1000, "randomState": 42}
+  }'
+`} />
+
+<CodeBlock lang="python" filename="client.py" status="in-development" statusLabel="Requires a deployed API" code={`
+import os
+import requests
+
+response = requests.post(
+    "https://YOUR-API-HOST/api/v1/evaluate",
+    headers={"X-API-Key": os.environ["EVALSUITE_API_KEY"]},
+    json={
+        "task": "regression",
+        "yTrue": [3.1, 2.4, 5.0],
+        "yPred": [2.9, 2.8, 4.6],
+        "metrics": ["regression.mae", "regression.rmse"],
+        "confidence": {"method": "none", "level": 0.95, "nBootstrap": 1000, "randomState": 0},
+    },
+    timeout=30,
+)
+response.raise_for_status()
+print(response.json())
+`} />
+
+### Endpoints
+
+| Method | Path | Auth | Purpose |
+| --- | --- | --- | --- |
+| GET | `/api/v1/health` | none | Liveness |
+| GET | `/api/v1/health/ready` | none | Readiness (database and rate-limit store) |
+| GET | `/api/v1/metrics` | none | Metric registry |
+| GET | `/api/v1/metrics/{metric_id}` | none | One metric definition |
+| POST | `/api/v1/auth/register` | none | Create an account |
+| POST | `/api/v1/auth/login` | none | Get a short-lived session token |
+| GET | `/api/v1/auth/me` | session | Current account |
+| DELETE | `/api/v1/auth/me` | session | Delete the account and everything linked to it |
+| POST | `/api/v1/auth/password/forgot` | none | Email a one-time reset link |
+| POST | `/api/v1/auth/password/reset` | none | Set a new password with that link |
+| POST | `/api/v1/auth/password/change` | session | Change password; other sessions end |
+| GET, POST | `/api/v1/keys` | session | List keys, or create the account's single active key (18+) |
+| POST | `/api/v1/keys/{id}/rotate` | session | Revoke the active key and issue its replacement |
+| DELETE | `/api/v1/keys/{id}` | session | Revoke a key |
+| GET | `/api/v1/usage` | session | Request counts |
+| POST | `/api/v1/downloads/request` | none (email required) | Record an email for security notices and get a 10-minute signed download link |
+| POST | `/api/v1/downloads/unsubscribe` | unsubscribe token | Stop security notices |
+| POST | `/api/v1/evaluate` | API key or session | Run an evaluation |
+| POST | `/api/v1/plot`, `/report`, `/bootstrap` | | Planned |
+
+### Sessions and passwords
+
+Sessions are short-lived and tied to the password they were issued under: changing or resetting the password signs out every other session immediately. Reset links are single-use, expire after 30 minutes by default, and carry the token in the URL fragment so it never reaches server logs. The forgot-password endpoint answers identically whether or not an email is registered.
+
+### Limits and errors
+
+Requests are limited to 1 MB, 5,000 observations and 2,000 bootstrap resamples, and evaluation is rate-limited per account (default 60 per minute; `429` with `Retry-After`). Every error has the shape `{"error": {"code": "...", "message": "..."}}`.
+
+### Data handling
+
+Submitted data is processed in memory and never stored or logged. Only counters (time, endpoint, number of observations) are kept to show your usage. Do not send identifiable patient information.

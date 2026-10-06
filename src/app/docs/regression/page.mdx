@@ -1,0 +1,29 @@
+export const metadata = { title: "Regression", description: "Regression error metrics in EvalSuite, with domain validation.", alternates: { canonical: "/docs/regression" } };
+
+# Regression
+
+<StatusBadge status="planned" label="Planned for v0.1.0" />
+
+## Usage
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.regression.mae(y_true, y_pred)
+es.regression.rmse(y_true, y_pred, sample_weight=w)
+es.regression.mape(y_true, y_pred)   # raises if any target is zero
+`} />
+
+## Domain restrictions
+
+Some metrics are only defined on part of the real line. Inputs are checked before computation:
+
+- **MAPE** requires every target to be non-zero.
+- **MSLE** and **RMSLE** require targets and predictions greater than −1.
+- **R²** is undefined for constant targets.
+
+Invalid inputs raise `MetricInputError` instead of producing infinities or misleading values.
+
+## Metrics
+
+<MetricTable category="regression" />

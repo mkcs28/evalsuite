@@ -1,0 +1,42 @@
+export const metadata = { title: "Clinical evaluation", description: "Diagnostic accuracy metrics and decision curve analysis in EvalSuite.", alternates: { canonical: "/docs/clinical" } };
+
+# Clinical evaluation
+
+<StatusBadge status="planned" label="Planned for v0.2.0" />
+
+Clinical metrics describe how a binary test or risk model would behave when used for decisions about people. They carry assumptions that general machine-learning metrics do not, so EvalSuite applies them only when they are requested explicitly.
+
+<Callout tone="privacy">
+  Do not upload identifiable patient information to the website playground. EvalSuite itself is a local library; the website never needs real patient data to demonstrate it.
+</Callout>
+
+## Assumptions
+
+- The reference standard is treated as ground truth.
+- Diagnostic metrics are defined for binary outcomes.
+- Predictive values (PPV, NPV) depend on prevalence and do not transfer between populations with different prevalence.
+
+## Usage
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import numpy as np
+import evalsuite as es
+
+es.clinical.sensitivity(y_true, y_pred)
+es.clinical.lr_positive(y_true, y_pred)
+
+dca = es.clinical.decision_curve(
+    y_true,
+    y_prob,
+    thresholds=np.linspace(0.01, 0.99, 99),
+)
+dca.to_dataframe()   # threshold, model_net_benefit, treat_all, treat_none
+`} />
+
+## Decision curve analysis
+
+Net benefit at threshold probability p<sub>t</sub> is `TP/N − (FP/N) · pt / (1 − pt)`. It is compared with treating everyone and treating no one. The threshold expresses how a clinician weighs the harm of a false positive against a false negative (Vickers and Elkin, 2006).
+
+## Metrics
+
+<MetricTable category="clinical" />

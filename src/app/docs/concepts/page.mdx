@@ -1,0 +1,42 @@
+export const metadata = { title: "Core concepts", description: "Validation, evaluation context, results, and conventions in EvalSuite.", alternates: { canonical: "/docs/concepts" } };
+
+# Core concepts
+
+These concepts are planned for v0.1.0 and underpin every later module.
+
+## Validation happens once
+
+Inputs are converted to NumPy and checked a single time per evaluation: lengths, shapes, label sets, probability ranges, NaN and infinity. Failures raise a specific exception that says what failed, why, and how to fix it.
+
+<CodeBlock lang="text" status="planned" statusLabel="Planned error format" code={`
+InputValidationError: y_true and y_pred must contain the same number of observations.
+Received 776 and 775.
+`} />
+
+Planned exception types are `EvalSuiteError`, `InputValidationError`, `MetricInputError`, `UnsupportedTaskError`, `OptionalDependencyError`, and `StatisticalTestError`.
+
+## The evaluation context
+
+`EvaluationContext` holds the validated inputs together with expensive intermediates such as the confusion matrix and class counts. Metrics read from the context instead of recomputing those intermediates. This is designed to reduce redundant computation; the effect will be measured and published on the [benchmarks](/benchmarks) page.
+
+## Results are structured and portable
+
+Every function returns a typed result object rather than a bare float.
+
+| Result | Contains |
+| --- | --- |
+| `MetricResult` | value, metric id, parameters used, optional interval |
+| `EvaluationResult` | all metric results for one evaluation |
+| `ConfidenceInterval` | lower, upper, level, method |
+| `BootstrapResult` | estimate, interval, standard error, optional distribution |
+| `StatisticalTestResult` | statistic, p-value, degrees of freedom, effect size |
+| `CurveResult`, `DCAResult` | curve coordinates with plotting helpers |
+
+Results export with `to_dict()`, `to_dataframe()`, `to_json()`, `to_markdown()`, and `to_latex()`. JSON uses standard serialization; pickle is never used for portable storage.
+
+## Explicit conventions
+
+- **Averaging** for multiclass and multilabel inputs must be stated: `binary`, `micro`, `macro`, `weighted`, `samples`, or `None`. Multiclass data is never silently treated as binary.
+- **Undefined values** such as a zero denominator follow `zero_division="warn"`, `0`, or `np.nan`. They are never silently reported as zero.
+- **Randomness** is controlled by `random_state`. Global random state is never modified.
+- **No side effects**: metric functions do not modify inputs, print, create files, or change plotting state.

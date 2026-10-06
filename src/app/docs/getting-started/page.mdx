@@ -1,0 +1,50 @@
+export const metadata = { title: "Getting started", description: "Install EvalSuite and run a first evaluation (planned API).", alternates: { canonical: "/docs/getting-started" } };
+
+# Getting started
+
+<Callout tone="warning" title="Not yet installable">
+  EvalSuite is not on PyPI yet. The commands below show the planned installation for v0.1.0. Until then, follow the project roadmap for progress.
+</Callout>
+
+## Installation
+
+The base package is planned to depend only on NumPy, SciPy, pandas, scikit-learn, and statsmodels. Plotting, vision, and PyTorch integrations will be optional extras, and none of them are imported by `import evalsuite`.
+
+<CodeBlock lang="bash" status="planned" statusLabel="Planned for v0.1.0" code={`
+pip install evalsuite
+pip install "evalsuite[plot]"     # Matplotlib figures
+pip install "evalsuite[vision]"   # segmentation and detection helpers
+pip install "evalsuite[all]"
+`} />
+
+Python 3.9 or newer will be supported.
+
+## Two API levels
+
+Every metric is available as a plain function. Nothing forces you to use the high-level evaluator.
+
+<CodeBlock lang="python" filename="low_level.py" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.classification.f1(y_true, y_pred, average="macro")
+es.clinical.sensitivity(y_true, y_pred)
+es.regression.rmse(y_true, y_pred)
+`} />
+
+The high-level evaluator validates the inputs once, builds an evaluation context, and runs only the metrics that are appropriate for the task.
+
+<CodeBlock lang="python" filename="high_level.py" status="planned" statusLabel="Planned API" code={`
+result = es.evaluate(
+    y_true=[0, 1, 1, 0],
+    y_pred=[0, 1, 0, 0],
+    task="classification",
+)
+
+print(result)
+result.to_dataframe()
+result.to_json()
+`} />
+
+## Next steps
+
+Read [Core concepts](/docs/concepts) for the validation and result model, then the guide for your task. To see the evaluation workflow interactively today, use the [playground](/playground) in demo mode.

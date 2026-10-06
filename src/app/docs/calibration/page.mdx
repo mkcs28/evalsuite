@@ -1,0 +1,27 @@
+export const metadata = { title: "Calibration", description: "Calibration metrics, curves, and the Hosmer–Lemeshow test in EvalSuite.", alternates: { canonical: "/docs/calibration" } };
+
+# Calibration
+
+<StatusBadge status="planned" label="Planned for v0.2.0" />
+
+A model is calibrated when, among cases given a predicted risk of 0.2, about 20% have the outcome. Discrimination metrics such as ROC AUC do not measure this.
+
+## Usage
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.calibration.ece(y_true, y_prob, n_bins=10, strategy="quantile")
+curve = es.calibration.curve(y_true, y_prob, n_bins=10)
+
+hl = es.clinical.hosmer_lemeshow(y_true, y_prob, n_groups=10)
+hl.statistic, hl.degrees_of_freedom, hl.p_value
+`} />
+
+## Interpreting calibration
+
+No single number proves that a model is calibrated. Binned metrics depend on the number of bins and the binning strategy. A non-significant Hosmer–Lemeshow result does not show that calibration is good, particularly in small samples. Report the calibration curve with slope and intercept alongside any summary statistic.
+
+## Metrics
+
+<MetricTable category="calibration" />

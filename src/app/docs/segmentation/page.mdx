@@ -1,0 +1,23 @@
+export const metadata = { title: "Segmentation", description: "Semantic segmentation overlap, boundary, and surface metrics in EvalSuite.", alternates: { canonical: "/docs/segmentation" } };
+
+# Segmentation
+
+<StatusBadge status="planned" label="Planned for v0.3.0" />
+
+Binary, multiclass, and multilabel segmentation masks are planned, with `ignore_index`, class weights, per-class output, and macro or global averaging.
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.segmentation.dice(mask_true, mask_pred, num_classes=4, ignore_index=255, empty="nan")
+es.segmentation.miou(mask_true, mask_pred, num_classes=4)
+es.segmentation.hausdorff(mask_true, mask_pred, spacing=(0.8, 0.8))
+`} />
+
+## Empty masks
+
+When both the prediction and the ground truth are empty for a class, overlap metrics are 0/0. Different libraries return 1, 0, or NaN. EvalSuite requires an explicit `empty` policy and records it in the result, because the choice can change mean scores substantially.
+
+## Metrics
+
+<MetricTable category="segmentation" />

@@ -1,0 +1,39 @@
+export const metadata = { title: "Bootstrap and confidence intervals", description: "Seeded bootstrap and analytical confidence intervals in EvalSuite.", alternates: { canonical: "/docs/bootstrap" } };
+
+# Bootstrap and confidence intervals
+
+<StatusBadge status="planned" label="Planned for v0.2.0" />
+
+A metric estimated on a finite test set is uncertain. EvalSuite plans to attach an interval to estimates using either an analytical method suited to the parameter or a reproducible bootstrap.
+
+## Analytical intervals
+
+For proportions such as accuracy, sensitivity, or specificity, the Wilson score interval is the planned default because it keeps good coverage for small samples and proportions near 0 or 1. Clopper–Pearson is available when guaranteed (conservative) coverage is preferred.
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+es.confidence.sensitivity(y_true, y_pred, method="wilson", confidence=0.95)
+es.confidence.interval(estimate, method="clopper-pearson", confidence=0.95)
+`} />
+
+## Bootstrap engine
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+result = es.bootstrap.bootstrap(
+    data,
+    statistic=my_metric,
+    n_resamples=10_000,
+    confidence=0.95,
+    method="bca",
+    random_state=42,
+    store_distribution=False,
+)
+result.estimate, result.lower, result.upper, result.standard_error
+`} />
+
+The engine is planned to be deterministic for a fixed `random_state`, to avoid touching global random state, and to keep the resampled distribution only when `store_distribution=True`.
+
+## Methods
+
+<MetricTable category="confidence" />

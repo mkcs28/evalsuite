@@ -1,0 +1,44 @@
+export const metadata = { title: "Statistical analysis", description: "Hypothesis tests, effect sizes, and multiple-testing correction in EvalSuite.", alternates: { canonical: "/docs/statistics" } };
+
+# Statistical analysis
+
+<StatusBadge status="planned" label="Planned for v0.2.0" />
+
+Statistical tests in EvalSuite return a structured result containing the statistic, p-value, degrees of freedom where applicable, an effect size, and the method used. They never return a bare p-value.
+
+<Callout title="What a p-value does not tell you">
+  A p-value measures how compatible the data are with a null hypothesis under the test's assumptions. It does not measure the size or practical importance of an effect and does not establish causation. EvalSuite reports effect sizes and intervals next to every test for this reason.
+</Callout>
+
+## Usage
+
+<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+import evalsuite as es
+
+res = es.statistics.wilcoxon(scores_a, scores_b)
+res.statistic, res.p_value, res.effect_size
+
+adj = es.multiple_testing.correct(p_values, method="holm", alpha=0.05)
+adj.adjusted_p_values, adj.reject
+`} />
+
+## Planned tests
+
+| Family | Tests |
+| --- | --- |
+| Parametric | independent t-test, paired t-test, one-way ANOVA, repeated-measures ANOVA |
+| Non-parametric | Mann–Whitney U, Wilcoxon signed-rank, Kruskal–Wallis, Friedman |
+| Categorical | chi-square, Fisher's exact, McNemar |
+| Assumptions | Shapiro–Wilk, Kolmogorov–Smirnov, Anderson–Darling, Levene, Bartlett |
+
+## Tests in the registry
+
+<MetricTable category="statistics" />
+
+## Effect sizes
+
+<MetricTable category="effect-size" />
+
+## Multiple-testing corrections
+
+<MetricTable category="multiple-testing" />
