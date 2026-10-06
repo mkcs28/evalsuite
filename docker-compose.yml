@@ -1,0 +1,59 @@
+# Full local stack: PostgreSQL, Redis, Mailpit (catches emails), API and website.
+#   cp backend/.env.example backend/.env   # set the two secrets
+#   docker compose up --build
+# Website http://localhost:3000, API docs http://localhost:8000/api/docs, emails http://localhost:8025
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: evalsuite
+      POSTGRES_PASSWORD: evalsuite
+      POSTGRES_DB: evalsuite
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evalsuite"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+  mail:
+    image: axllent/mailpit:latest
+    ports: ["8025:8025"]
+
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      EVALSUITE_DATABASE_URL: postgresql://evalsuite:evalsuite@db:5432/evalsuite
+      EVALSUITE_REDIS_URL: redis://redis:6379/0
+      EVALSUITE_AUTO_CREATE_TABLES: "false"
+      EVALSUITE_EMAIL_BACKEND: smtp
+      EVALSUITE_SMTP_HOST: mail
+      EVALSUITE_SMTP_PORT: "1025"
+      EVALSUITE_SMTP_STARTTLS: "false"
+      EVALSUITE_SITE_URL: http://localhost:3000
+      EVALSUITE_CORS_ORIGINS: '["http://localhost:3000"]'
+    ports: ["8000:8000"]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    # Shares EVALSUITE_DOWNLOAD_TOKEN_SECRET with the API to verify download links.
+    env_file: ./backend/.env
+    ports: ["3000:3000"]
+    depends_on: [api]
+
+volumes:
+  pgdata:

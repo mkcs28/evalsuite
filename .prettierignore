@@ -1,0 +1,13 @@
+.next
+node_modules
+coverage
+playwright-report
+test-results
+package-lock.json
+*.mdx
+next-env.d.ts
+backend/.pytest_cache
+backend/.mypy_cache
+backend/.ruff_cache
+backend/app/data/metrics.json
+backend/app/data/personal_email_domains.json

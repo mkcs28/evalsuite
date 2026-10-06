@@ -1,0 +1,48 @@
+# Render Blueprint for the EvalSuite API (free web service, Docker).
+# Render dashboard -> New -> Blueprint -> pick this repository.
+# Database (Neon), Redis (Upstash) and SMTP (Brevo) are external free services: paste their values
+# when Render asks for the variables marked sync: false. See DEPLOY.md.
+services:
+  - type: web
+    name: evalsuite-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: EVALSUITE_ENV
+        value: production
+      - key: EVALSUITE_AUTO_CREATE_TABLES
+        value: "false"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: EVALSUITE_JWT_SECRET
+        generateValue: true
+      - key: EVALSUITE_API_KEY_PEPPER
+        generateValue: true
+      # Must also be set on Vercel as DOWNLOAD_TOKEN_SECRET: copy it from Render after the first deploy.
+      - key: EVALSUITE_DOWNLOAD_TOKEN_SECRET
+        generateValue: true
+      - key: EVALSUITE_DATABASE_URL
+        sync: false
+      - key: EVALSUITE_REDIS_URL
+        sync: false
+      - key: EVALSUITE_SITE_URL
+        sync: false
+      - key: EVALSUITE_CORS_ORIGINS
+        sync: false
+      - key: EVALSUITE_EMAIL_BACKEND
+        value: smtp
+      - key: EVALSUITE_SMTP_HOST
+        value: smtp-relay.brevo.com
+      - key: EVALSUITE_SMTP_PORT
+        value: "587"
+      - key: EVALSUITE_SMTP_USERNAME
+        sync: false
+      - key: EVALSUITE_SMTP_PASSWORD
+        sync: false
+      - key: EVALSUITE_EMAIL_FROM
+        sync: false
