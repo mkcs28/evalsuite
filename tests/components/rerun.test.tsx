@@ -74,3 +74,19 @@ describe("hidden settings never block a run", () => {
     expect(methods.some((m) => m?.includes("250 resamples"))).toBe(true);
   });
 });
+
+describe("every run is visibly acknowledged", () => {
+  it("counts runs and says when a re-run gives identical results", async () => {
+    render(<Playground />);
+    const run = screen.getByRole("button", { name: "Run evaluation" });
+    await userEvent.click(run);
+    expect(await screen.findByText("Run 1 completed")).toBeInTheDocument();
+    await userEvent.click(run);
+    expect(await screen.findByText("Run 2 completed")).toBeInTheDocument();
+    expect(screen.getByText(/No change from the previous run/)).toBeInTheDocument();
+    await userEvent.selectOptions(screen.getByLabelText("Confidence level"), "0.99");
+    await userEvent.click(run);
+    expect(await screen.findByText("Run 3 completed")).toBeInTheDocument();
+    expect(screen.queryByText(/No change from the previous run/)).toBeNull();
+  });
+});

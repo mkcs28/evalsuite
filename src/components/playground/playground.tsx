@@ -2,7 +2,7 @@
 
 import { Download, FlaskConical, Play } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { Callout } from "@/components/ui/callout";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { apiBaseUrl } from "@/lib/api";
@@ -106,6 +106,13 @@ export function Playground() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [running, setRunning] = useState(false);
+  // Every run is acknowledged visibly: identical inputs give identical (deterministic) results,
+  // which otherwise looks as if the button did nothing.
+  const [runInfo, setRunInfo] = useState<{ count: number; at: Date; unchanged: boolean } | null>(
+    null,
+  );
+  const resultsRef = useRef<HTMLElement>(null);
+  const lastResultJson = useRef<string | null>(null);
 
   const loadDemo = (t: EvaluationTask) => {
     const d = datasetFor(t);
@@ -121,6 +128,7 @@ export function Playground() {
     setSelected(demoMetricsFor(t).map((m) => m.id));
     if (t === "regression" && ciMethod === "wilson") setCiMethod("bootstrap-percentile");
     setResult(null);
+    lastResultJson.current = null;
     loadDemo(t);
   };
 
@@ -162,7 +170,20 @@ export function Playground() {
         metrics: selected,
         confidence: { method: ciMethod, level, nBootstrap, randomState },
       });
+      const json = JSON.stringify(res);
+      const unchanged = lastResultJson.current === json;
+      lastResultJson.current = json;
       setResult(res);
+      setRunInfo((info) => ({ count: (info?.count ?? 0) + 1, at: new Date(), unchanged }));
+      // The results can be off screen (below the form on phones, above the Run button on desktop).
+      requestAnimationFrame(() => {
+        const el = resultsRef.current;
+        // Bring the results into view if they start above the sticky header or low on the screen.
+        const top = el?.getBoundingClientRect().top ?? 0;
+        if (el && (top < 80 || top > window.innerHeight * 0.6)) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
     } catch (error) {
       setResult(null);
       setErrors({
@@ -478,7 +499,12 @@ export function Playground() {
           </button>
         </form>
 
-        <section aria-labelledby={`${uid}-results`} aria-live="polite" className="min-w-0">
+        <section
+          ref={resultsRef}
+          aria-labelledby={`${uid}-results`}
+          aria-live="polite"
+          className="min-w-0 scroll-mt-24"
+        >
           <div className="rounded-2xl border border-border bg-surface shadow-panel">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle px-5 py-3">
               <h2 id={`${uid}-results`} className="font-semibold">
@@ -505,7 +531,26 @@ export function Playground() {
                 Run an evaluation to see metric estimates, intervals and the ROC curve.
               </div>
             ) : (
-              <div className="space-y-6 p-5">
+              <div key={runInfo?.count ?? 0} className="animate-rise space-y-6 p-5">
+                {runInfo ? (
+                  <p
+                    role="status"
+                    className={`flex flex-wrap items-center gap-x-2 rounded-lg px-3 py-2 text-sm ${
+                      runInfo.unchanged
+                        ? "bg-surface-muted text-muted-foreground"
+                        : "bg-success/8 text-success"
+                    }`}
+                  >
+                    <span className="font-semibold">Run {runInfo.count} completed</span>
+                    <span>at {runInfo.at.toLocaleTimeString()}</span>
+                    {runInfo.unchanged ? (
+                      <span>
+                        No change from the previous run (same data and settings give the same
+                        results).
+                      </span>
+                    ) : null}
+                  </p>
+                ) : null}
                 <p className="text-sm text-muted-foreground">
                   {TASK_LABEL[result.task]}, n = {result.nObservations}. Engine:{" "}
                   {result.engine.label}.
