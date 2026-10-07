@@ -52,6 +52,11 @@ This file covers the web platform (website and API), not the EvalSuite Python pa
 - Emails are sent in the background and a delivery failure never fails the request; it is logged without
   the recipient address.
 
+### Fixed (CI)
+
+- The Python 3.10 job failed `pip-audit` on the outdated pip and setuptools bundled with that Python image
+  (not on EvalSuite's dependencies); CI now upgrades the build tools before installing.
+
 ### Fixed (Redis)
 
 - A read-only Redis user (for example Upstash `default_ro`) made every rate-limited request fail with an

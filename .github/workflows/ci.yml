@@ -73,6 +73,9 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
           cache-dependency-path: backend/pyproject.toml
+      # Older Python images ship an outdated pip/setuptools with known advisories, which pip-audit
+      # (correctly) reports. Upgrade the build tools before installing.
+      - run: python -m pip install --upgrade pip setuptools
       - run: pip install -e ".[dev]" build
       - run: ruff check .
       - run: ruff format --check .
@@ -130,6 +133,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Older Python images ship an outdated pip/setuptools with known advisories, which pip-audit
+      # (correctly) reports. Upgrade the build tools before installing.
+      - run: python -m pip install --upgrade pip setuptools
       - run: pip install -e ./backend
       - name: Start the API through the container entrypoint (migrations, then server)
         working-directory: backend
