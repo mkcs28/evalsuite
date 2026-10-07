@@ -1,0 +1,7 @@
+{
+  "//": "Type-checked by `next build`: application code only. Tests, e2e and scripts are covered by `npm run typecheck` (tsconfig.json), so the production build (and the Docker image, which excludes backend/) does not depend on them.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "types": [] },
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

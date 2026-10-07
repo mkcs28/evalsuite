@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
   // Release files are private (not in public/); bundle them with the download route.
   outputFileTracingIncludes: { "/api/download/[version]/[file]": ["./releases/**/*"] },
   poweredByHeader: false,
+  // The build type-checks application code only; tests are checked by `npm run typecheck`.
+  typescript: { tsconfigPath: "tsconfig.build.json" },
   reactStrictMode: true,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
