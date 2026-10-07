@@ -5,12 +5,18 @@ import raw from "@/data/downloads.json";
  * Release files hosted by the website itself (public/downloads/<version>/<filename>).
  * The manifest is written by scripts/add-release.mjs, never by hand.
  */
-export const PACKAGE_NAME = "evalsuite";
+/** Name on PyPI ("evalsuite" was taken as too similar to "eval-suite"); imported as `evalsuite`. */
+export const PACKAGE_NAME = "evalsuite-python";
+/** Normalised prefix of built files: evalsuite_python-<version>-py3-none-any.whl, evalsuite_python-<version>.tar.gz. */
+export const FILE_PREFIX = "evalsuite_python";
+export const IMPORT_NAME = "evalsuite";
 
 const VERSION = /^\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?$/;
 
 export const DownloadFileSchema = z.object({
-  filename: z.string().regex(/^evalsuite-[0-9][A-Za-z0-9.]*(?:-py3-none-any\.whl|\.tar\.gz)$/),
+  filename: z
+    .string()
+    .regex(/^evalsuite_python-[0-9][A-Za-z0-9.]*(?:-py3-none-any\.whl|\.tar\.gz)$/),
   kind: z.enum(["wheel", "sdist"]),
   size: z.number().int().positive(),
   sha256: z.string().regex(/^[a-f0-9]{64}$/),
@@ -24,7 +30,7 @@ export const ReleaseSchema = z
   })
   .superRefine((r, ctx) => {
     for (const f of r.files) {
-      if (!f.filename.startsWith(`${PACKAGE_NAME}-${r.version}`)) {
+      if (!f.filename.startsWith(`${FILE_PREFIX}-${r.version}`)) {
         ctx.addIssue({
           code: "custom",
           message: `${f.filename} does not match version ${r.version}`,

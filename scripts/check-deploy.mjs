@@ -103,7 +103,7 @@ await check("Website knows the API address", async () => {
   );
 });
 await check("Downloads are not publicly listable", async () => {
-  const res = await get(`${site}/api/download/0.0.0/evalsuite-0.0.0.tar.gz`);
+  const res = await get(`${site}/api/download/0.0.0/evalsuite_python-0.0.0.tar.gz`);
   ok(res.status === 404 || res.status === 403, `status ${res.status}`);
 });
 await check("Unknown pages return 404", async () => {

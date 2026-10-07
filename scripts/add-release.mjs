@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Publish built package files to the website's own download area.
 //
-//   npm run release:add -- --version 0.1.0 dist/evalsuite-0.1.0-py3-none-any.whl dist/evalsuite-0.1.0.tar.gz
+//   npm run release:add -- --version 0.1.0 dist/evalsuite_python-0.1.0-py3-none-any.whl dist/evalsuite_python-0.1.0.tar.gz
 //
 // Copies the files to releases/<version>/ (private; served only via signed links), records size and SHA-256 in
 // src/data/downloads.json, and refuses to overwrite an existing release or file.
@@ -20,8 +20,8 @@ import { fileURLToPath } from "node:url";
 const VERSION = /^\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?$/;
 
 export function kindOf(filename, version) {
-  if (filename === `evalsuite-${version}-py3-none-any.whl`) return "wheel";
-  if (filename === `evalsuite-${version}.tar.gz`) return "sdist";
+  if (filename === `evalsuite_python-${version}-py3-none-any.whl`) return "wheel";
+  if (filename === `evalsuite_python-${version}.tar.gz`) return "sdist";
   return null;
 }
 
@@ -42,7 +42,7 @@ export function addRelease({ root, version, files, date = new Date().toISOString
     const kind = kindOf(filename, version);
     if (!kind) {
       throw new Error(
-        `${filename} is not evalsuite-${version}-py3-none-any.whl or evalsuite-${version}.tar.gz.`,
+        `${filename} is not evalsuite_python-${version}-py3-none-any.whl or evalsuite_python-${version}.tar.gz.`,
       );
     }
     if (!existsSync(file)) throw new Error(`File not found: ${file}`);

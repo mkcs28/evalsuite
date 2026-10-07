@@ -4,10 +4,10 @@ import { join } from "node:path";
 import { createHmac } from "node:crypto";
 import { verifyDownloadToken } from "@/lib/downloads/token";
 
-const WHEEL = "evalsuite-0.1.0-py3-none-any.whl";
+const WHEEL = "evalsuite_python-0.1.0-py3-none-any.whl";
 // Produced by backend/app/download_tokens.py: sign("0.1.0", WHEEL, "s"*40, 600, now=1_800_000_000)
 const VECTOR =
-  "eyJleHAiOjE4MDAwMDA2MDAsImYiOiJldmFsc3VpdGUtMC4xLjAtcHkzLW5vbmUtYW55LndobCIsInYiOiIwLjEuMCJ9.3a0afc33f15301d5ba74d76cf5f98d5320e0889b35f9345145d08e135534a61a";
+  "eyJleHAiOjE4MDAwMDA2MDAsImYiOiJldmFsc3VpdGVfcHl0aG9uLTAuMS4wLXB5My1ub25lLWFueS53aGwiLCJ2IjoiMC4xLjAifQ.4c4395d31e4fde1c54f2dd60d33a250431541316ed1d9454a2df2dd825508466";
 
 function sign(v: string, f: string, secret: string, exp: number) {
   const encoded = Buffer.from(JSON.stringify({ exp, f, v })).toString("base64url");
@@ -22,7 +22,13 @@ describe("download token verification", () => {
   it("rejects expired, tampered, wrong-file and wrong-secret tokens", () => {
     expect(verifyDownloadToken(VECTOR, "0.1.0", WHEEL, "s".repeat(40), 1_800_000_601)).toBe(false);
     expect(
-      verifyDownloadToken(VECTOR, "0.1.0", "evalsuite-0.1.0.tar.gz", "s".repeat(40), 1_800_000_000),
+      verifyDownloadToken(
+        VECTOR,
+        "0.1.0",
+        "evalsuite_python-0.1.0.tar.gz",
+        "s".repeat(40),
+        1_800_000_000,
+      ),
     ).toBe(false);
     expect(verifyDownloadToken(VECTOR, "0.1.0", WHEEL, "x".repeat(40), 1_800_000_000)).toBe(false);
     expect(
@@ -112,8 +118,8 @@ describe("download route", () => {
   });
 
   it("returns 404 when the manifest lists a file that is not on the server", async () => {
-    const GET = await load([{ filename: "evalsuite-0.1.0.tar.gz", kind: "sdist" }]);
-    const t = sign("0.1.0", "evalsuite-0.1.0.tar.gz", SECRET, Date.now() / 1000 + 60);
-    expect((await call(GET, "0.1.0", "evalsuite-0.1.0.tar.gz", t)).status).toBe(404);
+    const GET = await load([{ filename: "evalsuite_python-0.1.0.tar.gz", kind: "sdist" }]);
+    const t = sign("0.1.0", "evalsuite_python-0.1.0.tar.gz", SECRET, Date.now() / 1000 + 60);
+    expect((await call(GET, "0.1.0", "evalsuite_python-0.1.0.tar.gz", t)).status).toBe(404);
   });
 });

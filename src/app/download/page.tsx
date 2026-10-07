@@ -125,11 +125,11 @@ export default function DownloadPage() {
             <CodeBlock
               lang="bash"
               code={`# Linux
-sha256sum evalsuite-<version>-py3-none-any.whl
+sha256sum evalsuite_python-<version>-py3-none-any.whl
 # macOS
-shasum -a 256 evalsuite-<version>-py3-none-any.whl
+shasum -a 256 evalsuite_python-<version>-py3-none-any.whl
 # Windows (PowerShell)
-Get-FileHash evalsuite-<version>-py3-none-any.whl -Algorithm SHA256`}
+Get-FileHash evalsuite_python-<version>-py3-none-any.whl -Algorithm SHA256`}
             />
           </div>
           <div>
@@ -141,7 +141,7 @@ Get-FileHash evalsuite-<version>-py3-none-any.whl -Algorithm SHA256`}
               lang="bash"
               code={`python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\\Scripts\\activate
-pip install ./evalsuite-<version>-py3-none-any.whl
+pip install ./evalsuite_python-<version>-py3-none-any.whl
 python -c "import evalsuite; print(evalsuite.__version__)"`}
             />
           </div>

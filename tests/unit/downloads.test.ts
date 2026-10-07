@@ -18,8 +18,8 @@ function workspace() {
   mkdirSync(join(root, "src/data"), { recursive: true });
   mkdirSync(join(root, "dist"));
   writeFileSync(join(root, "src/data/downloads.json"), JSON.stringify({ releases: [] }));
-  const wheel = join(root, "dist/evalsuite-0.1.0-py3-none-any.whl");
-  const sdist = join(root, "dist/evalsuite-0.1.0.tar.gz");
+  const wheel = join(root, "dist/evalsuite_python-0.1.0-py3-none-any.whl");
+  const sdist = join(root, "dist/evalsuite_python-0.1.0.tar.gz");
   writeFileSync(wheel, "wheel-bytes");
   writeFileSync(sdist, "sdist-bytes-longer");
   return { root, wheel, sdist };
@@ -36,9 +36,13 @@ describe("release publishing script", () => {
     const w = release.files.find((f) => f.kind === "wheel")!;
     expect(w.sha256).toBe(createHash("sha256").update("wheel-bytes").digest("hex"));
     expect(w.size).toBe(11);
-    expect(existsSync(join(root, "releases/0.1.0/evalsuite-0.1.0-py3-none-any.whl"))).toBe(true);
+    expect(existsSync(join(root, "releases/0.1.0/evalsuite_python-0.1.0-py3-none-any.whl"))).toBe(
+      true,
+    );
     expect(existsSync(join(root, "public/downloads"))).toBe(false);
-    expect(downloadUrl(release, w)).toBe("/downloads/0.1.0/evalsuite-0.1.0-py3-none-any.whl");
+    expect(downloadUrl(release, w)).toBe(
+      "/downloads/0.1.0/evalsuite_python-0.1.0-py3-none-any.whl",
+    );
     expect(preferredFile(release).kind).toBe("wheel");
   });
 
@@ -51,12 +55,12 @@ describe("release publishing script", () => {
   it("rejects files that do not match the version or package", () => {
     const { root, wheel } = workspace();
     expect(() => addRelease({ root, version: "0.2.0", files: [wheel] })).toThrow(
-      /is not evalsuite-0.2.0/,
+      /is not evalsuite_python-0.2.0/,
     );
     const other = join(root, "dist/malware-0.1.0-py3-none-any.whl");
     writeFileSync(other, "x");
     expect(() => addRelease({ root, version: "0.1.0", files: [other] })).toThrow(
-      /is not evalsuite-0.1.0/,
+      /is not evalsuite_python-0.1.0/,
     );
     expect(() => addRelease({ root, version: "latest", files: [wheel] })).toThrow(
       /Invalid version/,
@@ -80,7 +84,12 @@ describe("download manifest", () => {
           version: "0.1.0",
           date: "2026-11-01",
           files: [
-            { filename: "evalsuite-0.2.0.tar.gz", kind: "sdist", size: 1, sha256: "a".repeat(64) },
+            {
+              filename: "evalsuite_python-0.2.0.tar.gz",
+              kind: "sdist",
+              size: 1,
+              sha256: "a".repeat(64),
+            },
           ],
         },
       ],
@@ -91,7 +100,11 @@ describe("download manifest", () => {
         {
           ...bad.releases[0]!,
           files: [
-            { ...bad.releases[0]!.files[0]!, filename: "evalsuite-0.1.0.tar.gz", sha256: "xyz" },
+            {
+              ...bad.releases[0]!.files[0]!,
+              filename: "evalsuite_python-0.1.0.tar.gz",
+              sha256: "xyz",
+            },
           ],
         },
       ],
@@ -103,6 +116,6 @@ describe("download manifest", () => {
     expect(formatSize(900)).toBe("900 B");
     expect(formatSize(2048)).toBe("2.0 KB");
     expect(formatSize(3 * 1024 * 1024)).toBe("3.0 MB");
-    expect(PIP_INSTALL).toBe("pip install evalsuite");
+    expect(PIP_INSTALL).toBe("pip install evalsuite-python");
   });
 });

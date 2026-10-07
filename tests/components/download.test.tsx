@@ -8,7 +8,9 @@ describe("install command", () => {
     const execCommand = vi.fn(() => true);
     Object.defineProperty(document, "execCommand", { value: execCommand, configurable: true });
     render(<InstallCommand />);
-    expect(screen.getByLabelText("Install command")).toHaveTextContent("$ pip install evalsuite");
+    expect(screen.getByLabelText("Install command")).toHaveTextContent(
+      "$ pip install evalsuite-python",
+    );
     expect(screen.getByText("On PyPI with v0.1.0")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Copy" }));
     expect(await screen.findByRole("button", { name: "Copied" })).toBeInTheDocument();
@@ -28,8 +30,12 @@ describe("download button", () => {
 
 describe("download gate (mandatory email)", () => {
   const files = [
-    { filename: "evalsuite-0.1.0-py3-none-any.whl", kind: "wheel" as const, sizeLabel: "120 KB" },
-    { filename: "evalsuite-0.1.0.tar.gz", kind: "sdist" as const, sizeLabel: "90 KB" },
+    {
+      filename: "evalsuite_python-0.1.0-py3-none-any.whl",
+      kind: "wheel" as const,
+      sizeLabel: "120 KB",
+    },
+    { filename: "evalsuite_python-0.1.0.tar.gz", kind: "sdist" as const, sizeLabel: "90 KB" },
   ];
 
   afterEach(() => {
@@ -71,7 +77,7 @@ describe("download gate (mandatory email)", () => {
     const wheel = await screen.findByRole("link", { name: /Download wheel/ });
     expect(wheel).toHaveAttribute(
       "href",
-      "/api/download/0.1.0/evalsuite-0.1.0-py3-none-any.whl?token=t",
+      "/api/download/0.1.0/evalsuite_python-0.1.0-py3-none-any.whl?token=t",
     );
     expect(screen.getByRole("link", { name: /Download source/ })).toBeInTheDocument();
     const sent = JSON.parse(

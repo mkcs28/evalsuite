@@ -13,12 +13,12 @@ from app.download_tokens import sign, verify
 from app.email import MemoryEmailSender
 from app.models import DownloadSubscriber
 
-WHEEL = "evalsuite-0.1.0-py3-none-any.whl"
+WHEEL = "evalsuite_python-0.1.0-py3-none-any.whl"
 SECRET = "d" * 40
 
 # Shared with the website's TypeScript verifier (tests/unit/download-token.test.ts).
 CROSS_LANGUAGE_VECTOR = (
-    "eyJleHAiOjE4MDAwMDA2MDAsImYiOiJldmFsc3VpdGUtMC4xLjAtcHkzLW5vbmUtYW55LndobCIsInYiOiIwLjEuMCJ9."
+    "eyJleHAiOjE4MDAwMDA2MDAsImYiOiJldmFsc3VpdGVfcHl0aG9uLTAuMS4wLXB5My1ub25lLWFueS53aGwiLCJ2IjoiMC4xLjAifQ."
 )
 
 
@@ -54,7 +54,7 @@ def test_email_is_required_and_a_signed_link_is_issued(make_client: Callable[...
     assert url.path == f"/api/download/0.1.0/{WHEEL}"
     token = parse_qs(url.query)["token"][0]
     assert verify(token, "0.1.0", WHEEL, SECRET)
-    assert not verify(token, "0.1.0", "evalsuite-0.1.0.tar.gz", SECRET)
+    assert not verify(token, "0.1.0", "evalsuite_python-0.1.0.tar.gz", SECRET)
     assert not verify(token, "0.1.0", WHEEL, "x" * 40)
     assert grant["expiresIn"] == 600
     db = c.app.state.db  # type: ignore[attr-defined]
@@ -72,7 +72,7 @@ def test_consent_is_mandatory(client: TestClient) -> None:
 @pytest.mark.parametrize(
     "overrides",
     [
-        {"filename": "evalsuite-0.2.0.tar.gz"},
+        {"filename": "evalsuite_python-0.2.0.tar.gz"},
         {"filename": "../../etc/passwd"},
         {"filename": None},
         {"version": "latest"},

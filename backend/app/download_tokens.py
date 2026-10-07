@@ -17,8 +17,12 @@ import time
 VERSION = re.compile(r"^\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?$")
 
 
+# Built files of the "evalsuite-python" distribution use the normalised prefix "evalsuite_python".
+FILE_PREFIX = "evalsuite_python"
+
+
 def filename_matches(version: str, filename: str) -> bool:
-    return filename in (f"evalsuite-{version}-py3-none-any.whl", f"evalsuite-{version}.tar.gz")
+    return filename in (f"{FILE_PREFIX}-{version}-py3-none-any.whl", f"{FILE_PREFIX}-{version}.tar.gz")
 
 
 def _b64(data: bytes) -> str:

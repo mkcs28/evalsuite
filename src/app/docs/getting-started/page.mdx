@@ -11,11 +11,13 @@ export const metadata = { title: "Getting started", description: "Install EvalSu
 The base package is planned to depend only on NumPy, SciPy, pandas, scikit-learn, and statsmodels. Plotting, vision, and PyTorch integrations will be optional extras, and none of them are imported by `import evalsuite`.
 
 <CodeBlock lang="bash" status="planned" statusLabel="Planned for v0.1.0" code={`
-pip install evalsuite
-pip install "evalsuite[plot]"     # Matplotlib figures
-pip install "evalsuite[vision]"   # segmentation and detection helpers
-pip install "evalsuite[all]"
+pip install evalsuite-python
+pip install "evalsuite-python[plot]"     # Matplotlib figures
+pip install "evalsuite-python[vision]"   # segmentation and detection helpers
+pip install "evalsuite-python[all]"
 `} />
+
+The package is published on PyPI as **`evalsuite-python`** and imported as **`evalsuite`** (the shorter name was too similar to an existing project). As with `pip install scikit-learn` and `import sklearn`, only the install name differs.
 
 Python 3.9 or newer will be supported.
 

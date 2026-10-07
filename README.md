@@ -102,7 +102,7 @@ both sides: `EVALSUITE_DOWNLOAD_TOKEN_SECRET` (API) and `DOWNLOAD_TOKEN_SECRET` 
 After building the package:
 
 ```bash
-npm run release:add -- --version 0.1.0 ../evalsuite/dist/evalsuite-0.1.0-py3-none-any.whl ../evalsuite/dist/evalsuite-0.1.0.tar.gz
+npm run release:add -- --version 0.1.0 ../evalsuite-python/dist/evalsuite_python-0.1.0-py3-none-any.whl ../evalsuite-python/dist/evalsuite_python-0.1.0.tar.gz
 git add releases/0.1.0 src/data/downloads.json && git commit -m "release: evalsuite 0.1.0"
 ```
 

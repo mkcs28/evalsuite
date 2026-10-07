@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/config/site";
 import { PIP_INSTALL } from "@/lib/downloads/manifest";
 import { cn } from "@/lib/utils/cn";
 
-/** `pip install evalsuite` with a copy button and honest PyPI status. */
+/** `pip install evalsuite-python` with a copy button and honest PyPI status. */
 export function InstallCommand({ className }: { className?: string }) {
   const pypi = siteConfig.links.pypi;
   return (
