@@ -180,7 +180,11 @@ export function Playground() {
         const el = resultsRef.current;
         // Bring the results into view if they start above the sticky header or low on the screen.
         const top = el?.getBoundingClientRect().top ?? 0;
-        if (el && (top < 80 || top > window.innerHeight * 0.6)) {
+        if (
+          el &&
+          typeof el.scrollIntoView === "function" &&
+          (top < 80 || top > window.innerHeight * 0.6)
+        ) {
           el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       });

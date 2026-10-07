@@ -105,7 +105,7 @@ def _alembic(url: str) -> Config:
 
 def test_migrations_match_models(tmp_path: Path) -> None:
     """`alembic upgrade head` on an empty database yields exactly the ORM schema, and downgrades cleanly."""
-    url = os.environ.get("EVALSUITE_TEST_MIGRATIONS_URL", f"sqlite:///{tmp_path / 'migrations.db'}")
+    url = os.environ.get("EVALSUITE_TEST_MIGRATIONS_URL") or f"sqlite:///{tmp_path / 'migrations.db'}"
     cfg = _alembic(url)
     command.upgrade(cfg, "head")
     engine = make_engine(url)

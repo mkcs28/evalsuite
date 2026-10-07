@@ -18,7 +18,8 @@ from app.config import Settings
 from app.db import Base
 from app.main import create_app
 
-TEST_DB = os.environ.get("EVALSUITE_TEST_DATABASE_URL", "sqlite://")
+# An empty value (as CI uses to select SQLite) falls back to in-memory SQLite.
+TEST_DB = os.environ.get("EVALSUITE_TEST_DATABASE_URL") or "sqlite://"
 TEST_REDIS = os.environ.get("EVALSUITE_TEST_REDIS_URL") or None
 
 

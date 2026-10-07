@@ -32,3 +32,8 @@ vi.mock("next/dynamic", () => ({
       return null;
     },
 }));
+
+// jsdom does not implement scrolling; components may call it after an evaluation.
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => {};
+}
