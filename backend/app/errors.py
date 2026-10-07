@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -41,6 +43,17 @@ def install_error_handlers(app: FastAPI) -> None:
     async def _http(_: Request, exc: StarletteHTTPException) -> JSONResponse:
         code = {404: "not_found", 405: "method_not_allowed"}.get(exc.status_code, "http_error")
         return JSONResponse(_body(code, str(exc.detail)), status_code=exc.status_code)
+
+    from .ratelimit import RateLimitStoreError
+
+    @app.exception_handler(RateLimitStoreError)
+    async def _store(_: Request, exc: RateLimitStoreError) -> JSONResponse:
+        logging.getLogger("evalsuite.error").error("Rate-limit store unavailable: %s", exc)
+        return JSONResponse(
+            _body("service_unavailable", "The service is temporarily unavailable. Please try again shortly."),
+            status_code=503,
+            headers={"Retry-After": "30"},
+        )
 
     @app.exception_handler(Exception)
     async def _unexpected(_: Request, __: Exception) -> JSONResponse:

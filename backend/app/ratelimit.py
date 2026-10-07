@@ -11,6 +11,10 @@ from typing import Protocol
 import redis
 
 
+class RateLimitStoreError(RuntimeError):
+    """The shared rate-limit store (Redis) refused or failed a request."""
+
+
 class RateLimiter(Protocol):
     limit: int
 
@@ -73,15 +77,24 @@ class RedisRateLimiter:
 
     def hit(self, key: str) -> tuple[bool, int]:
         now_ms = int(time.time() * 1000)
-        allowed, retry_ms = self._script(
-            keys=[f"evalsuite:rl:{self.namespace}:{key}"],
-            args=[now_ms, self.window_ms, self.limit, f"{now_ms}-{uuid.uuid4().hex}"],
-        )
+        try:
+            allowed, retry_ms = self._script(
+                keys=[f"evalsuite:rl:{self.namespace}:{key}"],
+                args=[now_ms, self.window_ms, self.limit, f"{now_ms}-{uuid.uuid4().hex}"],
+            )
+        except redis.exceptions.NoPermissionError as exc:
+            raise RateLimitStoreError(
+                "Redis refused to write (NOPERM). EVALSUITE_REDIS_URL must use a read-write user "
+                "(for Upstash: 'default', not 'default_ro')."
+            ) from exc
+        except redis.RedisError as exc:
+            raise RateLimitStoreError(f"Redis error: {type(exc).__name__}") from exc
         return bool(allowed), max(1, -(-int(retry_ms) // 1000)) if not allowed else 0
 
     def ping(self) -> bool:
+        """Ready only if Redis accepts writes: a read-only user can PING but not rate-limit."""
         try:
-            return bool(self.client.ping())
+            return bool(self.client.set("evalsuite:health", "1", px=5000))
         except redis.RedisError:
             return False
 

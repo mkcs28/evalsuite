@@ -155,3 +155,50 @@ def test_rejected_preflight_names_the_origin(
         logger.removeHandler(caplog.handler)
     assert r.status_code == 400
     assert any("https://unknown.example" in rec.getMessage() for rec in caplog.records)
+
+
+class _ReadOnlyRedis:
+    """Behaves like an Upstash read-only user: PING works, writes fail with NOPERM."""
+
+    def register_script(self, _: str) -> object:
+        import redis
+
+        def run(**_: object) -> object:
+            raise redis.exceptions.NoPermissionError("NOPERM this user has no permissions to run 'evalsha'")
+
+        return run
+
+    def ping(self) -> bool:
+        return True
+
+    def set(self, *a: object, **k: object) -> bool:
+        import redis
+
+        raise redis.exceptions.NoPermissionError("NOPERM this user has no permissions to run 'set'")
+
+
+def test_read_only_redis_gives_clear_503_and_unready(
+    make_client: Callable[..., TestClient], caplog: pytest.LogCaptureFixture
+) -> None:
+    from app.ratelimit import RedisRateLimiter
+
+    c = make_client(cors_origins=[ORIGIN])
+    ro = _ReadOnlyRedis()
+    c.app.state.eval_limiter = RedisRateLimiter(ro, 60, "evaluate")  # type: ignore[arg-type, attr-defined]
+    c.app.state.auth_limiter = RedisRateLimiter(ro, 10, "auth")  # type: ignore[arg-type, attr-defined]
+    logger = logging.getLogger("evalsuite.error")
+    logger.addHandler(caplog.handler)
+    try:
+        r = c.post(
+            "/api/v1/downloads/request",
+            json={"email": "manoj@gmail.com", "version": "upcoming", "acceptSecurityNotices": True},
+            headers={"Origin": ORIGIN},
+        )
+    finally:
+        logger.removeHandler(caplog.handler)
+    assert r.status_code == 503
+    assert r.json()["error"]["code"] == "service_unavailable"
+    assert r.headers["access-control-allow-origin"] == ORIGIN
+    assert any("default_ro" in rec.getMessage() for rec in caplog.records)
+    ready = c.get("/api/v1/health/ready")
+    assert ready.status_code == 503 and ready.json()["rateLimitStore"] is False

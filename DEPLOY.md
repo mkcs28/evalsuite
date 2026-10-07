@@ -105,6 +105,10 @@ free instance-hours per month for one service.
 
 ## Troubleshooting
 
+**"An internal error occurred" or "temporarily unavailable"**, with `NoPermissionError` or `NOPERM` in
+Render's logs: `EVALSUITE_REDIS_URL` uses Upstash's read-only user. Copy the read-write URL (user `default`,
+not `default_ro`) and redeploy. `/api/v1/health/ready` reports `"rateLimitStore": false` until it is fixed.
+
 **Emails do not arrive** (reset links, "Notify me" confirmations). Render's **Logs** show
 `Email delivery failed: <error>`. Free hosts often block SMTP ports 587 and 465. Either set
 `EVALSUITE_SMTP_PORT` to `2525` (Brevo accepts it), or switch to Brevo's HTTPS API: create a key under

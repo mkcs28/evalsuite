@@ -52,6 +52,11 @@ This file covers the web platform (website and API), not the EvalSuite Python pa
 - Emails are sent in the background and a delivery failure never fails the request; it is logged without
   the recipient address.
 
+### Fixed (Redis)
+
+- A read-only Redis user (for example Upstash `default_ro`) made every rate-limited request fail with an
+  "internal error". Readiness now tests a write, and Redis failures return a clear 503 with the cause logged.
+
 ### Changed (CORS)
 
 - The API always allows its own `EVALSUITE_SITE_URL` as a CORS origin, and logs the origin of any rejected
