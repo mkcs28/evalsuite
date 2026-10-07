@@ -62,6 +62,13 @@ class RequestContext:
         try:
             await self.app(scope, receive, wrapped)
         finally:
+            if scope.get("method") == "OPTIONS" and status == 400:
+                origin = dict(scope.get("headers", [])).get(b"origin", b"").decode("latin-1")[:200]
+                logging.getLogger("evalsuite.cors").warning(
+                    "CORS preflight rejected for origin %r. Add it to EVALSUITE_CORS_ORIGINS "
+                    "(or EVALSUITE_SITE_URL) if it is your website.",
+                    origin,
+                )
             access_log.info(
                 "request",
                 extra={

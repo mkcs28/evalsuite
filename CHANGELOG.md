@@ -52,6 +52,11 @@ This file covers the web platform (website and API), not the EvalSuite Python pa
 - Emails are sent in the background and a delivery failure never fails the request; it is logged without
   the recipient address.
 
+### Changed (CORS)
+
+- The API always allows its own `EVALSUITE_SITE_URL` as a CORS origin, and logs the origin of any rejected
+  preflight, so a stale `EVALSUITE_CORS_ORIGINS` can no longer silently block the website.
+
 ### Added (email)
 
 - `EVALSUITE_EMAIL_BACKEND=brevo` sends through Brevo's HTTPS API (for hosts that block SMTP); the Render

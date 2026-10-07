@@ -56,6 +56,14 @@ class Settings(BaseSettings):
 
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
 
+    @property
+    def allowed_origins(self) -> list[str]:
+        """CORS origins: the configured list plus the website's own address (EVALSUITE_SITE_URL),
+        so the site can always call its API even if the two settings drift apart."""
+        site = self.site_url.rstrip("/")
+        origins = [o.rstrip("/") for o in self.cors_origins]
+        return origins if site in origins else [*origins, site]
+
     @model_validator(mode="after")
     def _production_rules(self) -> Settings:
         if self.env != "production":

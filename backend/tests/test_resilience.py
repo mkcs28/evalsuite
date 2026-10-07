@@ -126,3 +126,32 @@ def test_production_accepts_brevo_api_email() -> None:
             email_backend="brevo",
             site_url="https://evalsuite-nine.vercel.app",
         )
+
+
+def test_site_url_is_always_an_allowed_origin(make_client: Callable[..., TestClient]) -> None:
+    c = make_client(
+        cors_origins=["https://evalsuite-mkcs28.vercel.app"], site_url="https://evalsuite-nine.vercel.app/"
+    )
+    r = c.options(
+        "/api/v1/downloads/request",
+        headers={"Origin": "https://evalsuite-nine.vercel.app", "Access-Control-Request-Method": "POST"},
+    )
+    assert r.status_code == 200
+    assert r.headers["access-control-allow-origin"] == "https://evalsuite-nine.vercel.app"
+
+
+def test_rejected_preflight_names_the_origin(
+    make_client: Callable[..., TestClient], caplog: pytest.LogCaptureFixture
+) -> None:
+    c = make_client(cors_origins=["https://evalsuite-nine.vercel.app"])
+    logger = logging.getLogger("evalsuite.cors")
+    logger.addHandler(caplog.handler)
+    try:
+        r = c.options(
+            "/api/v1/downloads/request",
+            headers={"Origin": "https://unknown.example", "Access-Control-Request-Method": "POST"},
+        )
+    finally:
+        logger.removeHandler(caplog.handler)
+    assert r.status_code == 400
+    assert any("https://unknown.example" in rec.getMessage() for rec in caplog.records)
