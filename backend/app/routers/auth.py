@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, Request, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Request, Response, status
 from sqlalchemy import func, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..config import Settings
 from ..deps import client_ip, current_user, get_db, get_settings_dep
 from ..eligibility import is_adult
-from ..email import Message
+from ..email import Message, send_quietly
 from ..errors import ApiError
 from ..models import PasswordResetToken, User, as_utc, utcnow
 from ..schemas import (
@@ -114,6 +114,7 @@ def me(user: User = Depends(current_user)) -> UserResponse:
 def forgot_password(
     body: ForgotPasswordRequest,
     request: Request,
+    background: BackgroundTasks,
     db: Session = Depends(get_db),
     settings: Settings = Depends(get_settings_dep),
 ) -> MessageResponse:
@@ -134,7 +135,9 @@ def forgot_password(
         db.commit()
         # The token travels in the URL fragment, which browsers never send to servers or in Referer headers.
         link = f"{settings.site_url.rstrip('/')}/reset-password#token={token}"
-        request.app.state.email.send(
+        background.add_task(
+            send_quietly,
+            request.app.state.email,
             Message(
                 to=user.email,
                 subject="Reset your EvalSuite password",
@@ -144,7 +147,7 @@ def forgot_password(
                     "to choose a new password:\n"
                     f"{link}\n\nIf it was not you, ignore this email; your password will not change."
                 ),
-            )
+            ),
         )
     return MessageResponse(message=_RESET_SENT)
 

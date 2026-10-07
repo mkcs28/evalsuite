@@ -45,6 +45,18 @@ This file covers the web platform (website and API), not the EvalSuite Python pa
   names the API address and likely causes instead of a generic "unavailable".
 - CI: pip caching points at `backend/pyproject.toml`; two end-to-end checks matched duplicate text.
 
+### Fixed (API)
+
+- Unexpected errors (for example an SMTP failure) no longer lose their CORS headers, which browsers reported
+  as "could not reach the API".
+- Emails are sent in the background and a delivery failure never fails the request; it is logged without
+  the recipient address.
+
+### Added (email)
+
+- `EVALSUITE_EMAIL_BACKEND=brevo` sends through Brevo's HTTPS API (for hosts that block SMTP); the Render
+  Blueprint uses SMTP port 2525 by default.
+
 ### Added (CORS)
 
 - Optional `EVALSUITE_CORS_ORIGIN_REGEX` to allow Vercel per-deployment preview addresses.

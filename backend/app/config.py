@@ -40,13 +40,15 @@ class Settings(BaseSettings):
     cors_origin_regex: str | None = None
 
     password_reset_minutes: int = Field(default=30, ge=5, le=24 * 60)
-    email_backend: Literal["console", "smtp", "memory"] = "console"
+    email_backend: Literal["console", "smtp", "brevo", "memory"] = "console"
     email_from: str = "EvalSuite <no-reply@localhost>"
     smtp_host: str | None = None
     smtp_port: int = 587
     smtp_username: str | None = None
     smtp_password: str | None = None
     smtp_starttls: bool = True
+    # Brevo transactional email over HTTPS (port 443), for hosts that block SMTP ports.
+    brevo_api_key: str | None = None
 
     max_body_bytes: int = Field(default=1_000_000, ge=10_000)
     evaluate_requests_per_minute: int = Field(default=60, ge=1)
@@ -69,8 +71,13 @@ class Settings(BaseSettings):
             )
         if self.database_url.startswith("sqlite"):
             raise ValueError("Use PostgreSQL (EVALSUITE_DATABASE_URL) in production.")
-        if self.email_backend != "smtp" or not self.smtp_host:
-            raise ValueError("Production needs EVALSUITE_EMAIL_BACKEND=smtp and EVALSUITE_SMTP_HOST.")
+        smtp_ok = self.email_backend == "smtp" and bool(self.smtp_host)
+        brevo_ok = self.email_backend == "brevo" and bool(self.brevo_api_key)
+        if not (smtp_ok or brevo_ok):
+            raise ValueError(
+                "Production needs email: EVALSUITE_EMAIL_BACKEND=smtp with EVALSUITE_SMTP_HOST, "
+                "or EVALSUITE_EMAIL_BACKEND=brevo with EVALSUITE_BREVO_API_KEY."
+            )
         if self.cors_origin_regex and not self.cors_origin_regex.startswith("^https://"):
             raise ValueError("EVALSUITE_CORS_ORIGIN_REGEX must start with ^https:// in production.")
         if not self.site_url.startswith("https://"):

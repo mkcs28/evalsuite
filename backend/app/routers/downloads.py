@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..config import Settings
 from ..deps import client_ip, get_db, get_settings_dep
 from ..download_tokens import VERSION, filename_matches, sign
-from ..email import Message
+from ..email import Message, send_quietly
 from ..errors import ApiError
 from ..models import DownloadSubscriber, utcnow
 from ..personal_email import require_personal_email
@@ -65,6 +65,7 @@ def _throttle(request: Request, key: str) -> None:
 def request_download(
     body: DownloadRequest,
     request: Request,
+    background: BackgroundTasks,
     db: Session = Depends(get_db),
     settings: Settings = Depends(get_settings_dep),
 ) -> DownloadGrant:
@@ -103,7 +104,9 @@ def request_download(
             if body.version == UPCOMING
             else f"EvalSuite {body.version}"
         )
-        request.app.state.email.send(
+        background.add_task(
+            send_quietly,
+            request.app.state.email,
             Message(
                 to=email,
                 subject="EvalSuite security notices",
@@ -111,7 +114,7 @@ def request_download(
                     f"You will receive security notices about {what}, and nothing else.\n\n"
                     f"Stop these emails at any time: {unsubscribe_link}\n"
                 ),
-            )
+            ),
         )
 
     if body.version == UPCOMING:

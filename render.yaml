@@ -42,11 +42,16 @@ services:
         value: smtp
       - key: EVALSUITE_SMTP_HOST
         value: smtp-relay.brevo.com
+      # 2525: Brevo's alternative SMTP port; free hosts often block 587/465.
       - key: EVALSUITE_SMTP_PORT
-        value: "587"
+        value: "2525"
       - key: EVALSUITE_SMTP_USERNAME
         sync: false
       - key: EVALSUITE_SMTP_PASSWORD
         sync: false
       - key: EVALSUITE_EMAIL_FROM
+        sync: false
+      # Alternative that avoids SMTP entirely: set EVALSUITE_EMAIL_BACKEND=brevo and this key
+      # (Brevo -> SMTP & API -> API Keys). Leave empty when using SMTP.
+      - key: EVALSUITE_BREVO_API_KEY
         sync: false

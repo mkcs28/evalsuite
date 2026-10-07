@@ -66,7 +66,7 @@ def test_login_rate_limited(make_client: Callable[..., TestClient]) -> None:
         ({"jwt_secret": "s" * 40, "api_key_pepper": "s" * 40}, "must all differ"),
         ({"download_token_secret": "a" * 40}, "must all differ"),
         ({"database_url": "sqlite:///x.db"}, "PostgreSQL"),
-        ({"email_backend": "console"}, "SMTP"),
+        ({"email_backend": "console"}, "EMAIL_BACKEND"),
         ({"site_url": "http://insecure.example"}, "https"),
     ],
 )

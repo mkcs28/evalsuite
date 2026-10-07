@@ -105,6 +105,13 @@ free instance-hours per month for one service.
 
 ## Troubleshooting
 
+**Emails do not arrive** (reset links, "Notify me" confirmations). Render's **Logs** show
+`Email delivery failed: <error>`. Free hosts often block SMTP ports 587 and 465. Either set
+`EVALSUITE_SMTP_PORT` to `2525` (Brevo accepts it), or switch to Brevo's HTTPS API: create a key under
+**Brevo → SMTP & API → API Keys**, then set `EVALSUITE_EMAIL_BACKEND=brevo` and `EVALSUITE_BREVO_API_KEY`. In
+both cases `EVALSUITE_EMAIL_FROM` must be a verified Brevo sender. Delivery failures never block the request
+itself: the sign-up or reset request is still saved.
+
 **"Could not reach the EvalSuite API"** (sign-in, download email step, playground on the API):
 
 1. Open `https://<your-api>.onrender.com/api/v1/health/ready` in a browser.

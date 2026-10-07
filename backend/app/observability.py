@@ -74,3 +74,48 @@ class RequestContext:
                     }
                 },
             )
+
+
+class CatchUnhandled:
+    """Turn unexpected exceptions into a JSON 500 *inside* the CORS middleware.
+
+    Starlette's own handler for unhandled errors runs outside every middleware, so its 500
+    response has no CORS headers and browsers report it as a network failure. Placing this
+    middleware inside CORS keeps real errors visible to the website.
+    """
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        started = False
+
+        async def tracking_send(message: Message) -> None:
+            nonlocal started
+            if message["type"] == "http.response.start":
+                started = True
+            await send(message)
+
+        try:
+            await self.app(scope, receive, tracking_send)
+        except Exception as exc:
+            logging.getLogger("evalsuite.error").error(
+                "Unhandled error on %s %s: %s", scope.get("method"), scope.get("path"), type(exc).__name__
+            )
+            if started:
+                raise
+            body = b'{"error":{"code":"internal_error","message":"An internal error occurred."}}'
+            await send(
+                {
+                    "type": "http.response.start",
+                    "status": 500,
+                    "headers": [
+                        (b"content-type", b"application/json"),
+                        (b"content-length", str(len(body)).encode()),
+                    ],
+                }
+            )
+            await send({"type": "http.response.body", "body": body})

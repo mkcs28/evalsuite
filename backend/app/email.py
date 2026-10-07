@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import smtplib
 import ssl
+import urllib.request
 from dataclasses import dataclass
 from email.message import EmailMessage
+from email.utils import parseaddr
 from typing import Protocol
 
 from .config import Settings
@@ -63,9 +66,60 @@ class SmtpEmailSender:
             smtp.send_message(msg)
 
 
+class BrevoApiSender:
+    """Brevo transactional email API over HTTPS; works where SMTP ports are blocked."""
+
+    URL = "https://api.brevo.com/v3/smtp/email"
+
+    def __init__(self, settings: Settings) -> None:
+        if not settings.brevo_api_key:
+            raise ValueError("EVALSUITE_BREVO_API_KEY is required for the brevo email backend.")
+        self.api_key = settings.brevo_api_key
+        name, address = parseaddr(settings.email_from)
+        self.sender = {"name": name or "EvalSuite", "email": address}
+
+    def payload(self, message: Message) -> dict[str, object]:
+        return {
+            "sender": self.sender,
+            "to": [{"email": message.to}],
+            "subject": message.subject,
+            "textContent": message.body,
+        }
+
+    def send(self, message: Message) -> None:
+        request = urllib.request.Request(  # noqa: S310 - fixed https URL
+            self.URL,
+            data=json.dumps(self.payload(message)).encode(),
+            headers={
+                "api-key": self.api_key,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(request, timeout=10) as response:  # noqa: S310
+            if response.status >= 300:
+                raise OSError(f"Brevo API returned {response.status}")
+
+
 def make_sender(settings: Settings) -> EmailSender:
     if settings.email_backend == "smtp":
         return SmtpEmailSender(settings)
+    if settings.email_backend == "brevo":
+        return BrevoApiSender(settings)
     if settings.email_backend == "memory":
         return MemoryEmailSender()
     return ConsoleEmailSender()
+
+
+def send_quietly(sender: EmailSender, message: Message) -> None:
+    """Send without ever failing the request that triggered it.
+
+    Used as a background task: the user's action (sign-up, reset request) is already saved,
+    and a delivery problem is logged for the operator. The log names the error type and
+    server only, never the recipient or the message body.
+    """
+    try:
+        sender.send(message)
+    except Exception as exc:  # noqa: BLE001 - any SMTP/network error must not escape
+        log.error("Email delivery failed: %s: %s", type(exc).__name__, exc)

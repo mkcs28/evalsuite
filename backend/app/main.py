@@ -14,7 +14,7 @@ from .config import Settings, get_settings
 from .db import Database
 from .email import make_sender
 from .errors import install_error_handlers
-from .observability import RequestContext, configure_logging
+from .observability import CatchUnhandled, RequestContext, configure_logging
 from .ratelimit import make_limiters
 from .routers import auth, downloads, evaluate, keys, stats
 
@@ -120,6 +120,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     for router in (evaluate.router, auth.router, keys.router, downloads.router, stats.router):
         app.include_router(router, prefix="/api/v1")
 
+    # Added first, so it sits inside CORS: error responses keep their CORS headers.
+    app.add_middleware(CatchUnhandled)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
