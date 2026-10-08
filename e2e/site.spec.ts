@@ -18,8 +18,11 @@ test("homepage presents the project honestly", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/EvalSuite/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Unified evaluation");
-  await expect(page.getByText("Planned API").first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /pypi/i })).toHaveCount(0);
+  await expect(page.getByText(/v0\.1\.\d+ released/).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "View on PyPI" }).first()).toHaveAttribute(
+    "href",
+    "https://pypi.org/project/evalsuite-python/",
+  );
 });
 
 test("Satoshi is the computed body font", async ({ page }) => {

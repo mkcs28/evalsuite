@@ -45,15 +45,27 @@ export default function AboutPage() {
         </Section>
         <Section title="Open source">
           <p>
-            The package is planned for release under the MIT License, with public issue tracking, a
-            changelog, a security policy and citation metadata. Repository links will appear here
-            once the repository is public.
+            The package is released under the MIT License, with public issue tracking and a
+            changelog. Source code:{" "}
+            <a
+              className="text-primary underline underline-offset-4"
+              href="https://github.com/mkcs28/evalsuite-python"
+            >
+              github.com/mkcs28/evalsuite-python
+            </a>
+            .
+          </p>
+        </Section>
+        <Section title="Credits">
+          <p>
+            Authors and maintainers: <strong>Manoj Kumar C S</strong> and{" "}
+            <strong>Nikhil D Bharadwaj</strong>.
           </p>
         </Section>
         <Section title="Roadmap">
           <p>
-            Development is planned in three releases: core metrics and infrastructure (v0.1.0),
-            clinical and statistical evaluation (v0.2.0), and computer vision (v0.3.0). See the{" "}
+            Core metrics and infrastructure shipped in v0.1.0. Clinical and statistical evaluation
+            (v0.2.0) and computer vision (v0.3.0) come next. See the{" "}
             <Link className="text-primary underline underline-offset-4" href="/roadmap">
               roadmap
             </Link>
