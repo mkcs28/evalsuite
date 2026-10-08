@@ -10,19 +10,25 @@ import { siteConfig } from "@/lib/config/site";
 const EXAMPLE = `
 import evalsuite as es
 
-result = es.evaluate(
-    y_true,
-    y_pred,
-    y_prob=y_prob,
-    task="classification",
-    confidence_level=0.95,
-)
+result = es.evaluate(y_true, y_pred, y_prob=y_prob)
+print(result.summary())
 
-result.summary()
-result.to_latex(path="table.tex")
+for m in ["accuracy", "precision", "recall", "f1", "mcc"]:
+    print(es.bootstrap_ci(m, y_true, y_pred, random_state=0))
+print(es.bootstrap_ci("roc_auc", y_true, y_prob=y_prob, random_state=0))
+
+result.save("results.tex")
 `;
 
-const ROWS = ["Accuracy", "Precision", "Recall", "F1 score", "MCC", "ROC AUC"];
+/** Real output of the example above on a seeded 200-sample test set (BCa bootstrap, 2000 resamples). */
+const ROWS: Array<[string, string, string]> = [
+  ["Accuracy", "0.845", "0.790–0.890"],
+  ["Precision", "0.885", "0.817–0.935"],
+  ["Recall", "0.810", "0.724–0.876"],
+  ["F1 score", "0.846", "0.786–0.891"],
+  ["MCC", "0.693", "0.583–0.783"],
+  ["ROC AUC", "0.926", "0.886–0.953"],
+];
 const DOMAINS = [
   "Classification",
   "Regression",
@@ -45,10 +51,10 @@ export function Hero() {
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 py-1 pl-1.5 pr-3 text-sm">
             <span className="brand-gradient inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold text-on-brand">
               <Sparkles className="size-3" aria-hidden />
-              Pre-release
+              {siteConfig.package.latestRelease} released
             </span>
             <span className="text-muted-foreground">
-              {siteConfig.package.nextRelease} in development planning
+              Stable on PyPI · {siteConfig.package.nextRelease} in development
             </span>
           </span>
           <h1 className="text-gradient mt-7 text-[clamp(2.75rem,6.4vw,5rem)] leading-[1.0] font-black tracking-[-0.045em] text-balance">
@@ -98,20 +104,20 @@ export function Hero() {
             <CodeBlock
               code={EXAMPLE}
               lang="python"
-              status="planned"
-              statusLabel="Planned API"
+              status="implemented"
+              statusLabel="v0.1.0"
               className="my-0 rounded-none border-0"
             />
           </div>
           <div className="relative z-10 mx-auto -mt-10 w-[92%] rounded-2xl border border-border bg-surface/95 p-5 shadow-panel backdrop-blur sm:w-[85%] lg:ml-auto lg:mr-[-1.5rem] lg:w-[78%]">
             <div className="flex items-baseline justify-between">
               <p className="font-semibold">result.summary()</p>
-              <p className="text-xs text-muted-foreground">values pending release</p>
+              <p className="text-xs text-muted-foreground">example, n = 200</p>
             </div>
             <table className="mt-3 w-full text-sm">
               <caption className="sr-only">
-                Planned output of result.summary(); no values are shown because the API is not
-                implemented.
+                Example output: estimates with 95% bootstrap confidence intervals on a 200-sample
+                test set.
               </caption>
               <thead className="text-left text-xs text-muted-foreground">
                 <tr className="border-b border-border-subtle">
@@ -127,23 +133,13 @@ export function Hero() {
                 </tr>
               </thead>
               <tbody className="text-[13px]">
-                {ROWS.map((r) => (
-                  <tr key={r} className="border-b border-border-subtle last:border-0">
+                {ROWS.map(([name, value, ci]) => (
+                  <tr key={name} className="border-b border-border-subtle last:border-0">
                     <th scope="row" className="py-1.5 text-left font-sans font-medium">
-                      {r}
+                      {name}
                     </th>
-                    <td
-                      className="py-1.5 text-right text-muted-foreground"
-                      aria-label="not available"
-                    >
-                      —
-                    </td>
-                    <td
-                      className="py-1.5 text-right text-muted-foreground"
-                      aria-label="not available"
-                    >
-                      —
-                    </td>
+                    <td className="py-1.5 text-right tabular-nums">{value}</td>
+                    <td className="py-1.5 text-right tabular-nums text-muted-foreground">{ci}</td>
                   </tr>
                 ))}
               </tbody>

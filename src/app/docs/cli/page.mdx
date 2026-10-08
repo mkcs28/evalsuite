@@ -1,23 +1,29 @@
-export const metadata = { title: "CLI reference", description: "Planned command-line interface for EvalSuite.", alternates: { canonical: "/docs/cli" } };
+export const metadata = { title: "CLI reference", description: "The EvalSuite command-line interface.", alternates: { canonical: "/docs/cli" } };
 
 # CLI reference
 
-<StatusBadge status="planned" label="Planned for v0.1.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
-<CodeBlock lang="bash" status="planned" statusLabel="Planned CLI" code={`
-evalsuite version
-evalsuite list-metrics
-evalsuite evaluate \\
-    --task classification \\
-    --true y_true.csv \\
-    --pred y_pred.csv \\
-    --prob y_prob.csv \\
-    --output report.html
+Installing the package adds an `evalsuite` command (also available as `python -m evalsuite`). It reads CSV, TSV, Parquet or JSON files with one row per observation, or CSV from standard input with `-`.
+
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.1.0" code={`
+evalsuite --version
+evalsuite metrics                      # list every metric
+evalsuite info classification.mcc      # definition, formula, range, references
+
+evalsuite evaluate predictions.csv --y-true label --y-pred pred --y-prob prob
+evalsuite evaluate predictions.csv --y-true label --y-pred pred -o report.html
+
+evalsuite report predictions.csv --y-true label --y-pred pred -f markdown
+evalsuite compare predictions.csv --y-true label --pred A=pred_a --pred B=pred_b
+evalsuite plot roc predictions.csv --y-true label --y-prob prob -o roc.png
+
+evalsuite benchmark --quick
 `} />
 
 ## Behaviour
 
 - `--help` is available on every command.
-- Exit code 0 means success; non-zero codes distinguish validation errors from internal errors.
-- Output paths must be given explicitly. Existing files are not overwritten unless `--overwrite` is passed.
-- Input files are parsed as CSV only. The CLI never executes shell commands or user-supplied code.
+- The output format comes from `--format` (`text`, `json`, `csv`, `markdown`, `latex`, `html`) or from the extension of `--output`.
+- Bad input prints a one-line error naming the problem and exits with code 2; there are no tracebacks for user errors.
+- The CLI never executes shell commands or user-supplied code.

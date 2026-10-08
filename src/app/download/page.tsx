@@ -24,7 +24,7 @@ export default function DownloadPage() {
           releases.length ? (
             <StatusBadge status="implemented" label={`Latest v${releases[0]!.version}`} />
           ) : (
-            <StatusBadge status="planned" label="First release: v0.1.0" />
+            <StatusBadge status="implemented" label="v0.1.0 on PyPI" />
           )
         }
       >
@@ -48,7 +48,7 @@ export default function DownloadPage() {
             Files are hosted on this website.{" "}
             {latest
               ? `Latest release: v${latest.version}.`
-              : "No release has been published yet; v0.1.0 is planned."}
+              : "No files are hosted here yet; install from PyPI."}
           </p>
           <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <DownloadGate

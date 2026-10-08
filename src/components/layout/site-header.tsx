@@ -126,7 +126,7 @@ export function SiteHeader() {
           </ResourceLink>
           <ResourceLink
             href={links.pypi}
-            pendingLabel="PyPI package coming with v0.1.0"
+            pendingLabel="PyPI"
             className="hidden px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 2xl:inline"
           >
             PyPI
@@ -195,8 +195,8 @@ export function SiteHeader() {
             <ResourceLink href={links.repository} pendingLabel="Repository link not yet published">
               GitHub{links.repository ? "" : " (link pending)"}
             </ResourceLink>
-            <ResourceLink href={links.pypi} pendingLabel="PyPI package coming with v0.1.0">
-              PyPI{links.pypi ? "" : " (coming with v0.1.0)"}
+            <ResourceLink href={links.pypi} pendingLabel="PyPI">
+              PyPI
             </ResourceLink>
           </div>
           {account ? (

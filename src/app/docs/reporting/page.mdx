@@ -2,22 +2,35 @@ export const metadata = { title: "Reporting", description: "Publication-ready re
 
 # Reporting
 
-<StatusBadge status="planned" label="Planned for v0.1.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
-Reports are built from one structured evaluation result and exported to HTML, Markdown, JSON, CSV, or LaTeX. Output paths are always explicit, and existing files are not overwritten unless requested.
+Every result, report and comparison exports to text, JSON, pandas, Markdown, LaTeX, HTML and CSV. `save()` picks the format from the file extension.
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
-report = es.report(result)
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
+import evalsuite as es
 
-report.to_latex(
-    path="results_table.tex",
-    caption="Model evaluation results",
-    label="tab:model_results",
-)
-report.to_html(path="report.html")
-report.to_json(path="report.json")
+result = es.evaluate(y_true, y_pred, y_prob=y_prob)
+
+result.to_latex(caption="Model evaluation results", label="tab:results")
+result.save("report.html")     # standalone page: metrics, per-class tables, confusion matrix
+result.save("results.csv")     # columns: metric, name, label, value
+result.save("results.json")
+
+report = es.classification_report(y_true, y_pred)
+report.save("report.md")
 `} />
 
-## Report contents
+## Plots
 
-Depending on the task, a report can include a dataset summary, overall and per-class metrics, confidence intervals, statistical tests and effect sizes, calibration and decision curves, ROC and PR analysis, a methodology section, and the software version used. Raw predictions are excluded by default to avoid exposing sensitive data.
+With the `plot` extra installed, `es.plot` draws ROC, precision-recall, calibration, confusion-matrix, residual and model-comparison figures. Each returns a Matplotlib `Axes`, and every number in a legend comes from EvalSuite's own metrics.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
+ax = es.plot.roc(y_true, {"baseline": prob_a, "candidate": prob_b})
+ax.figure.savefig("roc.png", dpi=300)
+
+es.plot.calibration(y_true, y_prob)
+es.plot.confusion_matrix(y_true, y_pred)
+es.plot.residuals(y_true, y_pred, kind="predicted")
+`} />
+
+HTML reports contain no scripts and escape all text. Raw predictions are never included.

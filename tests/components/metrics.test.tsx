@@ -46,14 +46,14 @@ describe("MetricTable", () => {
     render(<MetricTable category="regression" />);
     expect(screen.getByRole("rowheader", { name: "Mean absolute error" })).toBeInTheDocument();
     expect(screen.getAllByText("es.regression.mae").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Planned v0.1.0").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Implemented/).length).toBeGreaterThan(0);
   });
 });
 
 describe("RoadmapTimeline", () => {
-  it("lists the three planned releases", () => {
+  it("lists the three releases with v0.1.0 implemented", () => {
     render(<RoadmapTimeline />);
     for (const v of ["v0.1.0", "v0.2.0", "v0.3.0"]) expect(screen.getByText(v)).toBeInTheDocument();
-    expect(screen.queryByText("Implemented")).toBeNull();
+    expect(screen.getAllByText("Implemented").length).toBeGreaterThan(0);
   });
 });

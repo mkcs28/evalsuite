@@ -47,15 +47,17 @@ export default function ResearchPage() {
         <Section title="Shared computation">
           <p>
             Intermediates such as confusion matrices and class counts are computed once per
-            evaluation and reused. This is designed to reduce redundant computation; the effect will
-            be quantified only through the published benchmark protocol.
+            evaluation and reused. In v0.1.0 this makes evaluate() about 10× faster than separate
+            scikit-learn calls for the same metrics, with identical results (see the benchmarks
+            page).
           </p>
         </Section>
         <Section title="Numerical validation">
           <p>
-            Each metric is planned to be tested against analytically derived cases and, where
-            conventions match, against scikit-learn, SciPy, statsmodels and TorchMetrics.
-            Intentional differences in convention will be documented rather than hidden.
+            Each metric is tested against analytically derived cases and, where conventions match,
+            against scikit-learn, SciPy and statsmodels (1,300+ tests on Python 3.9 to 3.14, Linux,
+            Windows and macOS). Intentional differences in convention are documented rather than
+            hidden.
           </p>
         </Section>
         <Section title="Reproducibility">
@@ -91,9 +93,10 @@ export default function ResearchPage() {
         </Section>
         <Section title="Limitations">
           <p>
-            EvalSuite is pre-release. It does not replace domain expertise, clinical validation or
-            study design. A unified interface cannot remove the need to choose metrics that fit the
-            question being asked.
+            EvalSuite v0.1.0 covers classification, regression and model comparison; clinical,
+            further statistical and vision modules are still to come. It does not replace domain
+            expertise, clinical validation or study design. A unified interface cannot remove the
+            need to choose metrics that fit the question being asked.
           </p>
         </Section>
       </div>

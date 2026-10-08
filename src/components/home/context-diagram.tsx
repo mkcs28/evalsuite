@@ -20,9 +20,9 @@ export function ContextDiagram() {
           Compute the confusion matrix once. Reuse it everywhere.
         </h2>
         <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground">
-          The planned <code className="text-[0.9em]">EvaluationContext</code> holds validated inputs
-          and expensive intermediates. Precision, recall, specificity, F1, PPV and NPV all read the
-          same four counts instead of each recounting the data.
+          The <code className="text-[0.9em]">EvaluationContext</code> holds validated inputs and
+          expensive intermediates. Precision, recall, specificity, F1, PPV and NPV all read the same
+          four counts instead of each recounting the data.
         </p>
         <p className="mt-4 max-w-lg leading-relaxed text-muted-foreground">
           Designed to reduce redundant computation. Speed-ups will be reported only after

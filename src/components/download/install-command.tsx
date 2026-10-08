@@ -29,9 +29,9 @@ export function InstallCommand({ className }: { className?: string }) {
             View on PyPI
           </a>
         ) : (
-          <StatusBadge status="planned" label="On PyPI with v0.1.0" />
+          <StatusBadge status="implemented" label="On PyPI" />
         )}
-        <span>Python 3.9 or newer. Optional extras: [plot], [vision], [all].</span>
+        <span>Python 3.9 or newer. Optional extras: [plot], [all].</span>
       </p>
     </div>
   );

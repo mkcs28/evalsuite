@@ -2,20 +2,23 @@ export const metadata = { title: "Calibration", description: "Calibration metric
 
 # Calibration
 
-<StatusBadge status="planned" label="Planned for v0.2.0" />
+<StatusBadge status="implemented" label="Curve and ECE in v0.1.0; Hosmer–Lemeshow planned for v0.2.0" />
 
 A model is calibrated when, among cases given a predicted risk of 0.2, about 20% have the outcome. Discrimination metrics such as ROC AUC do not measure this.
 
 ## Usage
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-es.calibration.ece(y_true, y_prob, n_bins=10, strategy="quantile")
-curve = es.calibration.curve(y_true, y_prob, n_bins=10)
+es.expected_calibration_error(y_true, y_prob, n_bins=10, strategy="quantile")
+prob_true, prob_pred, bin_weight = es.calibration_curve(y_true, y_prob, n_bins=10)
+es.brier_score(y_true, y_prob)
+es.plot.calibration(y_true, y_prob)   # reliability diagram with ECE and Brier score
+`} />
 
-hl = es.clinical.hosmer_lemeshow(y_true, y_prob, n_groups=10)
-hl.statistic, hl.degrees_of_freedom, hl.p_value
+<CodeBlock lang="python" status="planned" statusLabel="Planned for v0.2.0" code={`
+hl = es.hosmer_lemeshow(y_true, y_prob, n_groups=10)
 `} />
 
 ## Interpreting calibration

@@ -3,11 +3,11 @@ import type { ReleaseTarget } from "@/types/status";
 import { REF } from "./references";
 
 /**
- * Hand-maintained registry for the pre-release website.
+ * Hand-maintained registry for the website.
  *
- * Every metric is marked "planned" because no EvalSuite version has been
- * released. When the Python package ships, its registry export replaces this
- * file (see scripts/export-registry.mjs and docs/metrics in the README).
+ * A metric is "implemented" only when it ships in a released EvalSuite version
+ * (SHIPPED below, checked against the package's own registry and functions);
+ * everything else stays "planned" for the release it is scheduled for.
  */
 type Draft = Omit<
   MetricDefinition,
@@ -15,16 +15,62 @@ type Draft = Omit<
 > &
   Partial<Pick<MetricDefinition, "assumptions" | "limitations" | "references">>;
 
+/** Metrics available in evalsuite-python 0.1.0 (some were scheduled for v0.2.0 and shipped early). */
+export const SHIPPED_IN_V010 = new Set<string>([
+  "classification.accuracy",
+  "classification.precision",
+  "classification.recall",
+  "classification.f1",
+  "classification.balanced_accuracy",
+  "classification.mcc",
+  "classification.cohen_kappa",
+  "classification.roc_auc",
+  "classification.pr_auc",
+  "classification.log_loss",
+  "classification.confusion_matrix",
+  "regression.mae",
+  "regression.mse",
+  "regression.rmse",
+  "regression.r2",
+  "regression.adjusted_r2",
+  "regression.mape",
+  "regression.smape",
+  "regression.rmsle",
+  "regression.median_absolute_error",
+  "regression.huber_loss",
+  "regression.quantile_loss",
+  "clinical.sensitivity",
+  "clinical.specificity",
+  "clinical.ppv",
+  "clinical.npv",
+  "calibration.brier_score",
+  "calibration.ece",
+  "confidence.wilson",
+  "confidence.clopper_pearson",
+  "confidence.bootstrap_percentile",
+  "confidence.bootstrap_bca",
+  "statistics.mcnemar",
+  "statistics.delong",
+  "effect-size.cohens_d",
+  "effect-size.hedges_g",
+  "multiple-testing.bonferroni",
+  "multiple-testing.holm",
+  "multiple-testing.benjamini_hochberg",
+]);
+
 const planned =
   (version: ReleaseTarget) =>
-  (d: Draft): MetricDefinition => ({
-    assumptions: [],
-    limitations: [],
-    references: [],
-    ...d,
-    version,
-    status: "planned",
-  });
+  (d: Draft): MetricDefinition => {
+    const shipped = SHIPPED_IN_V010.has(d.id);
+    return {
+      assumptions: [],
+      limitations: [],
+      references: [],
+      ...d,
+      version: shipped ? "v0.1.0" : version,
+      status: shipped ? "implemented" : "planned",
+    };
+  };
 
 const v1 = planned("v0.1.0");
 const v2 = planned("v0.2.0");

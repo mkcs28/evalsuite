@@ -23,7 +23,7 @@ export interface SiteConfig {
   tagline: string;
   description: string;
   url: string;
-  /** Package release state. No version has been published yet. */
+  /** Package release state. */
   package: {
     latestRelease: string | null;
     nextRelease: string;
@@ -38,7 +38,9 @@ export interface SiteConfig {
   nav: NavItem[];
 }
 
-const repository = optionalUrl(process.env.NEXT_PUBLIC_REPOSITORY_URL);
+const repository =
+  optionalUrl(process.env.NEXT_PUBLIC_REPOSITORY_URL) ??
+  "https://github.com/mkcs28/evalsuite-python";
 
 export const siteConfig: SiteConfig = {
   name: "EvalSuite",
@@ -48,15 +50,16 @@ export const siteConfig: SiteConfig = {
     "EvalSuite brings machine learning, clinical, statistical, segmentation, and object-detection evaluation into one consistent evaluation framework.",
   url: optionalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000",
   package: {
-    latestRelease: null,
-    nextRelease: "v0.1.0",
-    status: "planned",
+    latestRelease: "v0.1.0",
+    nextRelease: "v0.2.0",
+    status: "implemented",
   },
   links: {
     repository,
     issues: repository ? `${repository}/issues` : null,
     discussions: repository ? `${repository}/discussions` : null,
-    pypi: optionalUrl(process.env.NEXT_PUBLIC_PYPI_URL),
+    pypi:
+      optionalUrl(process.env.NEXT_PUBLIC_PYPI_URL) ?? "https://pypi.org/project/evalsuite-python/",
   },
   nav: [
     { label: "Docs", href: "/docs" },

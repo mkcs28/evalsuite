@@ -15,11 +15,13 @@ describe("SiteHeader", () => {
     expect(within(nav).getByRole("link", { name: "Docs" })).not.toHaveAttribute("aria-current");
   });
 
-  it("does not render fake GitHub or PyPI links", () => {
+  it("links to the real GitHub repository and PyPI project", () => {
     setPathname("/");
     render(<SiteHeader />);
-    expect(screen.queryByRole("link", { name: /github/i })).toBeNull();
-    expect(screen.queryByRole("link", { name: /pypi/i })).toBeNull();
+    for (const link of screen.getAllByRole("link", { name: /github/i }))
+      expect(link).toHaveAttribute("href", "https://github.com/mkcs28/evalsuite-python");
+    for (const link of screen.getAllByRole("link", { name: /pypi/i }))
+      expect(link).toHaveAttribute("href", "https://pypi.org/project/evalsuite-python/");
   });
 
   it("opens and closes the mobile menu", async () => {
@@ -31,7 +33,7 @@ describe("SiteHeader", () => {
       "aria-expanded",
       "true",
     );
-    expect(screen.getByText(/PyPI \(coming with v0.1.0\)/)).toBeInTheDocument();
+    expect(screen.getAllByText("PyPI").length).toBeGreaterThan(0);
     await userEvent.keyboard("{Escape}");
     expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute(
       "aria-expanded",

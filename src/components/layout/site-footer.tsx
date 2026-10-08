@@ -56,7 +56,7 @@ export function SiteFooter() {
           pending: "Available once the repository is public",
           external: true,
         },
-        { label: "PyPI", href: links.pypi, pending: "Coming with v0.1.0", external: true },
+        { label: "PyPI", href: links.pypi, pending: "PyPI", external: true },
       ],
     },
   ];

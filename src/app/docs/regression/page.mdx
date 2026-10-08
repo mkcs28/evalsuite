@@ -2,17 +2,21 @@ export const metadata = { title: "Regression", description: "Regression error me
 
 # Regression
 
-<StatusBadge status="planned" label="Planned for v0.1.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
 ## Usage
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-es.regression.mae(y_true, y_pred)
-es.regression.rmse(y_true, y_pred, sample_weight=w)
-es.regression.mape(y_true, y_pred)   # raises if any target is zero
+es.mae(y_true, y_pred)
+es.rmse(y_true, y_pred, sample_weight=w)
+es.mape(y_true, y_pred)   # raises MetricInputError if any target is zero
+
+es.evaluate(y_true, y_pred)   # MAE, MSE, RMSE, R² and more in one call
 `} />
+
+Single and multi-output targets are supported (`multioutput="uniform_average"`, `"raw_values"` or weights).
 
 ## Domain restrictions
 

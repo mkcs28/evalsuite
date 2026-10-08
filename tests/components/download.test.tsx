@@ -11,7 +11,10 @@ describe("install command", () => {
     expect(screen.getByLabelText("Install command")).toHaveTextContent(
       "$ pip install evalsuite-python",
     );
-    expect(screen.getByText("On PyPI with v0.1.0")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View on PyPI" })).toHaveAttribute(
+      "href",
+      "https://pypi.org/project/evalsuite-python/",
+    );
     await userEvent.click(screen.getByRole("button", { name: "Copy" }));
     expect(await screen.findByRole("button", { name: "Copied" })).toBeInTheDocument();
     expect(execCommand).toHaveBeenCalledWith("copy");
@@ -24,7 +27,7 @@ describe("download button", () => {
     const link = screen.getByRole("link", { name: /Download/ });
     expect(link).toHaveAttribute("href", "/download#get");
     expect(link).not.toHaveAttribute("download");
-    expect(link).toHaveTextContent("v0.1.0 soon");
+    expect(link).toHaveTextContent("Download v0.1.0");
   });
 });
 

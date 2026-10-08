@@ -1,3 +1,4 @@
+import { SHIPPED_IN_V010 } from "@/data/metrics/definitions";
 import { METRICS } from "@/data/metrics/definitions";
 import {
   filterMetrics,
@@ -23,8 +24,13 @@ describe("metric registry", () => {
     for (const c of METRIC_CATEGORIES) expect(registry.some((m) => m.category === c)).toBe(true);
   });
 
-  it("never marks a package metric as implemented before a release exists", () => {
-    expect(registry.every((m) => m.status === "planned")).toBe(true);
+  it("marks exactly the metrics shipped in v0.1.0 as implemented", () => {
+    for (const m of registry) {
+      expect(m.status).toBe(SHIPPED_IN_V010.has(m.id) ? "implemented" : "planned");
+      if (m.status === "implemented") expect(m.version).toBe("v0.1.0");
+    }
+    expect(getMetric("clinical.net_benefit")?.status).toBe("planned");
+    expect(getMetric("segmentation.dice")?.status).toBe("planned");
   });
 
   it("round-trips slugs", () => {
@@ -39,7 +45,7 @@ describe("metric registry", () => {
     expect(
       filterMetrics(registry, { category: "detection" }).every((m) => m.category === "detection"),
     ).toBe(true);
-    expect(filterMetrics(registry, { status: "implemented" })).toHaveLength(0);
+    expect(filterMetrics(registry, { status: "implemented" })).toHaveLength(SHIPPED_IN_V010.size);
     expect(filterMetrics(registry, { query: "es.clinical.decision_curve" })).toHaveLength(1);
   });
 });

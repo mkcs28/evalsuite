@@ -1,15 +1,15 @@
 import { optionalUrl, packageStateLabel, siteConfig } from "@/lib/config/site";
 
 describe("site configuration", () => {
-  it("does not invent external URLs when none are configured", () => {
-    expect(siteConfig.links.repository).toBeNull();
-    expect(siteConfig.links.pypi).toBeNull();
-    expect(siteConfig.links.issues).toBeNull();
+  it("links to the published package and repository", () => {
+    expect(siteConfig.links.repository).toBe("https://github.com/mkcs28/evalsuite-python");
+    expect(siteConfig.links.pypi).toBe("https://pypi.org/project/evalsuite-python/");
+    expect(siteConfig.links.issues).toBe("https://github.com/mkcs28/evalsuite-python/issues");
   });
 
-  it("reports the package as unreleased", () => {
-    expect(siteConfig.package.latestRelease).toBeNull();
-    expect(packageStateLabel()).toContain("v0.1.0 is planned");
+  it("reports v0.1.0 as the latest release", () => {
+    expect(siteConfig.package.latestRelease).toBe("v0.1.0");
+    expect(packageStateLabel()).toBe("Latest release v0.1.0");
   });
 
   it("only accepts http(s) URLs", () => {

@@ -1,52 +1,54 @@
-export const metadata = { title: "Getting started", description: "Install EvalSuite and run a first evaluation (planned API).", alternates: { canonical: "/docs/getting-started" } };
+export const metadata = { title: "Getting started", description: "Install EvalSuite and run a first evaluation.", alternates: { canonical: "/docs/getting-started" } };
 
 # Getting started
 
-<Callout tone="warning" title="Not yet installable">
-  EvalSuite is not on PyPI yet. The commands below show the planned installation for v0.1.0. Until then, follow the project roadmap for progress.
-</Callout>
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
 ## Installation
 
-The base package is planned to depend only on NumPy, SciPy, pandas, scikit-learn, and statsmodels. Plotting, vision, and PyTorch integrations will be optional extras, and none of them are imported by `import evalsuite`.
-
-<CodeBlock lang="bash" status="planned" statusLabel="Planned for v0.1.0" code={`
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.1.0" code={`
 pip install evalsuite-python
 pip install "evalsuite-python[plot]"     # Matplotlib figures
-pip install "evalsuite-python[vision]"   # segmentation and detection helpers
-pip install "evalsuite-python[all]"
+pip install "evalsuite-python[all]"      # every optional extra
 `} />
 
 The package is published on PyPI as **`evalsuite-python`** and imported as **`evalsuite`** (the shorter name was too similar to an existing project). As with `pip install scikit-learn` and `import sklearn`, only the install name differs.
 
-Python 3.9 or newer will be supported.
+The base package depends only on NumPy, SciPy and pandas. Matplotlib is an optional extra and is not imported by `import evalsuite`. Python 3.9 to 3.14 are supported on Linux, Windows and macOS.
 
 ## Two API levels
 
 Every metric is available as a plain function. Nothing forces you to use the high-level evaluator.
 
-<CodeBlock lang="python" filename="low_level.py" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" filename="low_level.py" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-es.classification.f1(y_true, y_pred, average="macro")
-es.clinical.sensitivity(y_true, y_pred)
-es.regression.rmse(y_true, y_pred)
+es.f1(y_true, y_pred, average="macro")
+es.specificity(y_true, y_pred)
+es.rmse(y_true, y_pred)
 `} />
 
-The high-level evaluator validates the inputs once, builds an evaluation context, and runs only the metrics that are appropriate for the task.
+`es.evaluate` validates the inputs once, builds the confusion matrix once, and runs every metric that applies to the task.
 
-<CodeBlock lang="python" filename="high_level.py" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" filename="high_level.py" status="implemented" statusLabel="v0.1.0" code={`
 result = es.evaluate(
-    y_true=[0, 1, 1, 0],
-    y_pred=[0, 1, 0, 0],
-    task="classification",
+    y_true=[0, 1, 1, 0, 1, 0, 1, 1],
+    y_pred=[0, 1, 0, 0, 1, 1, 1, 1],
+    y_prob=[0.1, 0.9, 0.4, 0.2, 0.8, 0.6, 0.7, 0.95],
 )
 
-print(result)
+print(result)            # readable summary
+result["mcc"]            # one metric, behaves like a number
 result.to_dataframe()
-result.to_json()
+result.save("results.html")   # or .csv, .json, .md, .tex
+`} />
+
+## From the command line
+
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.1.0" code={`
+evalsuite evaluate predictions.csv --y-true label --y-pred pred --y-prob prob
 `} />
 
 ## Next steps
 
-Read [Core concepts](/docs/concepts) for the validation and result model, then the guide for your task. To see the evaluation workflow interactively today, use the [playground](/playground) in demo mode.
+Read [Core concepts](/docs/concepts) for the validation and result model, then the guide for your task. To try the workflow in the browser, use the [playground](/playground).

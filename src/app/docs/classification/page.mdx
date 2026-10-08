@@ -2,25 +2,28 @@ export const metadata = { title: "Classification", description: "Binary, multicl
 
 # Classification
 
-<StatusBadge status="planned" label="Planned for v0.1.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
-Binary, multiclass, and multilabel classification are planned for the first release.
+Binary, multiclass and multilabel classification, with sample weights throughout.
 
 ## Usage
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-es.classification.accuracy(y_true, y_pred)
-es.classification.f1(y_true, y_pred, average="macro", zero_division="warn")
-es.classification.roc_auc(y_true, y_prob)
+es.accuracy(y_true, y_pred)
+es.f1(y_true, y_pred, average="macro", zero_division="warn")
+es.roc_auc(y_true, y_prob)
 
-cm = es.classification.confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
+cm = es.confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
+
+report = es.classification_report(y_true, y_pred)   # precision, recall, F1, specificity, support
+print(report.summary())
 `} />
 
 ## Averaging
 
-For more than two classes, the `average` parameter is required for precision, recall, and F1. `macro` treats every class equally, `weighted` weights by support, and `micro` pools counts across classes. These can rank models differently, so the averaging method is stored with every result.
+For more than two classes, `average` controls how per-class values are combined. `macro` treats every class equally, `weighted` weights by support, `micro` pools counts across classes, `samples` averages per observation for multilabel data, and `None` returns per-class values. The default `"auto"` resolves to `binary` for binary targets and `macro` otherwise; the resolved value is stored in `result.params["average"]`.
 
 ## Metrics
 
@@ -28,4 +31,4 @@ For more than two classes, the `average` parameter is required for precision, re
 
 ## Choosing metrics
 
-Accuracy is easy to read but misleading under class imbalance. Balanced accuracy, MCC, and PR AUC are more informative when classes are imbalanced. ROC AUC measures ranking, not calibration; use the [calibration](/docs/calibration) guide to assess probabilities.
+Accuracy is easy to read but misleading under class imbalance. Balanced accuracy, MCC and PR AUC are more informative when classes are imbalanced. ROC AUC measures ranking, not calibration; use the [calibration](/docs/calibration) guide to assess probabilities.

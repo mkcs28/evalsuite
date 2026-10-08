@@ -34,8 +34,8 @@ export function Pipeline() {
             From predictions to paper.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            Every evaluation follows the same planned path. Each layer has one job, so new metrics
-            and exporters plug in without touching the rest.
+            Every evaluation follows the same path. Each layer has one job, so new metrics and
+            exporters plug in without touching the rest.
           </p>
         </div>
         <ol className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">

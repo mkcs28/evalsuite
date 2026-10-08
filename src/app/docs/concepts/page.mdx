@@ -2,22 +2,22 @@ export const metadata = { title: "Core concepts", description: "Validation, eval
 
 # Core concepts
 
-These concepts are planned for v0.1.0 and underpin every later module.
+These concepts shipped in v0.1.0 and underpin every later module.
 
 ## Validation happens once
 
 Inputs are converted to NumPy and checked a single time per evaluation: lengths, shapes, label sets, probability ranges, NaN and infinity. Failures raise a specific exception that says what failed, why, and how to fix it.
 
-<CodeBlock lang="text" status="planned" statusLabel="Planned error format" code={`
+<CodeBlock lang="text" status="implemented" statusLabel="v0.1.0" code={`
 InputValidationError: y_true and y_pred must contain the same number of observations.
 Received 776 and 775.
 `} />
 
-Planned exception types are `EvalSuiteError`, `InputValidationError`, `MetricInputError`, `UnsupportedTaskError`, `OptionalDependencyError`, and `StatisticalTestError`.
+Exception types are `EvalSuiteError`, `InputValidationError`, `MetricInputError`, `UnsupportedTaskError`, `OptionalDependencyError`, and `StatisticalTestError`.
 
 ## The evaluation context
 
-`EvaluationContext` holds the validated inputs together with expensive intermediates such as the confusion matrix and class counts. Metrics read from the context instead of recomputing those intermediates. This is designed to reduce redundant computation; the effect will be measured and published on the [benchmarks](/benchmarks) page.
+`EvaluationContext` holds the validated inputs together with expensive intermediates such as the confusion matrix and class counts. Metrics read from the context instead of recomputing those intermediates. This removes redundant computation: `evaluate()` is about 10× faster than separate scikit-learn calls for the same metrics (see [benchmarks](/benchmarks)).
 
 ## Results are structured and portable
 
@@ -25,14 +25,14 @@ Every function returns a typed result object rather than a bare float.
 
 | Result | Contains |
 | --- | --- |
-| `MetricResult` | value, metric id, parameters used, optional interval |
-| `EvaluationResult` | all metric results for one evaluation |
-| `ConfidenceInterval` | lower, upper, level, method |
-| `BootstrapResult` | estimate, interval, standard error, optional distribution |
-| `StatisticalTestResult` | statistic, p-value, degrees of freedom, effect size |
-| `CurveResult`, `DCAResult` | curve coordinates with plotting helpers |
+| `MetricResult` | value (or per-class values), metric id, parameters used |
+| `EvaluationResult` | all metric results for one evaluation, plus metadata |
+| `ConfidenceInterval` | estimate, lower, upper, level, method |
+| `TestResult` | statistic, p-value, estimate, method |
+| `ComparisonResult` | per-model estimates with intervals, paired tests, adjusted p-values, best model |
+| `ClassificationReport` | per-class precision, recall, F1, specificity and support |
 
-Results export with `to_dict()`, `to_dataframe()`, `to_json()`, `to_markdown()`, and `to_latex()`. JSON uses standard serialization; pickle is never used for portable storage.
+Results export with `to_dict()`, `to_dataframe()`, `to_json()`, `to_markdown()`, `to_latex()`, `to_html()` and `to_csv()`. JSON uses standard serialization; pickle is never used for portable storage.
 
 ## Explicit conventions
 

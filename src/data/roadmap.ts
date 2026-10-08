@@ -14,6 +14,7 @@ export interface RoadmapRelease {
 }
 
 const p = (label: string): RoadmapItem => ({ label, status: "planned" });
+const done = (label: string): RoadmapItem => ({ label, status: "implemented" });
 
 /** Package roadmap. Statuses change only when work actually lands. */
 export const ROADMAP: RoadmapRelease[] = [
@@ -21,43 +22,48 @@ export const ROADMAP: RoadmapRelease[] = [
     version: "v0.1.0",
     title: "Core",
     summary:
-      "The foundation every later module plugs into: result types, validation, the metric registry, and the first two task families.",
-    status: "planned",
+      "Released 8 October 2026. The foundation every later module plugs into: result types, validation, the metric registry, and the first two task families.",
+    status: "implemented",
     groups: [
       {
         title: "Foundation",
         items: ["Result system", "Input validation", "Metric registry", "Evaluation context"].map(
-          p,
+          done,
         ),
       },
-      { title: "Metrics", items: ["Classification", "Regression", "Model comparison"].map(p) },
-      { title: "Research output", items: ["Plots", "Reporting", "LaTeX export", "CLI"].map(p) },
-      { title: "Engineering", items: ["Benchmarks", "CI/CD", "PyPI release pipeline"].map(p) },
+      { title: "Metrics", items: ["Classification", "Regression", "Model comparison"].map(done) },
+      { title: "Research output", items: ["Plots", "Reporting", "LaTeX export", "CLI"].map(done) },
+      { title: "Engineering", items: ["Benchmarks", "CI/CD", "PyPI release pipeline"].map(done) },
     ],
   },
   {
     version: "v0.2.0",
     title: "Clinical and statistics",
     summary:
-      "Diagnostic and calibration metrics, uncertainty quantification, and statistical testing.",
-    status: "planned",
+      "Diagnostic and calibration metrics, uncertainty quantification, and statistical testing. Items marked implemented shipped early, in v0.1.0.",
+    status: "in-development",
     groups: [
       {
         title: "Clinical",
         items: [
-          "Clinical metrics",
-          "Calibration",
-          "Hosmer–Lemeshow",
-          "Decision curve analysis",
-        ].map(p),
+          p("Clinical metrics"),
+          done("Calibration curve and ECE"),
+          p("Hosmer–Lemeshow"),
+          p("Decision curve analysis"),
+        ],
       },
       {
         title: "Uncertainty",
-        items: ["Confidence intervals", "Bootstrap (percentile, BCa)"].map(p),
+        items: ["Confidence intervals", "Bootstrap (percentile, BCa)"].map(done),
       },
       {
         title: "Statistics",
-        items: ["Statistical tests", "Effect sizes", "Multiple-testing corrections"].map(p),
+        items: [
+          done("Paired tests (McNemar, DeLong, paired bootstrap)"),
+          p("Further statistical tests"),
+          done("Effect sizes (Cohen's d, Hedges' g, Cliff's delta)"),
+          done("Multiple-testing corrections"),
+        ],
       },
     ],
   },
@@ -86,18 +92,9 @@ export const ROADMAP: RoadmapRelease[] = [
 export const WEBSITE_MILESTONES: RoadmapItem[] = [
   { label: "Website, documentation portal and metric reference", status: "implemented" },
   { label: "Playground with in-browser demo engine", status: "demo" },
-  {
-    label: "Accounts, personal API keys and usage dashboard (built, not yet deployed)",
-    status: "in-development",
-  },
-  {
-    label: "Authenticated evaluation API with an interim engine (built, not yet deployed)",
-    status: "in-development",
-  },
-  {
-    label: "Playground can run on the API when signed in (built, not yet deployed)",
-    status: "in-development",
-  },
+  { label: "Accounts, personal API keys and usage dashboard", status: "implemented" },
+  { label: "Authenticated evaluation API with an interim engine", status: "implemented" },
+  { label: "Playground can run on the API when signed in", status: "implemented" },
   { label: "Metric reference generated from the Python registry", status: "planned" },
   { label: "Browser-local execution with Pyodide (under evaluation)", status: "planned" },
 ];

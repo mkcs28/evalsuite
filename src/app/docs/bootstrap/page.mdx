@@ -2,37 +2,36 @@ export const metadata = { title: "Bootstrap and confidence intervals", descripti
 
 # Bootstrap and confidence intervals
 
-<StatusBadge status="planned" label="Planned for v0.2.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
-A metric estimated on a finite test set is uncertain. EvalSuite plans to attach an interval to estimates using either an analytical method suited to the parameter or a reproducible bootstrap.
+A metric estimated on a finite test set is uncertain. EvalSuite attaches an interval to estimates using either an analytical method suited to the parameter or a reproducible bootstrap.
 
 ## Analytical intervals
 
-For proportions such as accuracy, sensitivity, or specificity, the Wilson score interval is the planned default because it keeps good coverage for small samples and proportions near 0 or 1. Clopper–Pearson is available when guaranteed (conservative) coverage is preferred.
+For proportions such as accuracy, sensitivity, or specificity, the Wilson score interval is the default because it keeps good coverage for small samples and proportions near 0 or 1. Clopper–Pearson is available when guaranteed (conservative) coverage is preferred.
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-es.confidence.sensitivity(y_true, y_pred, method="wilson", confidence=0.95)
-es.confidence.interval(estimate, method="clopper-pearson", confidence=0.95)
+es.accuracy_ci(y_true, y_pred, method="wilson", level=0.95)
+es.proportion_ci(8, 10, method="clopper-pearson")
+es.roc_auc_ci(y_true, y_prob)          # DeLong
 `} />
 
 ## Bootstrap engine
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
-result = es.bootstrap.bootstrap(
-    data,
-    statistic=my_metric,
-    n_resamples=10_000,
-    confidence=0.95,
-    method="bca",
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
+ci = es.bootstrap_ci(
+    "f1", y_true, y_pred,
+    n_resamples=2000,
+    level=0.95,
+    method="bca",          # or "percentile", "basic"
     random_state=42,
-    store_distribution=False,
 )
-result.estimate, result.lower, result.upper, result.standard_error
+ci.estimate, ci.low, ci.high
 `} />
 
-The engine is planned to be deterministic for a fixed `random_state`, to avoid touching global random state, and to keep the resampled distribution only when `store_distribution=True`.
+The engine is deterministic for a fixed `random_state`, and never touches global random state. Resampling is stratified by class for classification metrics.
 
 ## Methods
 

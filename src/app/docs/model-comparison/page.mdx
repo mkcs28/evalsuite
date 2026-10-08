@@ -2,29 +2,33 @@ export const metadata = { title: "Model comparison", description: "Paired statis
 
 # Model comparison
 
-<StatusBadge status="planned" label="Planned for v0.1.0, extended in v0.2.0 and v0.3.0" />
+<StatusBadge status="implemented" label="Available in v0.1.0" />
 
-`es.compare_models` evaluates several models on the same data and applies a paired test appropriate to the metric.
+`es.compare` evaluates several models on the same test set, attaches a confidence interval to every estimate, runs a paired test for every pair of models (or every model against a `baseline` you name), corrects the p-values for multiple testing and reports the best model per metric.
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-comparison = es.compare_models(
+comparison = es.compare(
     y_true,
-    predictions={"baseline": p_base, "candidate": p_new},
-    metrics=["roc_auc", "f1"],
-    test="delong",
+    {"baseline": pred_base, "candidate": pred_new},
+    probabilities={"baseline": prob_base, "candidate": prob_new},
+    metrics=["accuracy", "f1", "roc_auc"],
+    random_state=0,
 )
-comparison.to_dataframe()
+print(comparison)
+comparison.to_latex()          # best value per metric in bold
+comparison.save("comparison.html")
 `} />
 
-## Choosing a paired test
+## Which test is used
 
-| Situation | Test |
+| Metric | Paired test |
 | --- | --- |
-| Two classifiers, same observations, binary predictions | McNemar |
-| Two ROC AUCs on the same observations | DeLong |
-| Paired scores across folds or datasets | paired t-test or Wilcoxon signed-rank |
-| Three or more models across datasets | Friedman |
+| Accuracy (label predictions) | McNemar |
+| ROC AUC | DeLong |
+| Any other metric | paired bootstrap |
 
-A significant difference on one test set does not establish that a model is superior in general. Report effect sizes, intervals, and the evaluation design alongside any test.
+The tests are also available on their own: `es.mcnemar_test`, `es.delong_test` and `es.paired_bootstrap_test`. Holm correction is the default (`correction="holm"`; also `bonferroni`, `bh`, `by`).
+
+A significant difference on one test set does not establish that a model is superior in general. Report effect sizes, intervals and the evaluation design alongside any test.

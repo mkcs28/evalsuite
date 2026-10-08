@@ -14,8 +14,8 @@ import {
 import { StatusBadge } from "@/components/ui/status-badge";
 
 /**
- * Benefits are stated as design goals. Nothing here is a measured result:
- * the package is unreleased and no benchmarks exist yet.
+ * Benefits of the design. The speed claim is backed by the published benchmarks
+ * (see /benchmarks); the rest describe behaviour of the released package.
  */
 const OUTCOMES: Array<{ icon: LucideIcon; title: string; text: string }> = [
   {
@@ -107,7 +107,7 @@ export function Benefits() {
       <div aria-hidden className="hero-glow absolute inset-0 opacity-70" />
       <div className="relative mx-auto max-w-[1680px] px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <StatusBadge status="planned" label="Design goals for v0.1.0 to v0.3.0" />
+          <StatusBadge status="implemented" label="Delivered in v0.1.0, extended through v0.3.0" />
           <h2
             id="benefits-title"
             className="mt-5 text-3xl font-bold tracking-tight text-balance sm:text-5xl"

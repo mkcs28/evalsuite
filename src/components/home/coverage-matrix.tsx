@@ -3,26 +3,23 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import type { ReleaseTarget, Status } from "@/types/status";
 
 type Row = { feature: string; status: Status; release: ReleaseTarget };
-const row = (feature: string, release: ReleaseTarget): Row => ({
+const row = (feature: string, release: ReleaseTarget, status: Status = "planned"): Row => ({
   feature,
-  status: "planned",
+  status,
   release,
 });
+const shipped = (feature: string): Row => row(feature, "v0.1.0", "implemented");
 
 export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
     domain: "Machine learning",
-    rows: [
-      row("Classification", "v0.1.0"),
-      row("Regression", "v0.1.0"),
-      row("Model comparison", "v0.1.0"),
-    ],
+    rows: [shipped("Classification"), shipped("Regression"), shipped("Model comparison")],
   },
   {
     domain: "Clinical",
     rows: [
       row("Diagnostic metrics", "v0.2.0"),
-      row("Calibration", "v0.2.0"),
+      shipped("Calibration curve and ECE"),
       row("Hosmer–Lemeshow", "v0.2.0"),
       row("Decision curve analysis", "v0.2.0"),
     ],
@@ -30,11 +27,12 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
     domain: "Statistics",
     rows: [
-      row("Hypothesis testing", "v0.2.0"),
-      row("Effect sizes", "v0.2.0"),
-      row("Confidence intervals", "v0.2.0"),
-      row("Bootstrap", "v0.2.0"),
-      row("Multiple testing", "v0.2.0"),
+      shipped("Paired tests (McNemar, DeLong, bootstrap)"),
+      row("Further hypothesis tests", "v0.2.0"),
+      shipped("Effect sizes"),
+      shipped("Confidence intervals"),
+      shipped("Bootstrap"),
+      shipped("Multiple testing"),
     ],
   },
   {
@@ -50,11 +48,11 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
     domain: "Research output",
     rows: [
-      row("Visualization", "v0.1.0"),
-      row("Reports (HTML, Markdown)", "v0.1.0"),
-      row("LaTeX tables", "v0.1.0"),
-      row("JSON and CSV export", "v0.1.0"),
-      row("Reproducibility controls", "v0.1.0"),
+      shipped("Visualization"),
+      shipped("Reports (HTML, Markdown)"),
+      shipped("LaTeX tables"),
+      shipped("JSON and CSV export"),
+      shipped("Reproducibility controls"),
     ],
   },
 ];
@@ -77,8 +75,8 @@ export function CoverageMatrix() {
               Five domains, one framework.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              What each release is planned to cover. Statuses move to implemented only when a
-              version is published.
+              What each release covers. Statuses move to implemented only when a version is
+              published.
             </p>
           </div>
         </div>

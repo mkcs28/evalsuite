@@ -2,7 +2,7 @@ export const metadata = { title: "Statistical analysis", description: "Hypothesi
 
 # Statistical analysis
 
-<StatusBadge status="planned" label="Planned for v0.2.0" />
+<StatusBadge status="in-development" label="Paired tests, effect sizes and corrections in v0.1.0; more tests in v0.2.0" />
 
 Statistical tests in EvalSuite return a structured result containing the statistic, p-value, degrees of freedom where applicable, an effect size, and the method used. They never return a bare p-value.
 
@@ -12,17 +12,21 @@ Statistical tests in EvalSuite return a structured result containing the statist
 
 ## Usage
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 import evalsuite as es
 
-res = es.statistics.wilcoxon(scores_a, scores_b)
-res.statistic, res.p_value, res.effect_size
+res = es.mcnemar_test(y_true, pred_a, pred_b)
+res.statistic, res.p_value
 
-adj = es.multiple_testing.correct(p_values, method="holm", alpha=0.05)
-adj.adjusted_p_values, adj.reject
+es.delong_test(y_true, prob_a, prob_b)
+es.paired_bootstrap_test("f1", y_true, pred_a, pred_b, random_state=0)
+
+es.cohens_d(scores_a, scores_b, paired=True)
+es.cliffs_delta(scores_a, scores_b)
+es.adjust_pvalues(p_values, method="holm")   # bonferroni, holm, bh, by
 `} />
 
-## Planned tests
+## Planned tests (v0.2.0)
 
 | Family | Tests |
 | --- | --- |
