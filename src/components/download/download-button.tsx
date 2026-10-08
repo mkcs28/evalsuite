@@ -12,7 +12,7 @@ export function DownloadButton({ variant = "secondary" }: { variant?: "primary" 
       {latestRelease ? `Download v${latestRelease.version}` : "Download"}
       {latestRelease ? null : (
         <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-          v0.1.0 soon
+          soon
         </span>
       )}
     </Link>

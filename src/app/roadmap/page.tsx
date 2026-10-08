@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/config/site";
 import type { Metadata } from "next";
 import { RoadmapTimeline } from "@/components/roadmap/roadmap-timeline";
 import { PageHeader } from "@/components/ui/page-header";
@@ -6,7 +7,7 @@ import { WEBSITE_MILESTONES } from "@/data/roadmap";
 
 export const metadata: Metadata = {
   title: "Roadmap",
-  description: "Planned EvalSuite releases v0.1.0, v0.2.0 and v0.3.0.",
+  description: "EvalSuite releases: v0.1.0 (released), v0.2.0 and v0.3.0.",
   alternates: { canonical: "/roadmap" },
 };
 
@@ -14,8 +15,9 @@ export default function RoadmapPage() {
   return (
     <>
       <PageHeader title="Roadmap">
-        EvalSuite is planned in three releases. Each one ships with tests, documentation and a PyPI
-        build before the next begins.
+        EvalSuite is built in three releases, each shipped with tests, documentation and a PyPI
+        build. v0.1.0 is released (current version {siteConfig.package.latestRelease}); v0.2.0 is in
+        development.
       </PageHeader>
       <div className="mx-auto max-w-[1680px] px-4 pt-12 sm:px-6">
         <h2 className="sr-only">Package releases</h2>

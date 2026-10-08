@@ -13,7 +13,8 @@ from sqlalchemy.orm import Session
 
 from .. import __version__
 from ..deps import Principal, api_principal, get_db
-from ..engine.interim import evaluate as run_interim
+from ..engine.evalsuite_engine import ENGINE
+from ..engine.evalsuite_engine import evaluate as run_engine
 from ..errors import ApiError
 from ..models import UsageEvent
 from ..schemas import EvaluationRequest, EvaluationResult, HealthResponse, ReadinessResponse, to_wire
@@ -31,8 +32,8 @@ def _metrics() -> list[dict[str, Any]]:
 
 @router.get("/health", response_model=HealthResponse, tags=["meta"])
 def health() -> HealthResponse:
-    """Liveness. ``version`` is the EvalSuite package version; None until it is released."""
-    return HealthResponse(status="ok", version=None)
+    """Liveness. ``version`` is the EvalSuite package version used for evaluation."""
+    return HealthResponse(status="ok", version=ENGINE.version)
 
 
 @router.get("/health/ready", response_model=ReadinessResponse, tags=["meta"])
@@ -52,7 +53,7 @@ def ready(request: Request, response: Response, db: Session = Depends(get_db)) -
 
 @router.get("/version", tags=["meta"])
 def version() -> dict[str, str | None]:
-    return {"api": __version__, "evalsuite": None, "engine": "interim"}
+    return {"api": __version__, "evalsuite": ENGINE.version, "engine": "evalsuite"}
 
 
 @router.get("/metrics", tags=["metrics"])
@@ -84,7 +85,7 @@ def evaluate(
             "Rate limit exceeded for your account. Try again shortly.",
             {"Retry-After": str(retry)},
         )
-    result = run_interim(body)
+    result = run_engine(body)
     # Only counters are stored; the submitted data is never persisted or logged.
     db.add(
         UsageEvent(

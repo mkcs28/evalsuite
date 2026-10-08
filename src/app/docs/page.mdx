@@ -2,28 +2,31 @@ export const metadata = { title: "Documentation", description: "Documentation fo
 
 # Documentation
 
-EvalSuite is a planned Python package that brings machine learning, clinical, statistical, segmentation, and object-detection evaluation into one consistent framework.
+EvalSuite is a Python package that brings machine learning, clinical, statistical, segmentation, and object-detection evaluation into one consistent framework. These docs describe **evalsuite-python v0.1.1**, installed with `pip install evalsuite-python`.
 
-<Callout tone="warning" title="Pre-release documentation">
-  No version of EvalSuite has been published yet. These pages describe the **planned** design and API so that it can be reviewed before implementation. Every code example is marked as a planned API and will not run until the corresponding release ships.
+<Callout title="What is available now">
+  Classification, regression, model comparison, confidence intervals, paired tests, plots, reports and the command-line tool are released. Clinical metrics (v0.2.0) and computer vision (v0.3.0) are planned; their pages say so, and their code examples are marked as planned.
 </Callout>
 
 ## Where to start
 
 - [Getting started](/docs/getting-started) explains installation and the two API levels.
 - [Core concepts](/docs/concepts) covers validation, the evaluation context, results, and conventions.
-- [Metric reference](/docs/metrics) lists every planned metric with its formula, assumptions, and references.
+- [Metric reference](/docs/metrics) lists every metric with its formula, assumptions, and references, and whether it is implemented.
 
 ## Evaluation guides
 
-| Guide | Planned release |
+| Guide | Status |
 | --- | --- |
-| [Classification](/docs/classification) and [Regression](/docs/regression) | v0.1.0 |
-| [Model comparison](/docs/model-comparison) and [Reporting](/docs/reporting) | v0.1.0 |
-| [Clinical evaluation](/docs/clinical) and [Calibration](/docs/calibration) | v0.2.0 |
-| [Statistical analysis](/docs/statistics) and [Bootstrap and confidence intervals](/docs/bootstrap) | v0.2.0 |
-| [Segmentation](/docs/segmentation) and [Object detection](/docs/detection) | v0.3.0 |
+| [Classification](/docs/classification) and [Regression](/docs/regression) | Available since v0.1.0 |
+| [Model comparison](/docs/model-comparison) and [Reporting](/docs/reporting) | Available since v0.1.0 |
+| [Bootstrap and confidence intervals](/docs/bootstrap) | Available since v0.1.0 |
+| [Statistical analysis](/docs/statistics) | Paired tests, effect sizes and corrections since v0.1.0; more tests in v0.2.0 |
+| [Calibration](/docs/calibration) | Curve and ECE since v0.1.0; Hosmer–Lemeshow in v0.2.0 |
+| [Clinical evaluation](/docs/clinical) | Planned for v0.2.0 (sensitivity, specificity, PPV and NPV already available) |
+| [Segmentation](/docs/segmentation) and [Object detection](/docs/detection) | Planned for v0.3.0 |
+| [CLI reference](/docs/cli) and [API reference](/docs/api) | Available since v0.1.0 |
 
 ## How these docs are maintained
 
-Metric pages are generated from a structured metric registry rather than written by hand. Once the Python package exists, its own registry (`es.list_metrics()`) will be exported to JSON and validated by this site, so the documentation cannot drift from the implementation.
+Every code example marked with a version was run against the released package before publishing. The package keeps its own metric registry (`es.list_metrics()`, `es.metric_info(...)`), and the metric reference marks exactly the metrics that registry provides as implemented.

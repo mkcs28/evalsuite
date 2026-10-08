@@ -159,8 +159,8 @@ export function Benefits() {
         </ul>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-xs text-muted-foreground">
-          These are the goals the package is designed around. Performance and correctness claims
-          will be backed by published tests and benchmarks as each release ships.
+          v0.1.0 delivers these for classification, regression and model comparison, backed by
+          1,300+ tests and published benchmarks; later releases extend them to more tasks.
         </p>
       </div>
     </section>

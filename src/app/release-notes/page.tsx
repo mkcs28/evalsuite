@@ -21,7 +21,7 @@ export default function ReleaseNotesPage() {
           <div className="rounded-lg border border-dashed border-border px-6 py-14 text-center">
             <p className="font-semibold">No versions have been released yet.</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Notes for v0.1.0 will appear here when it is published to PyPI.
+              Notes appear here when a version is published to PyPI.
             </p>
             <ButtonLink href="/roadmap" variant="secondary" className="mt-6">
               View the roadmap

@@ -45,7 +45,7 @@ describe("MetricTable", () => {
   it("renders registry rows with status and API", () => {
     render(<MetricTable category="regression" />);
     expect(screen.getByRole("rowheader", { name: "Mean absolute error" })).toBeInTheDocument();
-    expect(screen.getAllByText("es.regression.mae").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("es.mae").length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Implemented/).length).toBeGreaterThan(0);
   });
 });

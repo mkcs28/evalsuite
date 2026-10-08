@@ -75,10 +75,11 @@ export default function ResearchPage() {
         </Section>
         <Section title="Benchmarking">
           <p>
-            Performance claims will be made only from reproducible runs that list hardware, software
-            versions and workloads. See the{" "}
+            Performance claims come only from reproducible runs that list hardware, software
+            versions and workloads; anyone can rerun them with <code>evalsuite benchmark</code>. See
+            the{" "}
             <Link className="text-primary underline underline-offset-4" href="/benchmarks">
-              benchmark methodology
+              benchmark results
             </Link>
             .
           </p>
@@ -87,8 +88,8 @@ export default function ResearchPage() {
           <p>
             A single, documented evaluation layer spanning several research domains; a metric
             registry that keeps documentation in sync with code; and publication-ready reporting
-            with uncertainty included by default. Whether these goals are met will be judged by the
-            released software and its tests.
+            with uncertainty included by default. v0.1.0 delivers these for classification,
+            regression and model comparison.
           </p>
         </Section>
         <Section title="Limitations">

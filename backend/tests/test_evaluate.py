@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+import evalsuite as es
 import numpy as np
 import pytest
 from fastapi.testclient import TestClient
-
-from app.engine.interim import wilson
 
 from .conftest import BINARY, create_key, register_and_login
 
@@ -28,15 +27,28 @@ def test_binary_values_match_analytic_results(client: TestClient) -> None:
     assert values["classification.mcc"]["value"] == pytest.approx(0.5)
     assert values["classification.roc_auc"]["value"] == pytest.approx(15 / 16)
     assert body["confusionMatrix"] == {"tp": 3, "fp": 1, "tn": 3, "fn": 1}
-    assert body["engine"]["label"].endswith("(not EvalSuite)")
+    assert body["engine"] == {
+        "kind": "api",
+        "label": f"EvalSuite {es.__version__}",
+        "version": es.__version__,
+    }
     acc = values["classification.accuracy"]["interval"]
     assert acc["method"] == "Wilson score" and acc["lower"] < 0.75 < acc["upper"]
 
 
 def test_wilson_reference_values() -> None:
-    lo, hi = wilson(8, 10, 0.95)  # type: ignore[misc]
-    assert lo == pytest.approx(0.4902, abs=1e-4)
-    assert hi == pytest.approx(0.9433, abs=1e-4)
+    ci = es.proportion_ci(8, 10, level=0.95, method="wilson")
+    assert ci.low == pytest.approx(0.4902, abs=1e-4)
+    assert ci.high == pytest.approx(0.9433, abs=1e-4)
+
+
+def test_values_match_evalsuite_directly(client: TestClient) -> None:
+    req = {**BINARY, "metrics": ["classification.f1", "classification.balanced_accuracy"]}
+    body = client.post("/api/v1/evaluate", json=req, headers=_auth(client)).json()
+    values = {m["id"]: m["value"] for m in body["metrics"]}
+    y, p = BINARY["yTrue"], BINARY["yPred"]
+    assert values["classification.f1"] == pytest.approx(float(es.f1(y, p)))
+    assert values["classification.balanced_accuracy"] == pytest.approx(float(es.balanced_accuracy(y, p)))
 
 
 def test_bootstrap_is_reproducible_and_leaves_global_rng_alone(client: TestClient) -> None:
@@ -122,7 +134,8 @@ def test_usage_counts_without_storing_data(client: TestClient) -> None:
 
 
 def test_public_endpoints(client: TestClient) -> None:
-    assert client.get("/api/v1/health").json() == {"status": "ok", "version": None}
+    assert client.get("/api/v1/health").json() == {"status": "ok", "version": es.__version__}
+    assert client.get("/api/v1/version").json()["engine"] == "evalsuite"
     metrics = client.get("/api/v1/metrics").json()
     assert len(metrics) == 65
     assert (
@@ -136,7 +149,7 @@ def test_public_endpoints(client: TestClient) -> None:
 def test_wire_format_keeps_required_nulls(client: TestClient) -> None:
     h = _auth(client)
     body = client.post("/api/v1/evaluate", json=BINARY, headers=h).json()
-    assert body["engine"]["version"] is None
+    assert body["engine"]["version"] == es.__version__
     assert "note" not in body["metrics"][0]
     reg = {**BINARY, "task": "regression", "yProb": None, "metrics": ["regression.mae"]}
     reg_body = client.post("/api/v1/evaluate", json=reg, headers=h).json()

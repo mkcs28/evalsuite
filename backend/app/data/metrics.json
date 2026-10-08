@@ -18,7 +18,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.accuracy"
+    "apiPath": "es.accuracy",
+    "example": "es.accuracy(y_true, y_pred)"
   },
   {
     "id": "classification.precision",
@@ -41,7 +42,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.precision"
+    "apiPath": "es.precision",
+    "example": "es.precision(y_true, y_pred, average=\"macro\")"
   },
   {
     "id": "classification.recall",
@@ -64,7 +66,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.recall"
+    "apiPath": "es.recall",
+    "example": "es.recall(y_true, y_pred, average=\"macro\")"
   },
   {
     "id": "classification.f1",
@@ -92,7 +95,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.f1"
+    "apiPath": "es.f1",
+    "example": "es.f1(y_true, y_pred, average=\"macro\")"
   },
   {
     "id": "classification.balanced_accuracy",
@@ -115,7 +119,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.balanced_accuracy"
+    "apiPath": "es.balanced_accuracy",
+    "example": "es.balanced_accuracy(y_true, y_pred)"
   },
   {
     "id": "classification.mcc",
@@ -140,7 +145,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.mcc"
+    "apiPath": "es.mcc",
+    "example": "es.mcc(y_true, y_pred)"
   },
   {
     "id": "classification.cohen_kappa",
@@ -165,7 +171,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.cohen_kappa"
+    "apiPath": "es.cohen_kappa",
+    "example": "es.cohen_kappa(y_true, y_pred, weights=\"quadratic\")"
   },
   {
     "id": "classification.roc_auc",
@@ -196,7 +203,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.roc_auc"
+    "apiPath": "es.roc_auc",
+    "example": "es.roc_auc(y_true, y_prob)"
   },
   {
     "id": "classification.pr_auc",
@@ -225,7 +233,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.pr_auc"
+    "apiPath": "es.average_precision",
+    "example": "es.average_precision(y_true, y_prob)"
   },
   {
     "id": "classification.log_loss",
@@ -246,7 +255,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.log_loss"
+    "apiPath": "es.log_loss",
+    "example": "es.log_loss(y_true, y_prob)"
   },
   {
     "id": "classification.confusion_matrix",
@@ -265,7 +275,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.classification.confusion_matrix"
+    "apiPath": "es.confusion_matrix",
+    "example": "es.confusion_matrix(y_true, y_pred, normalize=\"true\")"
   },
   {
     "id": "regression.mae",
@@ -289,7 +300,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.mae"
+    "apiPath": "es.mae",
+    "example": "es.mae(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.mse",
@@ -311,7 +323,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.mse"
+    "apiPath": "es.mse",
+    "example": "es.mse(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.rmse",
@@ -337,7 +350,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.rmse"
+    "apiPath": "es.rmse",
+    "example": "es.rmse(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.r2",
@@ -359,7 +373,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.r2"
+    "apiPath": "es.r2",
+    "example": "es.r2(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.adjusted_r2",
@@ -382,7 +397,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.adjusted_r2"
+    "apiPath": "es.adjusted_r2",
+    "example": "es.adjusted_r2(y_true_r, y_pred_r, n_features=3)"
   },
   {
     "id": "regression.mape",
@@ -410,7 +426,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.mape"
+    "apiPath": "es.mape",
+    "example": "es.mape(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.smape",
@@ -436,7 +453,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.smape"
+    "apiPath": "es.smape",
+    "example": "es.smape(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.rmsle",
@@ -458,7 +476,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.rmsle"
+    "apiPath": "es.rmsle",
+    "example": "es.rmsle(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.median_absolute_error",
@@ -478,7 +497,8 @@
     "references": [],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.median_absolute_error"
+    "apiPath": "es.median_absolute_error",
+    "example": "es.median_absolute_error(y_true_r, y_pred_r)"
   },
   {
     "id": "regression.huber_loss",
@@ -503,7 +523,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.huber_loss"
+    "apiPath": "es.huber_loss",
+    "example": "es.huber_loss(y_true_r, y_pred_r, delta=1.0)"
   },
   {
     "id": "regression.quantile_loss",
@@ -528,7 +549,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.regression.quantile_loss"
+    "apiPath": "es.quantile_loss",
+    "example": "es.quantile_loss(y_true_r, y_pred_r, alpha=0.9)"
   },
   {
     "id": "clinical.sensitivity",
@@ -554,7 +576,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.clinical.sensitivity"
+    "apiPath": "es.recall",
+    "example": "es.recall(y_true, y_pred)  # sensitivity"
   },
   {
     "id": "clinical.specificity",
@@ -579,7 +602,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.clinical.specificity"
+    "apiPath": "es.specificity",
+    "example": "es.specificity(y_true, y_pred)"
   },
   {
     "id": "clinical.ppv",
@@ -604,7 +628,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.clinical.ppv"
+    "apiPath": "es.precision",
+    "example": "es.precision(y_true, y_pred)  # positive predictive value"
   },
   {
     "id": "clinical.npv",
@@ -629,7 +654,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.clinical.npv"
+    "apiPath": "es.npv",
+    "example": "es.npv(y_true, y_pred)"
   },
   {
     "id": "clinical.lr_positive",
@@ -771,7 +797,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.calibration.brier_score"
+    "apiPath": "es.brier_score",
+    "example": "es.brier_score(y_true, y_prob)"
   },
   {
     "id": "calibration.ece",
@@ -797,7 +824,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.calibration.ece"
+    "apiPath": "es.expected_calibration_error",
+    "example": "es.expected_calibration_error(y_true, y_prob, n_bins=10)"
   },
   {
     "id": "calibration.mce",
@@ -897,7 +925,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.confidence.interval"
+    "apiPath": "es.proportion_ci",
+    "example": "es.proportion_ci(8, 10, method=\"wilson\")\nes.accuracy_ci(y_true, y_pred)"
   },
   {
     "id": "confidence.clopper_pearson",
@@ -922,7 +951,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.confidence.interval"
+    "apiPath": "es.proportion_ci",
+    "example": "es.proportion_ci(8, 10, method=\"clopper-pearson\")"
   },
   {
     "id": "confidence.bootstrap_percentile",
@@ -948,7 +978,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.bootstrap.bootstrap"
+    "apiPath": "es.bootstrap_ci",
+    "example": "es.bootstrap_ci(\"f1\", y_true, y_pred, method=\"percentile\", random_state=0)"
   },
   {
     "id": "confidence.bootstrap_bca",
@@ -974,7 +1005,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.bootstrap.bootstrap"
+    "apiPath": "es.bootstrap_ci",
+    "example": "es.bootstrap_ci(\"f1\", y_true, y_pred, method=\"bca\", random_state=0)"
   },
   {
     "id": "statistics.t_test_independent",
@@ -1142,7 +1174,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.statistics.mcnemar"
+    "apiPath": "es.mcnemar_test",
+    "example": "es.mcnemar_test(y_true, y_pred_a, y_pred_b)"
   },
   {
     "id": "statistics.shapiro_wilk",
@@ -1188,7 +1221,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.comparison.delong"
+    "apiPath": "es.delong_test",
+    "example": "es.delong_test(y_true, y_prob_a, y_prob_b)"
   },
   {
     "id": "effect-size.cohens_d",
@@ -1212,7 +1246,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.effect_size.cohens_d"
+    "apiPath": "es.cohens_d",
+    "example": "es.cohens_d(scores_a, scores_b, paired=True)"
   },
   {
     "id": "effect-size.hedges_g",
@@ -1234,7 +1269,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.effect_size.hedges_g"
+    "apiPath": "es.hedges_g",
+    "example": "es.hedges_g(scores_a, scores_b)"
   },
   {
     "id": "effect-size.cramers_v",
@@ -1280,7 +1316,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.multiple_testing.correct"
+    "apiPath": "es.adjust_pvalues",
+    "example": "es.adjust_pvalues(p_values, method=\"bonferroni\")"
   },
   {
     "id": "multiple-testing.holm",
@@ -1302,7 +1339,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.multiple_testing.correct"
+    "apiPath": "es.adjust_pvalues",
+    "example": "es.adjust_pvalues(p_values, method=\"holm\")"
   },
   {
     "id": "multiple-testing.hochberg",
@@ -1348,7 +1386,8 @@
     ],
     "version": "v0.1.0",
     "status": "implemented",
-    "apiPath": "es.multiple_testing.correct"
+    "apiPath": "es.adjust_pvalues",
+    "example": "es.adjust_pvalues(p_values, method=\"bh\")"
   },
   {
     "id": "segmentation.dice",

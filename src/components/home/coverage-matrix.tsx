@@ -104,7 +104,12 @@ export function CoverageMatrix() {
                     className="flex items-center justify-between gap-3 border-t border-border-subtle py-2.5 text-sm"
                   >
                     <span>{r.feature}</span>
-                    <StatusBadge status={r.status} label={`Planned ${r.release}`} />
+                    <StatusBadge
+                      status={r.status}
+                      label={
+                        r.status === "implemented" ? `Since ${r.release}` : `Planned ${r.release}`
+                      }
+                    />
                   </li>
                 ))}
               </ul>

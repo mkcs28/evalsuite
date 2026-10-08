@@ -15,58 +15,136 @@ type Draft = Omit<
 > &
   Partial<Pick<MetricDefinition, "assumptions" | "limitations" | "references">>;
 
-/** Metrics available in evalsuite-python 0.1.0 (some were scheduled for v0.2.0 and shipped early). */
-export const SHIPPED_IN_V010 = new Set<string>([
-  "classification.accuracy",
-  "classification.precision",
-  "classification.recall",
-  "classification.f1",
-  "classification.balanced_accuracy",
-  "classification.mcc",
-  "classification.cohen_kappa",
-  "classification.roc_auc",
-  "classification.pr_auc",
-  "classification.log_loss",
-  "classification.confusion_matrix",
-  "regression.mae",
-  "regression.mse",
-  "regression.rmse",
-  "regression.r2",
-  "regression.adjusted_r2",
-  "regression.mape",
-  "regression.smape",
-  "regression.rmsle",
-  "regression.median_absolute_error",
-  "regression.huber_loss",
-  "regression.quantile_loss",
-  "clinical.sensitivity",
-  "clinical.specificity",
-  "clinical.ppv",
-  "clinical.npv",
-  "calibration.brier_score",
-  "calibration.ece",
-  "confidence.wilson",
-  "confidence.clopper_pearson",
-  "confidence.bootstrap_percentile",
-  "confidence.bootstrap_bca",
-  "statistics.mcnemar",
-  "statistics.delong",
-  "effect-size.cohens_d",
-  "effect-size.hedges_g",
-  "multiple-testing.bonferroni",
-  "multiple-testing.holm",
-  "multiple-testing.benjamini_hochberg",
-]);
+/**
+ * Metrics available since evalsuite-python 0.1.0 (some were scheduled for v0.2.0 and shipped early),
+ * with the real function and an example call. Every example was run against the released package.
+ */
+export const SHIPPED: Record<string, { apiPath: string; example: string }> = {
+  "classification.accuracy": { apiPath: "es.accuracy", example: "es.accuracy(y_true, y_pred)" },
+  "classification.precision": {
+    apiPath: "es.precision",
+    example: 'es.precision(y_true, y_pred, average="macro")',
+  },
+  "classification.recall": {
+    apiPath: "es.recall",
+    example: 'es.recall(y_true, y_pred, average="macro")',
+  },
+  "classification.f1": { apiPath: "es.f1", example: 'es.f1(y_true, y_pred, average="macro")' },
+  "classification.balanced_accuracy": {
+    apiPath: "es.balanced_accuracy",
+    example: "es.balanced_accuracy(y_true, y_pred)",
+  },
+  "classification.mcc": { apiPath: "es.mcc", example: "es.mcc(y_true, y_pred)" },
+  "classification.cohen_kappa": {
+    apiPath: "es.cohen_kappa",
+    example: 'es.cohen_kappa(y_true, y_pred, weights="quadratic")',
+  },
+  "classification.roc_auc": { apiPath: "es.roc_auc", example: "es.roc_auc(y_true, y_prob)" },
+  "classification.pr_auc": {
+    apiPath: "es.average_precision",
+    example: "es.average_precision(y_true, y_prob)",
+  },
+  "classification.log_loss": { apiPath: "es.log_loss", example: "es.log_loss(y_true, y_prob)" },
+  "classification.confusion_matrix": {
+    apiPath: "es.confusion_matrix",
+    example: 'es.confusion_matrix(y_true, y_pred, normalize="true")',
+  },
+  "regression.mae": { apiPath: "es.mae", example: "es.mae(y_true_r, y_pred_r)" },
+  "regression.mse": { apiPath: "es.mse", example: "es.mse(y_true_r, y_pred_r)" },
+  "regression.rmse": { apiPath: "es.rmse", example: "es.rmse(y_true_r, y_pred_r)" },
+  "regression.r2": { apiPath: "es.r2", example: "es.r2(y_true_r, y_pred_r)" },
+  "regression.adjusted_r2": {
+    apiPath: "es.adjusted_r2",
+    example: "es.adjusted_r2(y_true_r, y_pred_r, n_features=3)",
+  },
+  "regression.mape": { apiPath: "es.mape", example: "es.mape(y_true_r, y_pred_r)" },
+  "regression.smape": { apiPath: "es.smape", example: "es.smape(y_true_r, y_pred_r)" },
+  "regression.rmsle": { apiPath: "es.rmsle", example: "es.rmsle(y_true_r, y_pred_r)" },
+  "regression.median_absolute_error": {
+    apiPath: "es.median_absolute_error",
+    example: "es.median_absolute_error(y_true_r, y_pred_r)",
+  },
+  "regression.huber_loss": {
+    apiPath: "es.huber_loss",
+    example: "es.huber_loss(y_true_r, y_pred_r, delta=1.0)",
+  },
+  "regression.quantile_loss": {
+    apiPath: "es.quantile_loss",
+    example: "es.quantile_loss(y_true_r, y_pred_r, alpha=0.9)",
+  },
+  "clinical.sensitivity": {
+    apiPath: "es.recall",
+    example: "es.recall(y_true, y_pred)  # sensitivity",
+  },
+  "clinical.specificity": { apiPath: "es.specificity", example: "es.specificity(y_true, y_pred)" },
+  "clinical.ppv": {
+    apiPath: "es.precision",
+    example: "es.precision(y_true, y_pred)  # positive predictive value",
+  },
+  "clinical.npv": { apiPath: "es.npv", example: "es.npv(y_true, y_pred)" },
+  "calibration.brier_score": {
+    apiPath: "es.brier_score",
+    example: "es.brier_score(y_true, y_prob)",
+  },
+  "calibration.ece": {
+    apiPath: "es.expected_calibration_error",
+    example: "es.expected_calibration_error(y_true, y_prob, n_bins=10)",
+  },
+  "confidence.wilson": {
+    apiPath: "es.proportion_ci",
+    example: 'es.proportion_ci(8, 10, method="wilson")\nes.accuracy_ci(y_true, y_pred)',
+  },
+  "confidence.clopper_pearson": {
+    apiPath: "es.proportion_ci",
+    example: 'es.proportion_ci(8, 10, method="clopper-pearson")',
+  },
+  "confidence.bootstrap_percentile": {
+    apiPath: "es.bootstrap_ci",
+    example: 'es.bootstrap_ci("f1", y_true, y_pred, method="percentile", random_state=0)',
+  },
+  "confidence.bootstrap_bca": {
+    apiPath: "es.bootstrap_ci",
+    example: 'es.bootstrap_ci("f1", y_true, y_pred, method="bca", random_state=0)',
+  },
+  "statistics.mcnemar": {
+    apiPath: "es.mcnemar_test",
+    example: "es.mcnemar_test(y_true, y_pred_a, y_pred_b)",
+  },
+  "statistics.delong": {
+    apiPath: "es.delong_test",
+    example: "es.delong_test(y_true, y_prob_a, y_prob_b)",
+  },
+  "effect-size.cohens_d": {
+    apiPath: "es.cohens_d",
+    example: "es.cohens_d(scores_a, scores_b, paired=True)",
+  },
+  "effect-size.hedges_g": { apiPath: "es.hedges_g", example: "es.hedges_g(scores_a, scores_b)" },
+  "multiple-testing.bonferroni": {
+    apiPath: "es.adjust_pvalues",
+    example: 'es.adjust_pvalues(p_values, method="bonferroni")',
+  },
+  "multiple-testing.holm": {
+    apiPath: "es.adjust_pvalues",
+    example: 'es.adjust_pvalues(p_values, method="holm")',
+  },
+  "multiple-testing.benjamini_hochberg": {
+    apiPath: "es.adjust_pvalues",
+    example: 'es.adjust_pvalues(p_values, method="bh")',
+  },
+};
+
+export const SHIPPED_IN_V010 = new Set<string>(Object.keys(SHIPPED));
 
 const planned =
   (version: ReleaseTarget) =>
   (d: Draft): MetricDefinition => {
-    const shipped = SHIPPED_IN_V010.has(d.id);
+    const shipped = SHIPPED[d.id];
     return {
       assumptions: [],
       limitations: [],
       references: [],
       ...d,
+      ...(shipped ? { apiPath: shipped.apiPath, example: shipped.example } : {}),
       version: shipped ? "v0.1.0" : version,
       status: shipped ? "implemented" : "planned",
     };

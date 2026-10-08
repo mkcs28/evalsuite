@@ -93,7 +93,10 @@ export const WEBSITE_MILESTONES: RoadmapItem[] = [
   { label: "Website, documentation portal and metric reference", status: "implemented" },
   { label: "Playground with in-browser demo engine", status: "demo" },
   { label: "Accounts, personal API keys and usage dashboard", status: "implemented" },
-  { label: "Authenticated evaluation API with an interim engine", status: "implemented" },
+  {
+    label: "Authenticated evaluation API running on the released EvalSuite package",
+    status: "implemented",
+  },
   { label: "Playground can run on the API when signed in", status: "implemented" },
   { label: "Metric reference generated from the Python registry", status: "planned" },
   { label: "Browser-local execution with Pyodide (under evaluation)", status: "planned" },

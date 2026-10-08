@@ -12,10 +12,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
         <div className="sticky top-24 max-h-[calc(100dvh-7rem)] overflow-y-auto pr-2">
           <div className="mb-6 flex flex-wrap items-center gap-2 px-3 text-xs text-muted-foreground">
             <span>Docs version</span>
-            <StatusBadge
-              status="planned"
-              label={`Pre-release (${siteConfig.package.nextRelease} planned)`}
-            />
+            <StatusBadge status="implemented" label={siteConfig.package.latestRelease ?? "dev"} />
           </div>
           <DocsSidebar />
         </div>

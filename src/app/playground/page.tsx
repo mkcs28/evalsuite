@@ -14,9 +14,9 @@ export default function PlaygroundPage() {
         Evaluation playground
       </h1>
       <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        Walk through the planned workflow: provide predictions, choose metrics and an interval
-        method, and inspect the results. Until the EvalSuite API exists, a clearly labelled demo
-        engine runs locally.
+        Provide predictions, choose metrics and an interval method, and inspect the results. Signed
+        in, the playground runs on the EvalSuite API (the released package); otherwise a clearly
+        labelled demo engine runs in your browser.
       </p>
       <div className="mt-10">
         <Playground />

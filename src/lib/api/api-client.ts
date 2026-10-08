@@ -17,7 +17,7 @@ import {
 const TIMEOUT_MS = 30_000;
 
 /**
- * Client for the planned EvalSuite FastAPI service.
+ * Client for the EvalSuite FastAPI service.
  * Not used by default: the backend does not exist yet. Enable with
  * NEXT_PUBLIC_EVALUATION_BACKEND=api and NEXT_PUBLIC_API_BASE_URL.
  */

@@ -95,12 +95,21 @@ export default async function MetricPage({ params }: Props) {
       )}
 
       <h2 id="python-api">Python API</h2>
-      <CodeBlock
-        code={exampleFor(metric.apiPath, metric.inputs)}
-        lang="python"
-        status="planned"
-        statusLabel="Planned API"
-      />
+      {metric.example ? (
+        <CodeBlock
+          code={`import evalsuite as es\n\n${metric.example}`}
+          lang="python"
+          status="implemented"
+          statusLabel={`Since ${metric.version}`}
+        />
+      ) : (
+        <CodeBlock
+          code={exampleFor(metric.apiPath, metric.inputs)}
+          lang="python"
+          status="planned"
+          statusLabel="Planned API"
+        />
+      )}
 
       <h2 id="references">References</h2>
       {metric.references.length ? (
@@ -114,12 +123,22 @@ export default async function MetricPage({ params }: Props) {
       )}
 
       <h2 id="implementation-status">Implementation status</h2>
-      <Callout title={`Planned for ${metric.version}`}>
-        <p>
-          This metric is not implemented yet. The definition above is the planned specification and
-          will be validated against reference implementations before release.
-        </p>
-      </Callout>
+      {metric.status === "implemented" ? (
+        <Callout title={`Implemented since ${metric.version}`}>
+          <p>
+            Available in the released package (<code>pip install evalsuite-python</code>), tested
+            against analytically derived cases and, where conventions match, scikit-learn, SciPy and
+            statsmodels.
+          </p>
+        </Callout>
+      ) : (
+        <Callout title={`Planned for ${metric.version}`}>
+          <p>
+            This metric is not implemented yet. The definition above is the planned specification
+            and will be validated against reference implementations before release.
+          </p>
+        </Callout>
+      )}
     </div>
   );
 }

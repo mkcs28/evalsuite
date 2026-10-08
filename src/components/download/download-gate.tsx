@@ -141,7 +141,7 @@ export function DownloadGate({ version, files }: { version: string | null; files
             </strong>{" "}
             We use your email only to warn you if a security issue is found in the version you
             download
-            {version ? "" : ", and to tell you when v0.1.0 is released"}. It is never shared, and
+            {version ? "" : ", and to tell you when a version is released"}. It is never shared, and
             every email has an unsubscribe link.
           </p>
         </div>

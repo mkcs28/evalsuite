@@ -2,7 +2,11 @@ export const metadata = { title: "Clinical evaluation", description: "Diagnostic
 
 # Clinical evaluation
 
-<StatusBadge status="planned" label="Planned for v0.2.0" />
+<StatusBadge status="in-development" label="Planned for v0.2.0; core diagnostic metrics available now" />
+
+<Callout title="Available today (v0.1.0)">
+  Sensitivity, specificity, PPV and NPV are already in the package: `es.recall`, `es.specificity`, `es.precision` and `es.npv`, each with `pos_label` and Wilson or bootstrap intervals (`es.proportion_ci`, `es.bootstrap_ci`). Likelihood ratios, the diagnostic odds ratio, Youden's J and decision curve analysis arrive in v0.2.0.
+</Callout>
 
 Clinical metrics describe how a binary test or risk model would behave when used for decisions about people. They carry assumptions that general machine-learning metrics do not, so EvalSuite applies them only when they are requested explicitly.
 

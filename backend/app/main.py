@@ -103,7 +103,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         title="EvalSuite API",
         version=__version__,
         description="Accounts, personal API keys and authenticated evaluation for EvalSuite. "
-        "Evaluation currently runs an interim NumPy engine, not the EvalSuite package.",
+        "Evaluation runs on the released EvalSuite package (evalsuite-python).",
         docs_url="/api/docs",
         redoc_url=None,
         openapi_url="/api/openapi.json",

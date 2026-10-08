@@ -188,7 +188,7 @@ describe("playground on the API", () => {
           task: "binary-classification",
           nObservations: 80,
           metrics: [{ id: "classification.accuracy", name: "Accuracy", value: 0.75 }],
-          engine: { kind: "api", label: "Interim NumPy engine (not EvalSuite)", version: null },
+          engine: { kind: "api", label: "EvalSuite 0.1.1", version: "0.1.1" },
           warnings: [],
         }),
     });
@@ -204,7 +204,7 @@ describe("playground on the API", () => {
     await userEvent.click(apiRadio);
     await userEvent.click(screen.getByRole("button", { name: "Run evaluation" }));
     expect(await screen.findByText("API result")).toBeInTheDocument();
-    expect(screen.getByText(/Interim NumPy engine/)).toBeInTheDocument();
+    expect(screen.getByText(/EvalSuite 0.1.1/)).toBeInTheDocument();
     const [, init] = fetchMock.mock.calls.at(-1) as unknown as [string, RequestInit];
     expect((init.headers as Record<string, string>).Authorization).toBe("Bearer session-xyz");
     vi.unstubAllEnvs();

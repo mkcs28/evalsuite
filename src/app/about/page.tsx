@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/config/site";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { PageHeader, Section } from "@/components/ui/page-header";
@@ -12,8 +13,8 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader title="About EvalSuite">
-        A planned open-source Python package for consistent, well-documented model evaluation across
-        research domains.
+        An open-source Python package for consistent, well-documented model evaluation across
+        research domains. Current version: {siteConfig.package.latestRelease}.
       </PageHeader>
       <div className="mx-auto max-w-[1680px] px-4 sm:px-6">
         <Section title="What it is">

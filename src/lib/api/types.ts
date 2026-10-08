@@ -2,11 +2,11 @@ import { z } from "zod";
 import { MetricDefinitionSchema } from "@/lib/metrics/schema";
 
 /**
- * Typed contract for the planned EvalSuite FastAPI service (`/api/v1`).
+ * Typed contract for the EvalSuite FastAPI service (`/api/v1`).
  * None of these endpoints exist yet. The schemas let the frontend validate
  * responses from day one, so switching from the mock client is a config change.
  *
- * Planned endpoints:
+ * Endpoints:
  *   GET  /api/v1/health
  *   GET  /api/v1/metrics
  *   GET  /api/v1/metrics/{metric_id}

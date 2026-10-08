@@ -8,9 +8,8 @@ export const ReferenceSchema = z.object({ citation: z.string().min(10) });
 export type Reference = z.infer<typeof ReferenceSchema>;
 
 /**
- * MetricDefinition mirrors the planned Python metric registry (`es.metric_info(...)`).
- * When the package exists, its registry export (JSON) is validated against this
- * schema and replaces the hand-written data in src/data/metrics.
+ * MetricDefinition mirrors the Python metric registry (`es.metric_info(...)`).
+ * `example` is set for implemented metrics: a call that runs against the released package.
  */
 export const MetricDefinitionSchema = z.object({
   id: z.string().regex(/^[a-z-]+\.[a-z0-9_]+$/, "id must look like 'category.metric_name'"),
@@ -28,6 +27,7 @@ export const MetricDefinitionSchema = z.object({
   version: z.enum(RELEASES),
   status: z.enum(STATUSES),
   apiPath: z.string().regex(/^es\.[a-z0-9_.]+$/),
+  example: z.string().optional(),
 });
 
 export type MetricDefinition = z.infer<typeof MetricDefinitionSchema>;

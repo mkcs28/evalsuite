@@ -165,8 +165,8 @@ function QuickStart() {
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
           Store your key in the <code className="text-[0.85em]">EVALSUITE_API_KEY</code> environment
-          variable. Results currently come from an interim engine, labelled in every response, until
-          EvalSuite v0.1.0 is released.{" "}
+          variable. Results are computed by the released EvalSuite package; every response names the
+          version in <code className="text-[0.85em]">engine.label</code>.{" "}
           <Link href="/docs/api" className="font-medium text-primary hover:underline">
             API reference
           </Link>

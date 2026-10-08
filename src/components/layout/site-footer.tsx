@@ -85,11 +85,7 @@ export function SiteFooter() {
                       className="text-muted-foreground hover:text-foreground"
                     >
                       {l.label}
-                      {l.href ? null : (
-                        <span className="ml-1.5 text-xs">
-                          ({l.pending === "Coming with v0.1.0" ? "v0.1.0" : "pending"})
-                        </span>
-                      )}
+                      {l.href ? null : <span className="ml-1.5 text-xs">(pending)</span>}
                     </ResourceLink>
                   ) : (
                     <Link
@@ -109,8 +105,8 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-[1680px] flex-col gap-4 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
           <FooterStatus />
           <p className="text-xs text-muted-foreground lg:max-w-md lg:text-right">
-            EvalSuite is planned as open-source research software under the MIT License. Package
-            features described on this site are planned unless marked as implemented.
+            EvalSuite is open-source research software under the MIT License. Features are marked
+            implemented only when they ship in a released version; the rest are planned.
           </p>
         </div>
       </div>

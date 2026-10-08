@@ -1,43 +1,52 @@
-export const metadata = { title: "API reference", description: "Planned public Python API and HTTP API contract for EvalSuite.", alternates: { canonical: "/docs/api" } };
+export const metadata = { title: "API reference", description: "Public Python API and HTTP API for EvalSuite.", alternates: { canonical: "/docs/api" } };
 
 # API reference
 
-<Callout tone="warning" title="Planned API">
-  This page documents the planned public interface. It will be generated from docstrings once the package exists.
-</Callout>
+<StatusBadge status="implemented" label="evalsuite-python v0.1.1" />
 
-## Python modules
+Everything is available from the top-level package: `import evalsuite as es`. Run `help(es.f1)` or `es.metric_info("classification.f1")` for full documentation of any function.
 
-| Module | Purpose | Planned release |
+## Python API
+
+| Functions | Purpose | Since |
 | --- | --- | --- |
-| `es.evaluate`, `es.full_evaluation` | High-level evaluation | v0.1.0 |
-| `es.classification`, `es.regression` | Task metrics | v0.1.0 |
-| `es.compare_models`, `es.report` | Comparison and reporting | v0.1.0 |
+| `es.evaluate` | Every applicable metric in one call, inputs validated once | v0.1.0 |
+| `es.accuracy`, `es.precision`, `es.recall`, `es.f1`, `es.fbeta`, `es.specificity`, `es.npv`, `es.balanced_accuracy`, `es.mcc`, `es.cohen_kappa`, `es.jaccard`, `es.hamming_loss`, `es.confusion_matrix` | Label-based classification metrics | v0.1.0 |
+| `es.roc_auc`, `es.average_precision`, `es.log_loss`, `es.brier_score`, `es.top_k_accuracy`, `es.roc_curve`, `es.pr_curve` | Score-based classification metrics and curves | v0.1.0 |
+| `es.calibration_curve`, `es.expected_calibration_error` | Calibration | v0.1.0 |
+| `es.mae`, `es.mse`, `es.rmse`, `es.r2`, `es.adjusted_r2`, `es.mape`, `es.smape`, `es.msle`, `es.rmsle`, `es.median_absolute_error`, `es.explained_variance`, `es.max_error`, `es.mean_bias_error`, `es.huber_loss`, `es.quantile_loss`, `es.rae`, `es.rse` | Regression metrics | v0.1.0 |
+| `es.compare` | Model comparison with intervals, paired tests and corrections | v0.1.0 |
+| `es.bootstrap_ci`, `es.proportion_ci`, `es.accuracy_ci`, `es.roc_auc_ci` | Confidence intervals | v0.1.0 |
+| `es.mcnemar_test`, `es.delong_test`, `es.paired_bootstrap_test` | Paired tests | v0.1.0 |
+| `es.cohens_d`, `es.hedges_g`, `es.cliffs_delta`, `es.adjust_pvalues` | Effect sizes and multiple-testing correction | v0.1.0 |
+| `es.classification_report` | Per-class report table | v0.1.0 |
+| `es.plot.roc`, `es.plot.pr`, `es.plot.calibration`, `es.plot.confusion_matrix`, `es.plot.residuals`, `es.plot.comparison` | Figures (needs the `plot` extra) | v0.1.0 |
 | `es.list_metrics`, `es.metric_info` | Metric registry | v0.1.0 |
-| `es.clinical`, `es.calibration` | Clinical and calibration | v0.2.0 |
-| `es.confidence`, `es.bootstrap` | Uncertainty | v0.2.0 |
-| `es.statistics`, `es.effect_size`, `es.multiple_testing` | Statistics | v0.2.0 |
-| `es.segmentation`, `es.detection` | Computer vision | v0.3.0 |
+| Clinical (likelihood ratios, decision curves, Hosmer–Lemeshow) and further statistical tests | | planned for v0.2.0 |
+| Segmentation and detection | | planned for v0.3.0 |
 
 ## Common signature
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.1.0" code={`
 metric(
     y_true,
-    y_pred,
+    y_pred,                # or y_prob for score-based metrics
     *,
+    average="auto",        # binary, micro, macro, weighted, samples, None
     labels=None,
-    average=None,
+    pos_label=None,
     sample_weight=None,
-    zero_division="warn",
+    zero_division="warn",  # or 0, 1, np.nan
 )
 `} />
 
+Every metric returns a `MetricResult` that behaves like a number (`float(r)`, `f"{r:.3f}"`, comparisons) and records the parameters used.
+
 ## HTTP API
 
-<StatusBadge status="in-development" label="Built, not yet deployed" />
+<StatusBadge status="implemented" label="Live" />
 
-The FastAPI service lives in `backend/` of the website repository. It provides accounts, personal API keys and authenticated evaluation. Until EvalSuite v0.1.0 is released, evaluation runs an **interim NumPy engine**, and every response says so in `engine.label`.
+The FastAPI service lives in `backend/` of the website repository. It provides accounts, personal API keys and authenticated evaluation. Evaluation runs on the released EvalSuite package, and every response names the version in `engine.label` and `engine.version`. The API is hosted at `https://evalsuite-api.onrender.com`.
 
 ### Authentication
 
@@ -47,8 +56,8 @@ The FastAPI service lives in `backend/` of the website repository. It provides a
 
 Keys can be revoked instantly from the dashboard. A key can call evaluation endpoints but cannot create or revoke other keys.
 
-<CodeBlock lang="bash" status="in-development" statusLabel="Requires a deployed API" code={`
-curl https://YOUR-API-HOST/api/v1/evaluate \\
+<CodeBlock lang="bash" status="implemented" statusLabel="Live" code={`
+curl https://evalsuite-api.onrender.com/api/v1/evaluate \\
   -H "X-API-Key: $EVALSUITE_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -61,12 +70,12 @@ curl https://YOUR-API-HOST/api/v1/evaluate \\
   }'
 `} />
 
-<CodeBlock lang="python" filename="client.py" status="in-development" statusLabel="Requires a deployed API" code={`
+<CodeBlock lang="python" filename="client.py" status="implemented" statusLabel="Live" code={`
 import os
 import requests
 
 response = requests.post(
-    "https://YOUR-API-HOST/api/v1/evaluate",
+    "https://evalsuite-api.onrender.com/api/v1/evaluate",
     headers={"X-API-Key": os.environ["EVALSUITE_API_KEY"]},
     json={
         "task": "regression",
