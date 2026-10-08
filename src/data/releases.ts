@@ -14,6 +14,16 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.1.2",
+    date: "2026-10-08",
+    changes: [
+      {
+        kind: "Changed",
+        items: ["LICENSE: copyright held by Manoj Kumar C S and Nikhil D Bharadwaj."],
+      },
+    ],
+  },
+  {
     version: "v0.1.1",
     date: "2026-10-08",
     changes: [
