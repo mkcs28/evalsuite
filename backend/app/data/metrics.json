@@ -17,7 +17,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.accuracy"
   },
   {
@@ -40,7 +40,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.precision"
   },
   {
@@ -63,7 +63,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.recall"
   },
   {
@@ -91,7 +91,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.f1"
   },
   {
@@ -114,7 +114,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.balanced_accuracy"
   },
   {
@@ -139,7 +139,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.mcc"
   },
   {
@@ -164,7 +164,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.cohen_kappa"
   },
   {
@@ -195,7 +195,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.roc_auc"
   },
   {
@@ -224,7 +224,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.pr_auc"
   },
   {
@@ -245,7 +245,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.log_loss"
   },
   {
@@ -264,7 +264,7 @@
     "limitations": [],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.classification.confusion_matrix"
   },
   {
@@ -288,7 +288,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.mae"
   },
   {
@@ -310,7 +310,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.mse"
   },
   {
@@ -336,7 +336,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.rmse"
   },
   {
@@ -358,7 +358,7 @@
     ],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.r2"
   },
   {
@@ -381,7 +381,7 @@
     "limitations": [],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.adjusted_r2"
   },
   {
@@ -409,7 +409,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.mape"
   },
   {
@@ -435,7 +435,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.smape"
   },
   {
@@ -457,7 +457,7 @@
     "limitations": [],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.rmsle"
   },
   {
@@ -477,7 +477,7 @@
     "limitations": [],
     "references": [],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.median_absolute_error"
   },
   {
@@ -502,7 +502,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.huber_loss"
   },
   {
@@ -527,7 +527,7 @@
       }
     ],
     "version": "v0.1.0",
-    "status": "planned",
+    "status": "implemented",
     "apiPath": "es.regression.quantile_loss"
   },
   {
@@ -552,8 +552,8 @@
         "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 1: sensitivity and specificity. BMJ, 308(6943), 1552."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.clinical.sensitivity"
   },
   {
@@ -577,8 +577,8 @@
         "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 1: sensitivity and specificity. BMJ, 308(6943), 1552."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.clinical.specificity"
   },
   {
@@ -602,8 +602,8 @@
         "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 2: predictive values. BMJ, 309(6947), 102."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.clinical.ppv"
   },
   {
@@ -627,8 +627,8 @@
         "citation": "Altman, D. G., & Bland, J. M. (1994). Diagnostic tests 2: predictive values. BMJ, 309(6947), 102."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.clinical.npv"
   },
   {
@@ -769,8 +769,8 @@
         "citation": "Brier, G. W. (1950). Verification of forecasts expressed in terms of probability. Monthly Weather Review, 78(1), 1–3."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.calibration.brier_score"
   },
   {
@@ -795,8 +795,8 @@
         "citation": "Naeini, M. P., Cooper, G. F., & Hauskrecht, M. (2015). Obtaining well calibrated probabilities using Bayesian binning. Proceedings of the AAAI Conference on Artificial Intelligence, 29(1)."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.calibration.ece"
   },
   {
@@ -895,8 +895,8 @@
         "citation": "Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22(158), 209–212."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.confidence.interval"
   },
   {
@@ -920,8 +920,8 @@
         "citation": "Clopper, C. J., & Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika, 26(4), 404–413."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.confidence.interval"
   },
   {
@@ -946,8 +946,8 @@
         "citation": "Efron, B. (1979). Bootstrap methods: another look at the jackknife. The Annals of Statistics, 7(1), 1–26."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.bootstrap.bootstrap"
   },
   {
@@ -972,8 +972,8 @@
         "citation": "Efron, B. (1987). Better bootstrap confidence intervals. Journal of the American Statistical Association, 82(397), 171–185."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.bootstrap.bootstrap"
   },
   {
@@ -1140,8 +1140,8 @@
         "citation": "McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12(2), 153–157."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.statistics.mcnemar"
   },
   {
@@ -1186,8 +1186,8 @@
         "citation": "DeLong, E. R., DeLong, D. M., & Clarke-Pearson, D. L. (1988). Comparing the areas under two or more correlated receiver operating characteristic curves: a nonparametric approach. Biometrics, 44(3), 837–845."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.comparison.delong"
   },
   {
@@ -1210,8 +1210,8 @@
         "citation": "Cohen, J. (1988). Statistical Power Analysis for the Behavioral Sciences (2nd ed.). Lawrence Erlbaum Associates."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.effect_size.cohens_d"
   },
   {
@@ -1232,8 +1232,8 @@
         "citation": "Hedges, L. V. (1981). Distribution theory for Glass's estimator of effect size and related estimators. Journal of Educational Statistics, 6(2), 107–128."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.effect_size.hedges_g"
   },
   {
@@ -1278,8 +1278,8 @@
         "citation": "Dunn, O. J. (1961). Multiple comparisons among means. Journal of the American Statistical Association, 56(293), 52–64."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.multiple_testing.correct"
   },
   {
@@ -1300,8 +1300,8 @@
         "citation": "Holm, S. (1979). A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics, 6(2), 65–70."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.multiple_testing.correct"
   },
   {
@@ -1346,8 +1346,8 @@
         "citation": "Benjamini, Y., & Hochberg, Y. (1995). Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society: Series B, 57(1), 289–300."
       }
     ],
-    "version": "v0.2.0",
-    "status": "planned",
+    "version": "v0.1.0",
+    "status": "implemented",
     "apiPath": "es.multiple_testing.correct"
   },
   {
