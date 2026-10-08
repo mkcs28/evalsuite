@@ -9,6 +9,7 @@ const row = (feature: string, release: ReleaseTarget, status: Status = "planned"
   release,
 });
 const shipped = (feature: string): Row => row(feature, "v0.1.0", "implemented");
+const shipped2 = (feature: string): Row => row(feature, "v0.2.0", "implemented");
 
 export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
@@ -18,17 +19,17 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
     domain: "Clinical",
     rows: [
-      row("Diagnostic metrics", "v0.2.0"),
+      shipped2("Diagnostic metrics"),
       shipped("Calibration curve and ECE"),
-      row("Hosmer–Lemeshow", "v0.2.0"),
-      row("Decision curve analysis", "v0.2.0"),
+      shipped2("Hosmer–Lemeshow"),
+      shipped2("Decision curve analysis"),
     ],
   },
   {
     domain: "Statistics",
     rows: [
       shipped("Paired tests (McNemar, DeLong, bootstrap)"),
-      row("Further hypothesis tests", "v0.2.0"),
+      shipped2("Further hypothesis tests"),
       shipped("Effect sizes"),
       shipped("Confidence intervals"),
       shipped("Bootstrap"),

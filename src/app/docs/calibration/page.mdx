@@ -2,7 +2,7 @@ export const metadata = { title: "Calibration", description: "Calibration metric
 
 # Calibration
 
-<StatusBadge status="implemented" label="Curve and ECE in v0.1.0; Hosmer–Lemeshow planned for v0.2.0" />
+<StatusBadge status="implemented" label="Curve and ECE since v0.1.0; slope, intercept, MCE and Hosmer–Lemeshow since v0.2.0" />
 
 A model is calibrated when, among cases given a predicted risk of 0.2, about 20% have the outcome. Discrimination metrics such as ROC AUC do not measure this.
 
@@ -17,9 +17,18 @@ es.brier_score(y_true, y_prob)
 es.plot.calibration(y_true, y_prob)   # reliability diagram with ECE and Brier score
 `} />
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned for v0.2.0" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v0.2.0" code={`
+report = es.calibration_report(y_true, y_prob)   # Brier, ECE, MCE, intercept, slope, Hosmer–Lemeshow
+print(report)
+
+es.calibration_slope(y_true, y_prob)       # ideal 1; below 1 means predictions are too extreme
+es.calibration_intercept(y_true, y_prob)   # ideal 0 (calibration-in-the-large)
+es.maximum_calibration_error(y_true, y_prob)
 hl = es.hosmer_lemeshow(y_true, y_prob, n_groups=10)
+hl.statistic, hl.p_value, hl.params["df"]
 `} />
+
+The slope and intercept come from the logistic recalibration model logit P(y = 1) = a + b · logit(p̂) (Cox, 1958), fitted by maximum likelihood; the intercept is estimated with the slope fixed at 1. Both match statsmodels' logistic GLM in the test suite.
 
 ## Interpreting calibration
 

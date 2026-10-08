@@ -2,7 +2,7 @@ export const metadata = { title: "Statistical analysis", description: "Hypothesi
 
 # Statistical analysis
 
-<StatusBadge status="in-development" label="Paired tests, effect sizes and corrections in v0.1.0; more tests in v0.2.0" />
+<StatusBadge status="implemented" label="Available since v0.2.0 (paired tests since v0.1.0)" />
 
 Statistical tests in EvalSuite return a structured result containing the statistic, p-value, degrees of freedom where applicable, an effect size, and the method used. They never return a bare p-value.
 
@@ -23,17 +23,31 @@ es.paired_bootstrap_test("f1", y_true, pred_a, pred_b, random_state=0)
 
 es.cohens_d(scores_a, scores_b, paired=True)
 es.cliffs_delta(scores_a, scores_b)
-es.adjust_pvalues(p_values, method="holm")   # bonferroni, holm, bh, by
+es.adjust_pvalues(p_values, method="holm")   # bonferroni, holm, hochberg, bh, by
+
+es.t_test(scores_a, scores_b)             # Welch; mean difference with CI and Cohen's d
+es.paired_t_test(fold_a, fold_b)          # with Cohen's d_z
+es.wilcoxon_test(fold_a, fold_b)          # with matched-pairs rank-biserial r
+es.mann_whitney_test(a, b)                # with rank-biserial r (= Cliff's delta)
+es.friedman_test(model_a, model_b, model_c)   # several models on the same datasets; Kendall's W
+es.kruskal_wallis_test(g1, g2, g3)        # epsilon-squared
+es.shapiro_wilk_test(residuals)
+es.chi_square_test(table)                 # Cramér's V
+es.fisher_exact_test([[8, 2], [1, 5]])    # odds ratio
+es.cramers_v(table, bias_correction=True)
 `} />
 
-## Planned tests (v0.2.0)
+## Available tests
 
-| Family | Tests |
-| --- | --- |
-| Parametric | independent t-test, paired t-test, one-way ANOVA, repeated-measures ANOVA |
-| Non-parametric | Mann–Whitney U, Wilcoxon signed-rank, Kruskal–Wallis, Friedman |
-| Categorical | chi-square, Fisher's exact, McNemar |
-| Assumptions | Shapiro–Wilk, Kolmogorov–Smirnov, Anderson–Darling, Levene, Bartlett |
+| Family | Tests | Effect size reported |
+| --- | --- | --- |
+| Parametric | Welch and Student t-test, paired t-test | mean difference with CI, Cohen's d / d_z |
+| Non-parametric | Mann–Whitney U, Wilcoxon signed-rank, Kruskal–Wallis, Friedman | rank-biserial r, epsilon-squared, Kendall's W |
+| Categorical | χ² test of independence, Fisher's exact, McNemar | Cramér's V, odds ratio |
+| Model comparison | DeLong, paired bootstrap | AUC difference with CI |
+| Assumptions | Shapiro–Wilk | |
+
+Statistics and p-values come from SciPy and are checked against SciPy and statsmodels in the test suite. ANOVA and further assumption tests (Levene, Bartlett, Kolmogorov–Smirnov) are not included yet.
 
 ## Tests in the registry
 

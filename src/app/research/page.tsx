@@ -94,10 +94,10 @@ export default function ResearchPage() {
         </Section>
         <Section title="Limitations">
           <p>
-            EvalSuite v0.1.0 covers classification, regression and model comparison; clinical,
-            further statistical and vision modules are still to come. It does not replace domain
-            expertise, clinical validation or study design. A unified interface cannot remove the
-            need to choose metrics that fit the question being asked.
+            EvalSuite v0.2.0 covers classification, regression, clinical evaluation, calibration,
+            model comparison and statistical testing; vision modules are still to come. It does not
+            replace domain expertise, clinical validation or study design. A unified interface
+            cannot remove the need to choose metrics that fit the question being asked.
           </p>
         </Section>
       </div>

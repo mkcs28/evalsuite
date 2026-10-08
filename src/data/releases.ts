@@ -14,6 +14,22 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.2.0",
+    date: "2026-10-08",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Clinical: sensitivity, PPV, positive and negative likelihood ratios, diagnostic odds ratio, Youden's J and net benefit; diagnostic_report with a confidence interval for every measure; decision_curve with treat-all and treat-none references.",
+          "Calibration: maximum calibration error, calibration slope and intercept, Hosmer–Lemeshow test and calibration_report.",
+          "Hypothesis tests with effect sizes: Welch, Student and paired t-tests, Mann–Whitney, Wilcoxon, Kruskal–Wallis, Friedman, Shapiro–Wilk, χ² and Fisher's exact; Cramér's V; Hochberg correction.",
+          "Decision curve plot; CLI commands evalsuite diagnostic, evalsuite calibration and evalsuite plot decision.",
+          "Validated against statsmodels and SciPy.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.1.2",
     date: "2026-10-08",
     changes: [

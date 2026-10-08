@@ -675,8 +675,9 @@
     ],
     "references": [],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.lr_positive"
+    "status": "implemented",
+    "apiPath": "es.lr_positive",
+    "example": "es.lr_positive(y_true, y_pred)"
   },
   {
     "id": "clinical.lr_negative",
@@ -694,8 +695,9 @@
     "limitations": [],
     "references": [],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.lr_negative"
+    "status": "implemented",
+    "apiPath": "es.lr_negative",
+    "example": "es.lr_negative(y_true, y_pred)"
   },
   {
     "id": "clinical.diagnostic_odds_ratio",
@@ -719,8 +721,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.diagnostic_odds_ratio"
+    "status": "implemented",
+    "apiPath": "es.diagnostic_odds_ratio",
+    "example": "es.diagnostic_odds_ratio(y_true, y_pred)\nes.diagnostic_report(y_true, y_pred)  # every measure with a CI"
   },
   {
     "id": "clinical.youden_j",
@@ -744,8 +747,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.youden_j"
+    "status": "implemented",
+    "apiPath": "es.youden_j",
+    "example": "es.youden_j(y_true, y_pred)"
   },
   {
     "id": "clinical.net_benefit",
@@ -771,8 +775,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.decision_curve"
+    "status": "implemented",
+    "apiPath": "es.decision_curve",
+    "example": "es.net_benefit(y_true, y_prob, threshold=0.2)\nes.decision_curve(y_true, {\"model\": y_prob})"
   },
   {
     "id": "calibration.brier_score",
@@ -850,8 +855,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.calibration.mce"
+    "status": "implemented",
+    "apiPath": "es.maximum_calibration_error",
+    "example": "es.maximum_calibration_error(y_true, y_prob, n_bins=10)"
   },
   {
     "id": "calibration.calibration_slope",
@@ -874,8 +880,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.calibration.calibration_slope"
+    "status": "implemented",
+    "apiPath": "es.calibration_slope",
+    "example": "es.calibration_slope(y_true, y_prob)\nes.calibration_intercept(y_true, y_prob)"
   },
   {
     "id": "calibration.hosmer_lemeshow",
@@ -901,8 +908,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.clinical.hosmer_lemeshow"
+    "status": "implemented",
+    "apiPath": "es.hosmer_lemeshow",
+    "example": "es.hosmer_lemeshow(y_true, y_prob, n_groups=10)"
   },
   {
     "id": "confidence.wilson",
@@ -1034,8 +1042,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.t_test"
+    "status": "implemented",
+    "apiPath": "es.t_test",
+    "example": "es.t_test(scores_a, scores_b)  # Welch; equal_var=True for Student"
   },
   {
     "id": "statistics.t_test_paired",
@@ -1060,8 +1069,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.paired_t_test"
+    "status": "implemented",
+    "apiPath": "es.paired_t_test",
+    "example": "es.paired_t_test(scores_a, scores_b)"
   },
   {
     "id": "statistics.mann_whitney",
@@ -1082,8 +1092,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.mann_whitney"
+    "status": "implemented",
+    "apiPath": "es.mann_whitney_test",
+    "example": "es.mann_whitney_test(scores_a, scores_b)"
   },
   {
     "id": "statistics.wilcoxon",
@@ -1106,8 +1117,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.wilcoxon"
+    "status": "implemented",
+    "apiPath": "es.wilcoxon_test",
+    "example": "es.wilcoxon_test(scores_a, scores_b)"
   },
   {
     "id": "statistics.kruskal_wallis",
@@ -1127,8 +1139,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.kruskal_wallis"
+    "status": "implemented",
+    "apiPath": "es.kruskal_wallis_test",
+    "example": "es.kruskal_wallis_test(scores_a, scores_b, scores_c)"
   },
   {
     "id": "statistics.friedman",
@@ -1148,8 +1161,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.friedman"
+    "status": "implemented",
+    "apiPath": "es.friedman_test",
+    "example": "es.friedman_test(scores_a, scores_b, scores_c)"
   },
   {
     "id": "statistics.mcnemar",
@@ -1197,8 +1211,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.statistics.shapiro_wilk"
+    "status": "implemented",
+    "apiPath": "es.shapiro_wilk_test",
+    "example": "es.shapiro_wilk_test(scores_a)"
   },
   {
     "id": "statistics.delong",
@@ -1291,8 +1306,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.effect_size.cramers_v"
+    "status": "implemented",
+    "apiPath": "es.cramers_v",
+    "example": "es.cramers_v(table)"
   },
   {
     "id": "multiple-testing.bonferroni",
@@ -1361,8 +1377,9 @@
       }
     ],
     "version": "v0.2.0",
-    "status": "planned",
-    "apiPath": "es.multiple_testing.correct"
+    "status": "implemented",
+    "apiPath": "es.adjust_pvalues",
+    "example": "es.adjust_pvalues(p_values, method=\"hochberg\")"
   },
   {
     "id": "multiple-testing.benjamini_hochberg",

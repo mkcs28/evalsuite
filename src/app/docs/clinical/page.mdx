@@ -2,11 +2,7 @@ export const metadata = { title: "Clinical evaluation", description: "Diagnostic
 
 # Clinical evaluation
 
-<StatusBadge status="in-development" label="Planned for v0.2.0; core diagnostic metrics available now" />
-
-<Callout title="Available today (v0.1.0)">
-  Sensitivity, specificity, PPV and NPV are already in the package: `es.recall`, `es.specificity`, `es.precision` and `es.npv`, each with `pos_label` and Wilson or bootstrap intervals (`es.proportion_ci`, `es.bootstrap_ci`). Likelihood ratios, the diagnostic odds ratio, Youden's J and decision curve analysis arrive in v0.2.0.
-</Callout>
+<StatusBadge status="implemented" label="Available since v0.2.0" />
 
 Clinical metrics describe how a binary test or risk model would behave when used for decisions about people. They carry assumptions that general machine-learning metrics do not, so EvalSuite applies them only when they are requested explicitly.
 
@@ -22,20 +18,35 @@ Clinical metrics describe how a binary test or risk model would behave when used
 
 ## Usage
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
-import numpy as np
+<CodeBlock lang="python" status="implemented" statusLabel="v0.2.0" code={`
 import evalsuite as es
 
-es.clinical.sensitivity(y_true, y_pred)
-es.clinical.lr_positive(y_true, y_pred)
+report = es.diagnostic_report(y_true, y_pred)   # binary test vs reference standard
+print(report)
+report["lr_positive"]          # LR+ with its 95% CI (log method, Simel 1991)
+report.save("diagnostic.html") # also .csv .md .tex .json
 
-dca = es.clinical.decision_curve(
-    y_true,
-    y_prob,
-    thresholds=np.linspace(0.01, 0.99, 99),
-)
-dca.to_dataframe()   # threshold, model_net_benefit, treat_all, treat_none
+es.sensitivity(y_true, y_pred)
+es.lr_positive(y_true, y_pred)
+es.diagnostic_odds_ratio(y_true, y_pred, correction=0.5)   # Haldane–Anscombe when a cell is 0
+es.youden_j(y_true, y_pred)
+
+dca = es.decision_curve(y_true, {"model": y_prob})   # thresholds 0.01 … 0.99
+dca.to_dataframe()      # threshold, net_benefit[model], treat_all, treat_none
+dca.useful_range()      # thresholds where the model beats both references
+es.plot.decision_curve(y_true, {"model": y_prob})
 `} />
+
+## Confidence intervals in the diagnostic report
+
+| Measure | Interval |
+| --- | --- |
+| Sensitivity, specificity, PPV, NPV, accuracy, prevalence | Wilson score (or Clopper–Pearson with `proportion_method="clopper-pearson"`) |
+| LR+ and LR− | log method (Simel, Samsa and Matchar, 1991) |
+| Diagnostic odds ratio | Woolf's log method; 0.5 is added to every cell when one is zero |
+| Youden's J | Wald, from the independent variances of sensitivity and specificity, clipped to [−1, 1] |
+
+Ratios that divide by zero (for example LR+ when specificity is 1) are reported as `inf` or NaN with a warning, never as 0.
 
 ## Decision curve analysis
 

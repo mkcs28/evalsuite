@@ -2,7 +2,7 @@ export const metadata = { title: "API reference", description: "Public Python AP
 
 # API reference
 
-<StatusBadge status="implemented" label="evalsuite-python v0.1.2" />
+<StatusBadge status="implemented" label="evalsuite-python v0.2.0" />
 
 Everything is available from the top-level package: `import evalsuite as es`. Run `help(es.f1)` or `es.metric_info("classification.f1")` for full documentation of any function.
 
@@ -22,7 +22,10 @@ Everything is available from the top-level package: `import evalsuite as es`. Ru
 | `es.classification_report` | Per-class report table | v0.1.0 |
 | `es.plot.roc`, `es.plot.pr`, `es.plot.calibration`, `es.plot.confusion_matrix`, `es.plot.residuals`, `es.plot.comparison` | Figures (needs the `plot` extra) | v0.1.0 |
 | `es.list_metrics`, `es.metric_info` | Metric registry | v0.1.0 |
-| Clinical (likelihood ratios, decision curves, Hosmer–Lemeshow) and further statistical tests | | planned for v0.2.0 |
+| `es.sensitivity`, `es.ppv`, `es.lr_positive`, `es.lr_negative`, `es.diagnostic_odds_ratio`, `es.youden_j`, `es.net_benefit`, `es.diagnostic_report`, `es.decision_curve` | Clinical evaluation | v0.2.0 |
+| `es.maximum_calibration_error`, `es.calibration_slope`, `es.calibration_intercept`, `es.hosmer_lemeshow`, `es.calibration_report` | Calibration | v0.2.0 |
+| `es.t_test`, `es.paired_t_test`, `es.mann_whitney_test`, `es.wilcoxon_test`, `es.kruskal_wallis_test`, `es.friedman_test`, `es.shapiro_wilk_test`, `es.chi_square_test`, `es.fisher_exact_test`, `es.cramers_v` | Hypothesis tests and effect sizes | v0.2.0 |
+| `es.plot.decision_curve` | Decision curve figure | v0.2.0 |
 | Segmentation and detection | | planned for v0.3.0 |
 
 ## Common signature

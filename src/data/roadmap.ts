@@ -40,17 +40,17 @@ export const ROADMAP: RoadmapRelease[] = [
     version: "v0.2.0",
     title: "Clinical and statistics",
     summary:
-      "Diagnostic and calibration metrics, uncertainty quantification, and statistical testing. Items marked implemented shipped early, in v0.1.0.",
-    status: "in-development",
+      "Released 8 October 2026. Diagnostic and calibration metrics, uncertainty quantification, and statistical testing.",
+    status: "implemented",
     groups: [
       {
         title: "Clinical",
         items: [
-          p("Clinical metrics"),
-          done("Calibration curve and ECE"),
-          p("Hosmer–Lemeshow"),
-          p("Decision curve analysis"),
-        ],
+          "Clinical metrics",
+          "Calibration curve and ECE",
+          "Hosmer–Lemeshow",
+          "Decision curve analysis",
+        ].map(done),
       },
       {
         title: "Uncertainty",
@@ -59,11 +59,11 @@ export const ROADMAP: RoadmapRelease[] = [
       {
         title: "Statistics",
         items: [
-          done("Paired tests (McNemar, DeLong, paired bootstrap)"),
-          p("Further statistical tests"),
-          done("Effect sizes (Cohen's d, Hedges' g, Cliff's delta)"),
-          done("Multiple-testing corrections"),
-        ],
+          "Paired tests (McNemar, DeLong, paired bootstrap)",
+          "Further statistical tests",
+          "Effect sizes (Cohen's d, Hedges' g, Cliff's delta, Cramér's V)",
+          "Multiple-testing corrections",
+        ].map(done),
       },
     ],
   },
