@@ -10,7 +10,7 @@ export function RoadmapTimeline({ compact = false }: { compact?: boolean }) {
           key={release.version}
           className={cn(
             "relative rounded-xl border border-border bg-surface p-6",
-            release.status === "planned" && "lg:col-span-3",
+            release.status !== "implemented" && "lg:col-span-3",
           )}
         >
           <div className="flex items-center justify-between gap-3">
@@ -19,7 +19,7 @@ export function RoadmapTimeline({ compact = false }: { compact?: boolean }) {
           </div>
           <h3 className="mt-3 text-xl font-bold">{release.title}</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{release.summary}</p>
-          {release.status === "planned" ? (
+          {release.status !== "implemented" ? (
             <p className="mt-2 text-xs text-muted-foreground">
               {release.groups.length} areas,{" "}
               {release.groups.reduce((n, g) => n + g.items.length, 0)} metrics planned
@@ -28,7 +28,7 @@ export function RoadmapTimeline({ compact = false }: { compact?: boolean }) {
           <div
             className={cn(
               "mt-5",
-              release.status === "planned"
+              release.status !== "implemented"
                 ? "grid gap-x-8 gap-y-5 sm:grid-cols-2 xl:grid-cols-4"
                 : "space-y-4",
               compact && "hidden",

@@ -8,13 +8,13 @@ describe("roadmap", () => {
       "v0.1.0": "implemented",
       "v0.2.0": "implemented",
       "v0.3.0": "implemented",
-      "v0.4.0": "planned",
+      "v0.4.0": "in-development",
       "v0.5.0": "planned",
     });
   });
 
   it("carries the LLM evaluation plan: 15 areas, 156 metrics, all planned", () => {
-    const planned = ROADMAP.filter((r) => r.status === "planned");
+    const planned = ROADMAP.filter((r) => r.status !== "implemented");
     const groups = planned.flatMap((r) => r.groups);
     expect(groups).toHaveLength(15);
     expect(groups.reduce((n, g) => n + g.items.length, 0)).toBe(156);

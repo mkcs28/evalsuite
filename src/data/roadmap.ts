@@ -93,8 +93,8 @@ export const ROADMAP: RoadmapRelease[] = [
     version: "v0.4.0",
     title: "LLM evaluation",
     summary:
-      "Planned. Text generation, semantic similarity, factuality and hallucination, LLM-as-a-judge, reasoning benchmarks, retrieval-augmented generation and structured output, with the same intervals, comparison, plots and reports as every other task.",
-    status: "planned",
+      "In development. Text generation, semantic similarity, factuality and hallucination, LLM-as-a-judge, reasoning benchmarks, retrieval-augmented generation and structured output, with the same intervals, comparison, plots and reports as every other task.",
+    status: "in-development",
     groups: [
       {
         title: "Text generation and language quality",
