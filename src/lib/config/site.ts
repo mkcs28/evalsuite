@@ -51,7 +51,7 @@ export const siteConfig: SiteConfig = {
   url: optionalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000",
   package: {
     latestRelease: "v0.3.1",
-    nextRelease: "v0.3.1",
+    nextRelease: "v0.4.0",
     status: "implemented",
   },
   links: {
