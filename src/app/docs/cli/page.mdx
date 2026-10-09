@@ -21,6 +21,22 @@ evalsuite plot roc predictions.csv --y-true label --y-prob prob -o roc.png
 evalsuite benchmark --quick
 `} />
 
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.2.0" code={`
+evalsuite diagnostic predictions.csv --y-true label --y-pred pred
+evalsuite calibration predictions.csv --y-true label --y-prob prob
+evalsuite plot decision predictions.csv --y-true label --y-prob prob -o decision.png
+evalsuite benchmark --suite clinical
+`} />
+
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.3.0" code={`
+evalsuite segmentation truth.npy pred.npy --num-classes 3 --ignore-index 255
+evalsuite segmentation truth_dir/ pred_dir/ --spacing 0.8,0.8 --aggregate image --plot per_class.png
+evalsuite detection instances_val.json detections.json -o detection.html --plot pr.png
+evalsuite benchmark --suite vision
+`} />
+
+Segmentation masks are read from `.npy` or `.npz` files, or from folders of PNG masks with the `vision` extra. Detection reads COCO JSON: the ground-truth annotations file and a results list.
+
 ## Behaviour
 
 - `--help` is available on every command.

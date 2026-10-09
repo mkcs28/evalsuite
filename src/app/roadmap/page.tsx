@@ -7,7 +7,7 @@ import { WEBSITE_MILESTONES } from "@/data/roadmap";
 
 export const metadata: Metadata = {
   title: "Roadmap",
-  description: "EvalSuite releases: v0.1.0 and v0.2.0 (released), v0.3.0 next.",
+  description: "EvalSuite releases v0.1.0, v0.2.0 and v0.3.0, all released.",
   alternates: { canonical: "/roadmap" },
 };
 
@@ -16,8 +16,7 @@ export default function RoadmapPage() {
     <>
       <PageHeader title="Roadmap">
         EvalSuite is built in three releases, each shipped with tests, documentation and a PyPI
-        build. v0.1.0 and v0.2.0 are released (current version {siteConfig.package.latestRelease});
-        v0.3.0 is next.
+        build. All three are released (current version {siteConfig.package.latestRelease}).
       </PageHeader>
       <div className="mx-auto max-w-[1680px] px-4 pt-12 sm:px-6">
         <h2 className="sr-only">Package releases</h2>

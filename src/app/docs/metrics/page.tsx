@@ -6,7 +6,7 @@ import { registry } from "@/lib/metrics/registry";
 export const metadata: Metadata = {
   title: "Metric reference",
   description:
-    "Searchable reference of every EvalSuite metric, implemented and planned, with formulas, assumptions and references.",
+    "Searchable reference of every EvalSuite metric, with formulas, assumptions and references.",
   alternates: { canonical: "/docs/metrics" },
 };
 
@@ -15,9 +15,8 @@ export default function MetricsPage() {
     <div>
       <h1 className="text-[clamp(2rem,3vw,2.5rem)] font-bold tracking-tight">Metric reference</h1>
       <p className="mt-3 max-w-2xl leading-relaxed text-muted-foreground">
-        Every metric in EvalSuite, with its formula, assumptions and references. Metrics marked
-        implemented are in the released package and show a call you can run; the rest show the
-        release they are planned for.
+        Every metric in EvalSuite, with its formula, assumptions and references, the release it
+        shipped in and a call you can run against the released package.
       </p>
       <div className="mt-8">
         <Suspense

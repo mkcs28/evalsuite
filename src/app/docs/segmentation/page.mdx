@@ -1,22 +1,57 @@
-export const metadata = { title: "Segmentation", description: "Semantic segmentation overlap, boundary, and surface metrics in EvalSuite.", alternates: { canonical: "/docs/segmentation" } };
+export const metadata = { title: "Segmentation", description: "Semantic segmentation overlap, boundary and surface metrics in EvalSuite: Dice, IoU, mIoU, Boundary IoU, Hausdorff distance, HD95 and ASSD.", alternates: { canonical: "/docs/segmentation" } };
 
 # Segmentation
 
-<StatusBadge status="planned" label="Planned for v0.3.0" />
+<StatusBadge status="implemented" label="Available since v0.3.0" />
 
-Binary, multiclass, and multilabel segmentation masks are planned, with `ignore_index`, class weights, per-class output, and macro or global averaging.
+Label masks are integer arrays: one 2-D image, a stack of images on the first axis (`(N, H, W)` or 3-D volumes `(N, D, H, W)`), or a list of masks of different sizes. Every function accepts `num_classes`, `ignore_index`, `average` (`"macro"`, `"micro"`, `"weighted"` or `None` for per-class) and `aggregate` (`"dataset"` sums pixel counts over all images; `"image"` averages per-image scores, the usual medical-imaging convention).
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+<CodeBlock lang="python" code={`
+import numpy as np
 import evalsuite as es
 
-es.segmentation.dice(mask_true, mask_pred, num_classes=4, ignore_index=255, empty="nan")
-es.segmentation.miou(mask_true, mask_pred, num_classes=4)
-es.segmentation.hausdorff(mask_true, mask_pred, spacing=(0.8, 0.8))
+rng = np.random.default_rng(0)
+y_true = rng.integers(0, 3, size=(4, 64, 64))
+y_pred = np.where(rng.random((4, 64, 64)) < 0.9, y_true, rng.integers(0, 3, size=(4, 64, 64)))
+
+es.dice(y_true, y_pred)                          # 0.935, macro over classes
+es.iou(y_true, y_pred, average=None)             # per class; classes absent from both are NaN
+es.miou(y_true, y_pred, ignore_index=255)
+es.dice(y_true, y_pred, aggregate="image")       # mean of per-image scores
+es.pixel_accuracy(y_true, y_pred)
+es.mean_pixel_accuracy(y_true, y_pred)
 `} />
+
+## Boundary and surface metrics
+
+<CodeBlock lang="python" code={`
+es.boundary_iou(y_true, y_pred, dilation_ratio=0.02)           # Cheng et al. 2021
+es.hausdorff_distance(y_true, y_pred)                          # maximum surface distance
+es.hausdorff_distance(y_true, y_pred, percentile=95, spacing=(0.8, 0.8))  # HD95 in mm
+es.average_surface_distance(y_true, y_pred, spacing=(0.8, 0.8))          # ASSD
+`} />
+
+Surfaces are the mask pixels with a face-connected background neighbour; distances use the exact Euclidean distance transform and respect anisotropic `spacing`, so 3-D CT and MRI volumes give physical distances. HD95 takes the 95th percentile of each directed set of distances and then the larger of the two, as in MONAI and the Medical Segmentation Decathlon. Results match SciPy&apos;s `directed_hausdorff`.
+
+## Report, plots and comparison
+
+<CodeBlock lang="python" code={`
+report = es.segmentation_report(y_true, y_pred, class_names={0: "background", 1: "liver", 2: "tumour"})
+print(report)            # mIoU, Dice, pixel accuracy, Boundary IoU, HD95, ASSD + per-class table
+report.save("seg.html")  # also .csv, .md, .tex, .json
+
+es.plot.segmentation(image, y_true[0], y_pred[0])   # prediction fill, truth outline
+es.plot.per_class(report, metric="iou")              # per-class bars
+
+es.compare(y_true, {"unet": masks_a, "deeplab": masks_b})  # resamples images; paired tests
+es.bootstrap_ci(es.dice, y_true, y_pred)                     # interval over images
+`} />
+
+From the command line: `evalsuite segmentation truth.npy pred.npy --num-classes 3 --ignore-index 255 --plot overlay.png`. Folders of PNG masks are read with the `vision` extra (`pip install "evalsuite-python[vision]"`).
 
 ## Empty masks
 
-When both the prediction and the ground truth are empty for a class, overlap metrics are 0/0. Different libraries return 1, 0, or NaN. EvalSuite requires an explicit `empty` policy and records it in the result, because the choice can change mean scores substantially.
+When both the prediction and the ground truth are empty for a class, overlap metrics are 0/0. Different libraries return 1, 0 or NaN. EvalSuite leaves such classes out of the average by default (`empty="ignore"`, reported as NaN per class) and lets you set an explicit value, such as `empty=1.0`, which is recorded in the result.
 
 ## Metrics
 

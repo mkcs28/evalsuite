@@ -1,19 +1,37 @@
-export const metadata = { title: "Object detection", description: "IoU, AP, and mAP for object detection in EvalSuite.", alternates: { canonical: "/docs/detection" } };
+export const metadata = { title: "Object detection", description: "Box IoU, AP and mAP for object detection in EvalSuite, identical to pycocotools.", alternates: { canonical: "/docs/detection" } };
 
 # Object detection
 
-<StatusBadge status="planned" label="Planned for v0.3.0" />
+<StatusBadge status="implemented" label="Available since v0.3.0" />
 
-<CodeBlock lang="python" status="planned" statusLabel="Planned API" code={`
+Ground truth and predictions are one dict per image. Boxes are `xyxy` by default (`box_format="xywh"` or `"cxcywh"` for others); ground truth may carry `iscrowd` and `area`.
+
+<CodeBlock lang="python" code={`
 import evalsuite as es
 
-result = es.detection.map(ground_truth, predictions, iou_thresholds="coco")
-result.map50, result.map75, result.map50_95, result.per_class_ap
+y_true = [{"boxes": [[10, 10, 50, 50], [60, 60, 100, 100]], "labels": [1, 2]}]
+y_pred = [{"boxes": [[12, 11, 49, 52], [58, 61, 99, 102], [0, 0, 5, 5]],
+           "labels": [1, 2, 1], "scores": [0.9, 0.8, 0.3]}]
+
+report = es.detection_report(y_true, y_pred)   # the 12 COCO numbers + AP per class
+report["map"], report["map_50"], report["mar_100"]   # 0.80, 1.00, 0.80
+print(report)
+report.save("detection.html")                  # also .csv, .md, .tex, .json
+
+es.mean_average_precision(y_true, y_pred, iou_threshold=0.5)          # mAP@.50
+es.average_precision_detection(y_true, y_pred, interpolation="voc")   # per class, VOC style
+es.box_iou(boxes_a, boxes_b, box_format="xywh")
+y_true, y_pred = es.from_coco("instances_val.json", "detections.json")
+es.plot.detection_pr(y_true, y_pred)
 `} />
 
 ## Evaluation convention
 
-For mAP@[.50:.95], AP is averaged over the ten IoU thresholds 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, and 0.95. Matching, interpolation, and handling of crowd regions differ between the PASCAL VOC and COCO protocols. EvalSuite will state its convention in every result and will not describe itself as COCO-compatible unless it is validated against the reference COCO evaluation.
+mAP@[.50:.95] averages AP over the ten IoU thresholds 0.50, 0.55, …, 0.95 and over classes. EvalSuite follows the COCO protocol exactly: greedy matching by score, crowd regions that absorb matches without counting as false positives, small, medium and large area ranges, 1, 10 and 100 maximum detections, and 101-point interpolated precision. All twelve numbers match `pycocotools` in the test suite. `interpolation="voc"` gives PASCAL VOC all-point AP instead.
+
+## Comparison and command line
+
+`es.compare(y_true, {"yolo": preds_a, "detr": preds_b})` resamples images and compares mAP with paired bootstrap intervals and tests. From the command line: `evalsuite detection instances_val.json detections.json --plot pr.png`.
 
 ## Metrics
 

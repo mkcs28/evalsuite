@@ -1428,8 +1428,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.dice"
+    "status": "implemented",
+    "apiPath": "es.dice",
+    "example": "es.dice(y_true, y_pred)                    # macro over classes\nes.dice(y_true, y_pred, aggregate=\"image\")  # mean of per-image scores"
   },
   {
     "id": "segmentation.iou",
@@ -1451,8 +1452,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.iou"
+    "status": "implemented",
+    "apiPath": "es.iou",
+    "example": "es.iou(y_true, y_pred, average=None)  # per class; absent classes are NaN"
   },
   {
     "id": "segmentation.miou",
@@ -1476,8 +1478,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.miou"
+    "status": "implemented",
+    "apiPath": "es.miou",
+    "example": "es.miou(y_true, y_pred, ignore_index=255)"
   },
   {
     "id": "segmentation.pixel_accuracy",
@@ -1501,8 +1504,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.pixel_accuracy"
+    "status": "implemented",
+    "apiPath": "es.pixel_accuracy",
+    "example": "es.pixel_accuracy(y_true, y_pred, ignore_index=255)\nes.mean_pixel_accuracy(y_true, y_pred)"
   },
   {
     "id": "segmentation.boundary_iou",
@@ -1525,8 +1529,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.boundary_iou"
+    "status": "implemented",
+    "apiPath": "es.boundary_iou",
+    "example": "es.boundary_iou(y_true, y_pred, dilation_ratio=0.02)"
   },
   {
     "id": "segmentation.hausdorff",
@@ -1551,8 +1556,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.segmentation.hausdorff"
+    "status": "implemented",
+    "apiPath": "es.hausdorff_distance",
+    "example": "es.hausdorff_distance(y_true, y_pred)                   # HD\nes.hausdorff_distance(y_true, y_pred, percentile=95, spacing=(0.8, 0.8))  # HD95 in mm\nes.average_surface_distance(y_true, y_pred)"
   },
   {
     "id": "detection.box_iou",
@@ -1572,8 +1578,9 @@
     "limitations": [],
     "references": [],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.detection.box_iou"
+    "status": "implemented",
+    "apiPath": "es.box_iou",
+    "example": "es.box_iou(boxes_a, boxes_b)                    # (n, m) matrix, xyxy\nes.box_iou(boxes_a, boxes_b, box_format=\"xywh\")"
   },
   {
     "id": "detection.average_precision",
@@ -1598,8 +1605,9 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.detection.average_precision"
+    "status": "implemented",
+    "apiPath": "es.average_precision_detection",
+    "example": "es.average_precision_detection(gt, preds, iou_threshold=0.5)  # per class\nes.average_precision_detection(gt, preds, interpolation=\"voc\")"
   },
   {
     "id": "detection.map50_95",
@@ -1623,7 +1631,8 @@
       }
     ],
     "version": "v0.3.0",
-    "status": "planned",
-    "apiPath": "es.detection.map"
+    "status": "implemented",
+    "apiPath": "es.mean_average_precision",
+    "example": "es.mean_average_precision(gt, preds)                     # COCO mAP@[.50:.95]\nes.mean_average_precision(gt, preds, iou_threshold=0.5)  # mAP@.50\nes.detection_report(gt, preds)                           # all 12 COCO numbers"
   }
 ]

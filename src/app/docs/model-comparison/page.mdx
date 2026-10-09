@@ -31,4 +31,13 @@ comparison.save("comparison.html")
 
 The tests are also available on their own: `es.mcnemar_test`, `es.delong_test` and `es.paired_bootstrap_test`. Holm correction is the default (`correction="holm"`; also `bonferroni`, `bh`, `by`).
 
+## Segmentation and detection
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.3.0" code={`
+es.compare(y_true_masks, {"unet": masks_a, "deeplab": masks_b})   # Dice and IoU
+es.compare(y_true_boxes, {"yolo": preds_a, "detr": preds_b})      # mAP@[.50:.95]
+`} />
+
+For masks and detections the resampling unit is the image, not the pixel or box, so intervals and paired tests reflect variation between images.
+
 A significant difference on one test set does not establish that a model is superior in general. Report effect sizes, intervals and the evaluation design alongside any test.

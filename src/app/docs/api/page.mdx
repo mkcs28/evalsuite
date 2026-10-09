@@ -2,7 +2,7 @@ export const metadata = { title: "API reference", description: "Public Python AP
 
 # API reference
 
-<StatusBadge status="implemented" label="evalsuite-python v0.2.1" />
+<StatusBadge status="implemented" label="evalsuite-python v0.3.0" />
 
 Everything is available from the top-level package: `import evalsuite as es`. Run `help(es.f1)` or `es.metric_info("classification.f1")` for full documentation of any function.
 
@@ -26,7 +26,9 @@ Everything is available from the top-level package: `import evalsuite as es`. Ru
 | `es.maximum_calibration_error`, `es.calibration_slope`, `es.calibration_intercept`, `es.hosmer_lemeshow`, `es.calibration_report` | Calibration | v0.2.0 |
 | `es.t_test`, `es.paired_t_test`, `es.mann_whitney_test`, `es.wilcoxon_test`, `es.kruskal_wallis_test`, `es.friedman_test`, `es.shapiro_wilk_test`, `es.chi_square_test`, `es.fisher_exact_test`, `es.cramers_v` | Hypothesis tests and effect sizes | v0.2.0 |
 | `es.plot.decision_curve` | Decision curve figure | v0.2.0 |
-| Segmentation and detection | | planned for v0.3.0 |
+| `es.dice`, `es.iou`, `es.miou`, `es.pixel_accuracy`, `es.mean_pixel_accuracy`, `es.boundary_iou`, `es.hausdorff_distance`, `es.average_surface_distance`, `es.segmentation_confusion`, `es.per_image_scores`, `es.segmentation_report` | Semantic segmentation | v0.3.0 |
+| `es.box_iou`, `es.detection_report`, `es.mean_average_precision`, `es.average_precision_detection`, `es.detection_pr_curve`, `es.from_coco` | Object detection (COCO protocol) | v0.3.0 |
+| `es.plot.segmentation`, `es.plot.per_class`, `es.plot.detection_pr` | Vision figures | v0.3.0 |
 
 ## Common signature
 

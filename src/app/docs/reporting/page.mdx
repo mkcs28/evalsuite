@@ -33,4 +33,6 @@ es.plot.confusion_matrix(y_true, y_pred)
 es.plot.residuals(y_true, y_pred, kind="predicted")
 `} />
 
+Later releases add `es.plot.decision_curve` (v0.2.0) and the vision figures `es.plot.segmentation`, `es.plot.per_class` and `es.plot.detection_pr` (v0.3.0). Segmentation and detection reports export to the same formats with `save()`.
+
 HTML reports contain no scripts and escape all text. Raw predictions are never included.

@@ -10,6 +10,7 @@ const row = (feature: string, release: ReleaseTarget, status: Status = "planned"
 });
 const shipped = (feature: string): Row => row(feature, "v0.1.0", "implemented");
 const shipped2 = (feature: string): Row => row(feature, "v0.2.0", "implemented");
+const shipped3 = (feature: string): Row => row(feature, "v0.3.0", "implemented");
 
 export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
@@ -39,11 +40,11 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
     domain: "Computer vision",
     rows: [
-      row("Semantic segmentation", "v0.3.0"),
-      row("Boundary metrics", "v0.3.0"),
-      row("Surface metrics", "v0.3.0"),
-      row("Object detection", "v0.3.0"),
-      row("mAP", "v0.3.0"),
+      shipped3("Semantic segmentation"),
+      shipped3("Boundary metrics"),
+      shipped3("Surface metrics"),
+      shipped3("Object detection"),
+      shipped3("mAP"),
     ],
   },
   {

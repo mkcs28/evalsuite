@@ -13,7 +13,6 @@ export interface RoadmapRelease {
   groups: Array<{ title: string; items: RoadmapItem[] }>;
 }
 
-const p = (label: string): RoadmapItem => ({ label, status: "planned" });
 const done = (label: string): RoadmapItem => ({ label, status: "implemented" });
 
 /** Package roadmap. Statuses change only when work actually lands. */
@@ -71,8 +70,8 @@ export const ROADMAP: RoadmapRelease[] = [
     version: "v0.3.0",
     title: "Computer vision",
     summary:
-      "Segmentation and detection evaluation, with comparison, plotting and reporting extended to every task.",
-    status: "planned",
+      "Released 9 October 2026. Segmentation and detection evaluation, with comparison, plotting and reporting extended to every task.",
+    status: "implemented",
     groups: [
       {
         title: "Vision",
@@ -80,10 +79,13 @@ export const ROADMAP: RoadmapRelease[] = [
           "Semantic segmentation",
           "Boundary and surface metrics",
           "Object detection (AP, mAP)",
-        ].map(p),
+        ].map(done),
       },
-      { title: "Updated for all tasks", items: ["Model comparison", "Plots", "Reporting"].map(p) },
-      { title: "Engineering", items: ["Benchmarks", "CI/CD"].map(p) },
+      {
+        title: "Updated for all tasks",
+        items: ["Model comparison", "Plots", "Reporting"].map(done),
+      },
+      { title: "Engineering", items: ["Benchmarks", "CI/CD"].map(done) },
     ],
   },
 ];

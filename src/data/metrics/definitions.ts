@@ -222,6 +222,57 @@ export const SHIPPED: Record<string, { apiPath: string; example: string; since?:
       example: 'es.adjust_pvalues(p_values, method="hochberg")',
       since: "v0.2.0",
     },
+    "segmentation.dice": {
+      apiPath: "es.dice",
+      example:
+        'es.dice(y_true, y_pred)                    # macro over classes\nes.dice(y_true, y_pred, aggregate="image")  # mean of per-image scores',
+      since: "v0.3.0",
+    },
+    "segmentation.iou": {
+      apiPath: "es.iou",
+      example: "es.iou(y_true, y_pred, average=None)  # per class; absent classes are NaN",
+      since: "v0.3.0",
+    },
+    "segmentation.miou": {
+      apiPath: "es.miou",
+      example: "es.miou(y_true, y_pred, ignore_index=255)",
+      since: "v0.3.0",
+    },
+    "segmentation.pixel_accuracy": {
+      apiPath: "es.pixel_accuracy",
+      example:
+        "es.pixel_accuracy(y_true, y_pred, ignore_index=255)\nes.mean_pixel_accuracy(y_true, y_pred)",
+      since: "v0.3.0",
+    },
+    "segmentation.boundary_iou": {
+      apiPath: "es.boundary_iou",
+      example: "es.boundary_iou(y_true, y_pred, dilation_ratio=0.02)",
+      since: "v0.3.0",
+    },
+    "segmentation.hausdorff": {
+      apiPath: "es.hausdorff_distance",
+      example:
+        "es.hausdorff_distance(y_true, y_pred)                   # HD\nes.hausdorff_distance(y_true, y_pred, percentile=95, spacing=(0.8, 0.8))  # HD95 in mm\nes.average_surface_distance(y_true, y_pred)",
+      since: "v0.3.0",
+    },
+    "detection.box_iou": {
+      apiPath: "es.box_iou",
+      example:
+        'es.box_iou(boxes_a, boxes_b)                    # (n, m) matrix, xyxy\nes.box_iou(boxes_a, boxes_b, box_format="xywh")',
+      since: "v0.3.0",
+    },
+    "detection.average_precision": {
+      apiPath: "es.average_precision_detection",
+      example:
+        'es.average_precision_detection(gt, preds, iou_threshold=0.5)  # per class\nes.average_precision_detection(gt, preds, interpolation="voc")',
+      since: "v0.3.0",
+    },
+    "detection.map50_95": {
+      apiPath: "es.mean_average_precision",
+      example:
+        "es.mean_average_precision(gt, preds)                     # COCO mAP@[.50:.95]\nes.mean_average_precision(gt, preds, iou_threshold=0.5)  # mAP@.50\nes.detection_report(gt, preds)                           # all 12 COCO numbers",
+      since: "v0.3.0",
+    },
   };
 
 export const SHIPPED_IN_V010 = new Set<string>(

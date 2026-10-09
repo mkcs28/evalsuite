@@ -14,6 +14,30 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.3.0",
+    date: "2026-10-09",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Segmentation: Dice, IoU, mIoU, pixel accuracy, mean pixel accuracy, Boundary IoU, Hausdorff distance and HD95, average symmetric surface distance (with pixel spacing) and segmentation_report; 2-D and 3-D masks, ignore_index, dataset or per-image aggregation.",
+          "Object detection: box IoU, detection_report with the 12 COCO numbers and AP per class, mean_average_precision, per-class AP (COCO or VOC interpolation), precision-recall curves and COCO file import; matches pycocotools exactly.",
+          "Model comparison, bootstrap intervals and paired tests over images for segmentation and detection.",
+          "Plots: segmentation overlay, per-class bars, detection precision-recall curves. CLI: evalsuite segmentation and evalsuite detection.",
+          "Vision benchmark suite against scikit-learn, SciPy and pycocotools (evalsuite benchmark --suite vision).",
+          "CITATION.cff and a vision extra for reading folders of mask images.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "evaluate() points segmentation masks and detection annotations to the right functions.",
+          "CI and release workflows use the Node 24 versions of the GitHub actions; the CLI is safe on non-UTF-8 consoles.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.2.1",
     date: "2026-10-09",
     changes: [

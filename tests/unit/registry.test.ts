@@ -31,7 +31,8 @@ describe("metric registry", () => {
     }
     expect(getMetric("clinical.net_benefit")?.status).toBe("implemented");
     expect(getMetric("calibration.calibration_slope")?.version).toBe("v0.2.0");
-    expect(getMetric("segmentation.dice")?.status).toBe("planned");
+    expect(getMetric("segmentation.dice")?.status).toBe("implemented");
+    expect(getMetric("detection.map50_95")?.version).toBe("v0.3.0");
   });
 
   it("round-trips slugs", () => {
