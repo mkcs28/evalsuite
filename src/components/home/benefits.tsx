@@ -9,15 +9,15 @@ import {
   ShieldCheck,
   Sigma,
   Timer,
-  type LucideIcon,
-} from "lucide-react";
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/status-badge";
 
 /**
  * Benefits of the design. The speed claim is backed by the published benchmarks
  * (see /benchmarks); the rest describe behaviour of the released package.
  */
-const OUTCOMES: Array<{ icon: LucideIcon; title: string; text: string }> = [
+const OUTCOMES: Array<{ icon: MaterialIcon; title: string; text: string }> = [
   {
     icon: ShieldCheck,
     title: "Fewer silent errors",
@@ -40,7 +40,7 @@ const OUTCOMES: Array<{ icon: LucideIcon; title: string; text: string }> = [
   },
 ];
 
-const AUDIENCES: Array<{ icon: LucideIcon; who: string; gets: string[] }> = [
+const AUDIENCES: Array<{ icon: MaterialIcon; who: string; gets: string[] }> = [
   {
     icon: Microscope,
     who: "ML researchers",

@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarClock, Gauge, Loader2 } from "lucide-react";
+import { CalendarClock, Gauge, Loader2 } from "@/components/ui/icons";
 import { useEffect, useState } from "react";
 
 const TEST_FILE = "/speedtest.bin";

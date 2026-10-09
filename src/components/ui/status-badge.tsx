@@ -4,12 +4,12 @@ import {
   Clock3,
   FlaskConical,
   Wrench,
-  type LucideIcon,
-} from "lucide-react";
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import { STATUS_LABEL, type Status } from "@/types/status";
 import { cn } from "@/lib/utils/cn";
 
-const STYLE: Record<Status, { icon: LucideIcon; className: string }> = {
+const STYLE: Record<Status, { icon: MaterialIcon; className: string }> = {
   implemented: { icon: CheckCircle2, className: "text-success border-success/35 bg-success/8" },
   demo: { icon: FlaskConical, className: "text-info border-info/35 bg-info/8" },
   "in-development": { icon: Wrench, className: "text-warning border-warning/35 bg-warning/8" },

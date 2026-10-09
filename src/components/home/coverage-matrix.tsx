@@ -1,4 +1,11 @@
-import { Activity, BarChart3, Brain, FileOutput, ScanLine, type LucideIcon } from "lucide-react";
+import {
+  Activity,
+  BarChart3,
+  Brain,
+  FileOutput,
+  ScanLine,
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/status-badge";
 import type { ReleaseTarget, Status } from "@/types/status";
 
@@ -59,7 +66,7 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   },
 ];
 
-const ICONS: Record<string, LucideIcon> = {
+const ICONS: Record<string, MaterialIcon> = {
   "Machine learning": Brain,
   Clinical: Activity,
   Statistics: BarChart3,

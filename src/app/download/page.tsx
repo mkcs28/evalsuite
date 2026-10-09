@@ -1,4 +1,4 @@
-import { FileArchive, FileCheck2 } from "lucide-react";
+import { FileArchive, FileCheck2 } from "@/components/ui/icons";
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code/code-block";
 import { DownloadGate } from "@/components/download/download-gate";

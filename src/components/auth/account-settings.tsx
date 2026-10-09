@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, TriangleAlert } from "lucide-react";
+import { ShieldCheck, TriangleAlert } from "@/components/ui/icons";
 import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { buttonClass } from "@/components/ui/button-link";

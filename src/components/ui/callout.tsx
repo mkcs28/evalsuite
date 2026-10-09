@@ -1,10 +1,10 @@
-import { AlertTriangle, Info, ShieldAlert, type LucideIcon } from "lucide-react";
+import { AlertTriangle, Info, ShieldAlert, type MaterialIcon } from "@/components/ui/icons";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type Tone = "info" | "warning" | "privacy";
 
-const TONE: Record<Tone, { icon: LucideIcon; className: string; label: string }> = {
+const TONE: Record<Tone, { icon: MaterialIcon; className: string; label: string }> = {
   info: { icon: Info, className: "border-info/30 bg-info/6", label: "Note" },
   warning: { icon: AlertTriangle, className: "border-warning/35 bg-warning/6", label: "Caution" },
   privacy: { icon: ShieldAlert, className: "border-danger/30 bg-danger/5", label: "Data privacy" },

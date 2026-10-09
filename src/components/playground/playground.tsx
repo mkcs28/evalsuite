@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, FlaskConical, Play } from "lucide-react";
+import { Download, FlaskConical, Play } from "@/components/ui/icons";
 import dynamic from "next/dynamic";
 import { useId, useMemo, useRef, useState } from "react";
 import { Callout } from "@/components/ui/callout";

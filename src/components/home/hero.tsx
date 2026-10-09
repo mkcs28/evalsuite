@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles } from "@/components/ui/icons";
 import { CodeBlock } from "@/components/code/code-block";
 import { DownloadButton } from "@/components/download/download-button";
 import { InstallCommand } from "@/components/download/install-command";

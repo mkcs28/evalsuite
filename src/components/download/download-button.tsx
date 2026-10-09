@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { Download } from "@/components/ui/icons";
 import Link from "next/link";
 import { buttonClass } from "@/components/ui/button-link";
 import { latestRelease } from "@/lib/downloads/manifest";

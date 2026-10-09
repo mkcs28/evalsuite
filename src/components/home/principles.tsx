@@ -9,11 +9,11 @@ import {
   ScanLine,
   ShieldCheck,
   Sigma,
-  type LucideIcon,
-} from "lucide-react";
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import { cn } from "@/lib/utils/cn";
 
-const PRINCIPLES: Array<{ name: string; text: string; icon: LucideIcon; wide?: boolean }> = [
+const PRINCIPLES: Array<{ name: string; text: string; icon: MaterialIcon; wide?: boolean }> = [
   {
     name: "Unified API",
     text: "Low-level functions such as es.classification.f1 and a high-level es.evaluate share one parameter convention and one result type.",

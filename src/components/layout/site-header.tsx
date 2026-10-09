@@ -1,6 +1,18 @@
 "use client";
 
-import { Menu, Search, X } from "lucide-react";
+import {
+  BarChart3,
+  Download,
+  FlaskConical,
+  Map,
+  Menu,
+  MenuBook,
+  PlayCircle,
+  Search,
+  Sigma,
+  X,
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,6 +25,17 @@ import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 import { useAuth } from "@/components/auth/auth-provider";
 
+/** Material Symbols icon for each main navigation link. */
+export const NAV_ICONS: Record<string, MaterialIcon> = {
+  "/docs": MenuBook,
+  "/docs/metrics": Sigma,
+  "/playground": PlayCircle,
+  "/benchmarks": BarChart3,
+  "/research": FlaskConical,
+  "/roadmap": Map,
+  "/download": Download,
+};
+
 const SearchDialog = dynamic(() => import("./search-dialog"), { ssr: false });
 
 export function isActive(pathname: string, href: string): boolean {
@@ -22,6 +45,11 @@ export function isActive(pathname: string, href: string): boolean {
       (pathname.startsWith("/docs/") && !pathname.startsWith("/docs/metrics"))
     );
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavIcon({ href, className }: { href: string; className: string }) {
+  const Icon = NAV_ICONS[href];
+  return Icon ? <Icon aria-hidden className={cn("shrink-0", className)} /> : null;
 }
 
 export function SiteHeader() {
@@ -78,12 +106,13 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                      "relative inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors",
                       active
                         ? "bg-surface-muted text-foreground"
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
+                    <NavIcon href={item.href} className="size-[18px]" />
                     {item.label}
                     {active ? (
                       <span
@@ -179,12 +208,13 @@ export function SiteHeader() {
                     onClick={() => setMenuOpen(false)}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex border-l-2 px-3 py-2.5 text-[15px] font-medium",
+                      "flex items-center gap-3 border-l-2 px-3 py-2.5 text-[15px] font-medium",
                       active
                         ? "border-primary text-foreground"
                         : "border-transparent text-muted-foreground",
                     )}
                   >
+                    <NavIcon href={item.href} className="size-5" />
                     {item.label}
                   </Link>
                 </li>

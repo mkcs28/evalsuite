@@ -16,8 +16,8 @@ import {
   Trash2,
   TriangleAlert,
   UserRound,
-  type LucideIcon,
-} from "lucide-react";
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useState } from "react";
 import { buttonClass } from "@/components/ui/button-link";
@@ -59,7 +59,7 @@ function Card({
   className,
 }: {
   title: string;
-  icon: LucideIcon;
+  icon: MaterialIcon;
   action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;

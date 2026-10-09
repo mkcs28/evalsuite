@@ -1,6 +1,6 @@
 "use client";
 
-import { Users } from "lucide-react";
+import { Users } from "@/components/ui/icons";
 import { useEffect, useState } from "react";
 import { apiBaseUrl } from "@/lib/api";
 

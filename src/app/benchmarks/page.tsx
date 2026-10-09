@@ -539,6 +539,116 @@ const COLUMNS = [
   "Max |difference|",
 ];
 
+const SIZES = ["1,000", "100,000", "1,000,000"] as const;
+const num = (n: string) => Number(n.replace(/,/g, ""));
+
+/** Rows ordered alphabetically by case, then by size. */
+function sortRows(rows: Row[]): Row[] {
+  return [...rows].sort(
+    (a, b) => a.case.localeCompare(b.case, "en", { sensitivity: "base" }) || num(a.n) - num(b.n),
+  );
+}
+
+type OverallRow = {
+  case: string;
+  release: string;
+  reference: string;
+  speedups: Record<string, string>;
+  diff: string;
+};
+
+/** One row per case across every release, alphabetical, with the speed-up at each size. */
+function overallRows(): OverallRow[] {
+  const groups: Array<[string, Row[]]> = [
+    ["v0.1", CORE],
+    ["v0.2", CLINICAL],
+    ["v0.3", VISION],
+  ];
+  const byCase = new Map<string, OverallRow>();
+  for (const [release, rows] of groups) {
+    for (const r of rows) {
+      const key = r.case.replace(/\s*\(\d+ images?\)$/, "");
+      const row = byCase.get(key) ?? {
+        case: key,
+        release,
+        reference: r.reference,
+        speedups: {},
+        diff: "0",
+      };
+      row.speedups[r.n] = r.speedup;
+      if (Number(r.diff) > Number(row.diff)) row.diff = r.diff;
+      byCase.set(key, row);
+    }
+  }
+  return [...byCase.values()].sort((a, b) =>
+    a.case.localeCompare(b.case, "en", { sensitivity: "base" }),
+  );
+}
+
+function OverallTable() {
+  const rows = overallRows();
+  const all = [...CORE, ...CLINICAL, ...VISION];
+  const faster = all.filter((r) => Number(r.speedup.replace("×", "")) >= 1).length;
+  return (
+    <div className="mt-8 overflow-x-auto rounded-lg border border-border">
+      <table className="w-full min-w-[900px] text-sm">
+        <caption className="border-b border-border-subtle px-4 py-3 text-left">
+          <span className="font-semibold">Overall: every case, all releases</span>
+          <span className="ml-2 text-muted-foreground">
+            {rows.length} cases, {all.length} measurements; all agree with the reference; EvalSuite
+            is faster in {faster} of {all.length}
+          </span>
+        </caption>
+        <thead className="bg-surface-muted/70 text-left">
+          <tr>
+            <th scope="col" className="px-4 py-2.5 font-semibold">
+              Case
+            </th>
+            <th scope="col" className="px-4 py-2.5 font-semibold">
+              Release
+            </th>
+            <th scope="col" className="px-4 py-2.5 font-semibold">
+              Reference
+            </th>
+            {SIZES.map((n) => (
+              <th key={n} scope="col" className="px-4 py-2.5 text-right font-semibold">
+                Speed-up, n = {n}
+              </th>
+            ))}
+            <th scope="col" className="px-4 py-2.5 text-right font-semibold">
+              Max |difference|
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.case} className="border-t border-border-subtle">
+              <th scope="row" className="px-4 py-2 text-left font-medium">
+                {r.case}
+              </th>
+              <td className="px-4 py-2">{r.release}</td>
+              <td className="px-4 py-2">{r.reference}</td>
+              {SIZES.map((n) => {
+                const v = r.speedups[n];
+                const fast = v ? Number(v.replace("×", "")) >= 1 : false;
+                return (
+                  <td
+                    key={n}
+                    className={`px-4 py-2 text-right font-semibold tabular-nums ${fast ? "text-primary" : "text-muted-foreground"}`}
+                  >
+                    {v ?? "–"}
+                  </td>
+                );
+              })}
+              <td className="px-4 py-2 text-right tabular-nums text-muted-foreground">{r.diff}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function ResultsTable({ caption, rows }: { caption: string; rows: Row[] }) {
   return (
     <div className="mt-8 overflow-x-auto rounded-lg border border-border">
@@ -560,7 +670,7 @@ function ResultsTable({ caption, rows }: { caption: string; rows: Row[] }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
+          {sortRows(rows).map((r) => (
             <tr key={`${r.case}-${r.n}`} className="border-t border-border-subtle">
               <th scope="row" className="px-4 py-2 text-left font-medium">
                 {r.case}
@@ -598,9 +708,13 @@ export default function BenchmarksPage() {
             EvalSuite 0.3.0, Python 3.12.3, NumPy 2.5.3, SciPy 1.18.1, scikit-learn 1.9.1,
             statsmodels 0.15.0, pycocotools 2.0.11, Linux x86_64. Fastest of 5 runs after a warm-up;
             peak memory measured with <code>tracemalloc</code>. Speed-up above 1 means EvalSuite is
-            faster. Each row names the reference implementation it is compared with.
+            faster. Each row names the reference implementation it is compared with. The same
+            results (every answer matching the reference) were reproduced on Windows with Python
+            3.14.
           </p>
         </Callout>
+
+        <OverallTable />
 
         <ResultsTable
           caption="Classification and regression (v0.1) against scikit-learn"

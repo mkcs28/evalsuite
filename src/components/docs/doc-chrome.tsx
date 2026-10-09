@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { docNeighbours, docTitle } from "@/lib/docs/nav";

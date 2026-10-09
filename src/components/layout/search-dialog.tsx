@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Search, Sigma } from "lucide-react";
+import { FileText, Search, Sigma } from "@/components/ui/icons";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { searchSite } from "@/lib/search";

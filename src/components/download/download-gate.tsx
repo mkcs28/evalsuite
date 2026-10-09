@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, LockKeyhole, MailCheck, ShieldCheck } from "lucide-react";
+import { Download, LockKeyhole, MailCheck, ShieldCheck } from "@/components/ui/icons";
 import { useEffect, useId, useState } from "react";
 import { buttonClass } from "@/components/ui/button-link";
 import { apiBaseUrl } from "@/lib/api";

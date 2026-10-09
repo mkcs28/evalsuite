@@ -1,4 +1,4 @@
-import { Terminal } from "lucide-react";
+import { Terminal } from "@/components/ui/icons";
 import { CopyAction } from "@/components/ui/copy-action";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { siteConfig } from "@/lib/config/site";

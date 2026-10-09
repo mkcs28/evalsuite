@@ -1,4 +1,4 @@
-import { Boxes, Calculator, FlaskConical, Layers, ScanSearch, Sigma } from "lucide-react";
+import { Boxes, Calculator, FlaskConical, Layers, ScanSearch, Sigma } from "@/components/ui/icons";
 
 const TOOLS = [
   { name: "scikit-learn", role: "Classification and regression metrics", icon: Calculator },
