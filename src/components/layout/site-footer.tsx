@@ -2,10 +2,33 @@ import Link from "next/link";
 import { packageStateLabel, siteConfig } from "@/lib/config/site";
 import { ResourceLink } from "@/components/ui/resource-link";
 import { StatusBadge } from "@/components/ui/status-badge";
+import {
+  Api,
+  BarChart3,
+  BugReport,
+  Code,
+  FlaskConical,
+  Forum,
+  History,
+  Info,
+  Lightbulb,
+  Map,
+  Package2,
+  PlayCircle,
+  RocketLaunch,
+  Sigma,
+  type MaterialIcon,
+} from "@/components/ui/icons";
 import { FooterStatus } from "./footer-status";
 import { Logo } from "./logo";
 
-type FooterLink = { label: string; href: string | null; pending?: string; external?: boolean };
+type FooterLink = {
+  label: string;
+  href: string | null;
+  icon: MaterialIcon;
+  pending?: string;
+  external?: boolean;
+};
 
 export function SiteFooter() {
   const { links } = siteConfig;
@@ -13,26 +36,26 @@ export function SiteFooter() {
     {
       title: "Documentation",
       links: [
-        { label: "Getting started", href: "/docs/getting-started" },
-        { label: "Core concepts", href: "/docs/concepts" },
-        { label: "Metric reference", href: "/docs/metrics" },
-        { label: "API reference", href: "/docs/api" },
+        { label: "Getting started", icon: RocketLaunch, href: "/docs/getting-started" },
+        { label: "Core concepts", icon: Lightbulb, href: "/docs/concepts" },
+        { label: "Metric reference", icon: Sigma, href: "/docs/metrics" },
+        { label: "API reference", icon: Api, href: "/docs/api" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { label: "Playground", href: "/playground" },
-        { label: "Benchmarks", href: "/benchmarks" },
-        { label: "Release notes", href: "/release-notes" },
+        { label: "Playground", icon: PlayCircle, href: "/playground" },
+        { label: "Benchmarks", icon: BarChart3, href: "/benchmarks" },
+        { label: "Release notes", icon: History, href: "/release-notes" },
       ],
     },
     {
       title: "Research",
       links: [
-        { label: "Methodology", href: "/research" },
-        { label: "Roadmap", href: "/roadmap" },
-        { label: "About", href: "/about" },
+        { label: "Methodology", icon: FlaskConical, href: "/research" },
+        { label: "Roadmap", icon: Map, href: "/roadmap" },
+        { label: "About", icon: Info, href: "/about" },
       ],
     },
     {
@@ -40,23 +63,26 @@ export function SiteFooter() {
       links: [
         {
           label: "GitHub",
+          icon: Code,
           href: links.repository,
           pending: "Repository link not yet published",
           external: true,
         },
         {
           label: "Issues",
+          icon: BugReport,
           href: links.issues,
           pending: "Available once the repository is public",
           external: true,
         },
         {
           label: "Discussions",
+          icon: Forum,
           href: links.discussions,
           pending: "Available once the repository is public",
           external: true,
         },
-        { label: "PyPI", href: links.pypi, pending: "PyPI", external: true },
+        { label: "PyPI", icon: Package2, href: links.pypi, pending: "PyPI", external: true },
       ],
     },
   ];
@@ -82,16 +108,18 @@ export function SiteFooter() {
                     <ResourceLink
                       href={l.href}
                       pendingLabel={l.pending ?? "Not yet available"}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"
                     >
+                      <l.icon aria-hidden className="size-4 shrink-0" />
                       {l.label}
                       {l.href ? null : <span className="ml-1.5 text-xs">(pending)</span>}
                     </ResourceLink>
                   ) : (
                     <Link
                       href={l.href ?? "/"}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"
                     >
+                      <l.icon aria-hidden className="size-4 shrink-0" />
                       {l.label}
                     </Link>
                   )}

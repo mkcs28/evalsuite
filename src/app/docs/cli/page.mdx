@@ -33,6 +33,7 @@ evalsuite segmentation truth.npy pred.npy --num-classes 3 --ignore-index 255
 evalsuite segmentation truth_dir/ pred_dir/ --spacing 0.8,0.8 --aggregate image --plot per_class.png
 evalsuite detection instances_val.json detections.json -o detection.html --plot pr.png
 evalsuite benchmark --suite vision
+evalsuite benchmark                    # overall summary first, then every case in alphabetical order
 `} />
 
 Segmentation masks are read from `.npy` or `.npz` files, or from folders of PNG masks with the `vision` extra. Detection reads COCO JSON: the ground-truth annotations file and a results list.

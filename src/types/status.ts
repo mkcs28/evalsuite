@@ -20,5 +20,13 @@ export const STATUS_LABEL: Record<Status, string> = {
   "coming-soon": "Coming soon",
 };
 
-export const RELEASES = ["v0.1.0", "v0.1.1", "v0.1.2", "v0.2.0", "v0.2.1", "v0.3.0"] as const;
+export const RELEASES = [
+  "v0.1.0",
+  "v0.1.1",
+  "v0.1.2",
+  "v0.2.0",
+  "v0.2.1",
+  "v0.3.0",
+  "v0.3.1",
+] as const;
 export type ReleaseTarget = (typeof RELEASES)[number];

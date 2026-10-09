@@ -25,7 +25,7 @@ describe("Benefits section", () => {
     ]) {
       expect(screen.getByRole("heading", { level: 4, name: who })).toBeInTheDocument();
     }
-    expect(screen.getByText("Delivered in v0.1.0, extended through v0.3.0")).toBeInTheDocument();
+    expect(screen.getByText("Delivered in v0.1.0, extended through v0.3.1")).toBeInTheDocument();
   });
 
   it("makes no numeric performance claims", () => {

@@ -4,6 +4,50 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DOCS_NAV } from "@/lib/docs/nav";
 import { cn } from "@/lib/utils/cn";
+import {
+  Api,
+  Category,
+  CompareArrows,
+  HealthAndSafety,
+  Home,
+  Lightbulb,
+  QueryStats,
+  RocketLaunch,
+  ScanLine,
+  Sigma,
+  SsidChart,
+  Summarize,
+  Terminal,
+  Texture,
+  TrendingUp,
+  Tune,
+  type MaterialIcon,
+} from "@/components/ui/icons";
+
+/** Material Symbols icon for each documentation page. */
+export const DOC_ICONS: Record<string, MaterialIcon> = {
+  "/docs": Home,
+  "/docs/getting-started": RocketLaunch,
+  "/docs/concepts": Lightbulb,
+  "/docs/metrics": Sigma,
+  "/docs/api": Api,
+  "/docs/cli": Terminal,
+  "/docs/classification": Category,
+  "/docs/regression": TrendingUp,
+  "/docs/clinical": HealthAndSafety,
+  "/docs/calibration": Tune,
+  "/docs/statistics": QueryStats,
+  "/docs/bootstrap": SsidChart,
+  "/docs/model-comparison": CompareArrows,
+  "/docs/segmentation": Texture,
+  "/docs/detection": ScanLine,
+  "/docs/reporting": Summarize,
+};
+
+function DocIcon({ href }: { href: string }) {
+  const Icon = DOC_ICONS[href];
+  return Icon ? <Icon aria-hidden className="size-4 shrink-0" /> : null;
+}
 
 export function DocsSidebar() {
   const pathname = usePathname() ?? "";
@@ -23,12 +67,13 @@ export function DocsSidebar() {
                     href={link.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "-ml-px block border-l-2 px-3 py-1.5 transition-colors",
+                      "-ml-px flex items-center gap-2 border-l-2 px-3 py-1.5 transition-colors",
                       active
                         ? "border-primary font-medium text-foreground"
                         : "border-transparent text-muted-foreground hover:text-foreground",
                     )}
                   >
+                    <DocIcon href={link.href} />
                     {link.title}
                   </Link>
                 </li>

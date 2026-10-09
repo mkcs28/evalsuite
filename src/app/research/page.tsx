@@ -93,7 +93,7 @@ export default function ResearchPage() {
         </Section>
         <Section title="Limitations">
           <p>
-            EvalSuite v0.3.0 covers classification, regression, clinical evaluation, calibration,
+            EvalSuite v0.3.1 covers classification, regression, clinical evaluation, calibration,
             model comparison, statistical testing, segmentation and object detection. It does not
             replace domain expertise, clinical validation or study design. A unified interface
             cannot remove the need to choose metrics that fit the question being asked.

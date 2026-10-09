@@ -13,6 +13,8 @@ InputValidationError: y_true and y_pred must contain the same number of observat
 Received 776 and 775.
 `} />
 
+Labels must use one type throughout: mixing numbers and strings (`[0, "a"]`, or string `y_true` with integer `y_pred`) raises `InputValidationError` rather than silently comparing them as text (since v0.3.1).
+
 Exception types are `EvalSuiteError`, `InputValidationError`, `MetricInputError`, `UnsupportedTaskError`, `OptionalDependencyError`, and `StatisticalTestError`.
 
 ## The evaluation context

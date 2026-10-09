@@ -2,7 +2,12 @@
 
 import {
   BarChart3,
+  Code,
+  Dashboard,
   Download,
+  Login,
+  Package2,
+  RocketLaunch,
   FlaskConical,
   Map,
   Menu,
@@ -61,10 +66,10 @@ export function SiteHeader() {
   const { status } = useAuth();
   const account =
     status === "signed-in"
-      ? { href: "/dashboard", label: "Dashboard" }
+      ? { href: "/dashboard", label: "Dashboard", icon: Dashboard }
       : status === "unconfigured"
         ? null
-        : { href: "/login", label: "Sign in" };
+        : { href: "/login", label: "Sign in", icon: Login };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -149,30 +154,37 @@ export function SiteHeader() {
           <ResourceLink
             href={links.repository}
             pendingLabel="Repository link not yet published"
-            className="hidden px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 2xl:inline"
+            className="hidden items-center gap-1.5 px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 2xl:inline-flex"
           >
+            <Code aria-hidden className="size-[18px] shrink-0" />
             GitHub
           </ResourceLink>
           <ResourceLink
             href={links.pypi}
             pendingLabel="PyPI"
-            className="hidden px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 2xl:inline"
+            className="hidden items-center gap-1.5 px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 2xl:inline-flex"
           >
+            <Package2 aria-hidden className="size-[18px] shrink-0" />
             PyPI
           </ResourceLink>
           <ThemeToggle />
           {account ? (
             <Link
               href={account.href}
-              className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground sm:inline-flex"
+              className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground sm:inline-flex"
             >
+              <account.icon aria-hidden className="size-[18px] shrink-0" />
               {account.label}
             </Link>
           ) : null}
           <Link
             href="/docs/getting-started"
-            className={buttonClass("primary", "ml-1 hidden h-9 rounded-lg px-4 sm:inline-flex")}
+            className={buttonClass(
+              "primary",
+              "ml-1 hidden h-9 gap-1.5 rounded-lg px-4 sm:inline-flex",
+            )}
           >
+            <RocketLaunch aria-hidden className="size-[18px] shrink-0" />
             Get started
           </Link>
           <button
@@ -222,10 +234,20 @@ export function SiteHeader() {
             })}
           </ul>
           <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 px-3 text-sm">
-            <ResourceLink href={links.repository} pendingLabel="Repository link not yet published">
+            <ResourceLink
+              href={links.repository}
+              pendingLabel="Repository link not yet published"
+              className="inline-flex items-center gap-1.5"
+            >
+              <Code aria-hidden className="size-4 shrink-0" />
               GitHub{links.repository ? "" : " (link pending)"}
             </ResourceLink>
-            <ResourceLink href={links.pypi} pendingLabel="PyPI">
+            <ResourceLink
+              href={links.pypi}
+              pendingLabel="PyPI"
+              className="inline-flex items-center gap-1.5"
+            >
+              <Package2 aria-hidden className="size-4 shrink-0" />
               PyPI
             </ResourceLink>
           </div>
@@ -233,16 +255,18 @@ export function SiteHeader() {
             <Link
               href={account.href}
               onClick={() => setMenuOpen(false)}
-              className="mt-3 block px-3 text-sm font-medium"
+              className="mt-3 flex items-center gap-2 px-3 text-sm font-medium"
             >
+              <account.icon aria-hidden className="size-4 shrink-0" />
               {account.label}
             </Link>
           ) : null}
           <Link
             href="/docs/getting-started"
             onClick={() => setMenuOpen(false)}
-            className={buttonClass("primary", "mx-3 mt-4 flex")}
+            className={buttonClass("primary", "mx-3 mt-4 flex gap-1.5")}
           >
+            <RocketLaunch aria-hidden className="size-[18px] shrink-0" />
             Get started
           </Link>
         </nav>

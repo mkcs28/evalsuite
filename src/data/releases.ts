@@ -14,6 +14,31 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.3.1",
+    date: "2026-10-09",
+    changes: [
+      {
+        kind: "Fixed",
+        items: [
+          "Labels that mix numbers and strings now raise a clear error instead of being compared as text.",
+          "RMSE no longer overflows to infinity for errors above about 1e154.",
+          "Bootstrap intervals, paired bootstrap tests and compare() require at least two observations instead of returning a zero-width interval.",
+          "A 2-D mask written as a nested Python list is read as one image, like a NumPy array.",
+          "Release workflow: the GitHub release step attaches the files when the release already exists instead of failing.",
+        ],
+      },
+      {
+        kind: "Added",
+        items: [
+          "Overall benchmark summary first (per suite and in total: agreement with the reference, how many cases are faster, geometric-mean speed-up) and benchmark rows in alphabetical order; BenchmarkResult.overall().",
+          "Release checks: the tag must match the package version, a version already on PyPI is refused, the built files are verified, and a manual run attaches a version's PyPI files to its GitHub release.",
+          "CI installs the wheel and the sdist in clean environments with pip check and a smoke test, checks the distributions for stray or secret files, tests the oldest supported dependencies and runs the README examples.",
+          "Quality-assurance tests against scikit-learn and statsmodels for edge cases, repository security checks and a security policy.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.3.0",
     date: "2026-10-09",
     changes: [
