@@ -1,4 +1,5 @@
 import { SHIPPED, SHIPPED_IDS } from "@/data/metrics/definitions";
+import { LLM_METRICS } from "@/data/metrics/llm.generated";
 import { METRICS } from "@/data/metrics/definitions";
 import {
   filterMetrics,
@@ -25,10 +26,16 @@ describe("metric registry", () => {
   });
 
   it("marks exactly the shipped metrics as implemented, with the version they shipped in", () => {
+    const llm = new Set(LLM_METRICS.map((m) => m.id));
     for (const m of registry) {
-      expect(m.status).toBe(SHIPPED_IDS.has(m.id) ? "implemented" : "planned");
-      if (m.status === "implemented") expect(m.version).toBe(SHIPPED[m.id]!.since ?? "v0.1.0");
+      const shipped = SHIPPED_IDS.has(m.id) || llm.has(m.id);
+      expect(m.status).toBe(shipped ? "implemented" : "planned");
+      if (llm.has(m.id)) expect(m.version).toBe("v0.4.0");
+      else if (m.status === "implemented") expect(m.version).toBe(SHIPPED[m.id]!.since ?? "v0.1.0");
     }
+    expect(llm.size).toBe(69);
+    expect(getMetric("text-generation.bleu")?.apiPath).toBe("es.bleu");
+    expect(getMetric("llm-judge.bradley_terry")?.example).toContain("es.bradley_terry(");
     expect(getMetric("clinical.net_benefit")?.status).toBe("implemented");
     expect(getMetric("calibration.calibration_slope")?.version).toBe("v0.2.0");
     expect(getMetric("segmentation.dice")?.status).toBe("implemented");
@@ -47,7 +54,10 @@ describe("metric registry", () => {
     expect(
       filterMetrics(registry, { category: "detection" }).every((m) => m.category === "detection"),
     ).toBe(true);
-    expect(filterMetrics(registry, { status: "implemented" })).toHaveLength(SHIPPED_IDS.size);
+    expect(filterMetrics(registry, { status: "implemented" })).toHaveLength(
+      SHIPPED_IDS.size + LLM_METRICS.length,
+    );
+    expect(filterMetrics(registry, { category: "rag" }).length).toBeGreaterThan(10);
     expect(filterMetrics(registry, { query: "es.hosmer_lemeshow" })).toHaveLength(1);
   });
 });

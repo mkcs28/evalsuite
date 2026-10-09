@@ -1,0 +1,46 @@
+export const metadata = { title: "Factuality and reasoning", description: "Faithfulness, hallucination rate, citations, question answering and reasoning benchmarks in EvalSuite.", alternates: { canonical: "/docs/factuality" } };
+
+# Factuality, question answering and reasoning
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+Factuality metrics score *verdicts* produced by a verification step: annotators, an NLI model, a retrieval check or an LLM judge decide whether each claim of an answer is supported. EvalSuite aggregates them consistently (per answer or pooled), so verification pipelines can be compared with intervals. Report how claims were extracted and judged next to the numbers.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+claim_verdicts = [["supported", "supported", "contradicted"], [True, False]]
+es.faithfulness(claim_verdicts)            # FActScore / RAGAS faithfulness
+es.hallucination_rate(claim_verdicts)      # unsupported-claim rate
+es.groundedness([[0.9, 0.7], [0.2]])       # graded support scores
+
+citations = [[{"supported": True, "citations": [True, False]}, {"supported": False, "citations": []}]]
+es.citation_recall(citations)              # ALCE
+es.citation_precision(citations)
+es.abstention_accuracy([True, False, False], [True, False, True], correct=[False, True, False])
+`} />
+
+## Question answering
+
+<CodeBlock lang="python" code={`
+references = [["Paris", "Paris, France"], ["1990"]]
+predictions = ["paris", "in 1991"]
+es.exact_match(references, predictions)    # SQuAD normalisation: lowercase, no punctuation or articles
+es.token_f1(references, predictions)
+es.answer_correctness(tp=[3, 2], fp=[1, 0], fn=[0, 1], similarity=[0.9, 0.8])   # RAGAS
+`} />
+
+## Reasoning benchmarks
+
+<CodeBlock lang="python" code={`
+es.pass_at_k(n_samples=[10, 10], n_correct=[3, 0], k=5)              # unbiased estimator (Chen et al. 2021)
+es.majority_vote_accuracy(["42", "7"], [["42", "41", "42"], ["7", "8", "8"]])
+es.benchmark_accuracy(["... #### 18", "#### 42"], ["so the answer is 18", "41"], style="gsm8k")
+es.extract_answer(r"thus \\boxed{\\frac{1}{2}}", style="boxed")       # MATH convention
+`} />
+
+## Metrics
+
+<MetricTable category="factuality" />
+
+<MetricTable category="reasoning" />

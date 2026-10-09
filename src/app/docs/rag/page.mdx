@@ -1,0 +1,35 @@
+export const metadata = { title: "Retrieval and RAG", description: "Ranked retrieval metrics, RAG context precision and recall, latency and failure attribution in EvalSuite.", alternates: { canonical: "/docs/rag" } };
+
+# Retrieval-augmented generation
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+`relevant` holds, per query, the relevant document ids (a set) or graded judgements (a mapping id → grade); `retrieved` holds the ranked list of returned ids. Scores are averaged over queries as in trec_eval and ranx, and match ranx in the test suite. NDCG uses linear gains.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+relevant = [{"d1", "d3"}, {"d7"}]
+retrieved = [["d1", "d2", "d3"], ["d5", "d7"]]
+es.precision_at_k(relevant, retrieved, k=5)    # also recall_at_k, hit_rate_at_k
+es.mrr(relevant, retrieved)
+es.mean_average_precision_at_k(relevant, retrieved, k=10)
+es.ndcg_at_k([{"d1": 3, "d3": 1}, {"d7": 2}], retrieved, k=10)
+`} />
+
+## Context and end-to-end quality
+
+<CodeBlock lang="python" code={`
+es.context_precision([[True, False, True], [False, True]])   # RAGAS: useful chunks ranked first
+es.context_recall([[True, True, False], [True]])              # reference claims found in the context
+es.context_relevance([[True, False, True]])                   # retrieval noise
+es.latency_summary([120, 180, 95, 400], statistic="p95")
+es.task_success_rate([True, True, False])                     # Wilson interval in params
+es.failure_attribution(["retrieval", None, "generation"])     # share of failures per stage
+`} />
+
+Answer-level faithfulness, correctness and citations are on the [factuality page](/docs/factuality).
+
+## Metrics
+
+<MetricTable category="rag" />

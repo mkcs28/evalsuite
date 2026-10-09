@@ -1,0 +1,40 @@
+export const metadata = { title: "LLM-as-a-judge", description: "Win rates, Bradley–Terry and Elo ratings, inter-rater agreement and judge bias checks in EvalSuite.", alternates: { canonical: "/docs/llm-judge" } };
+
+# LLM-as-a-judge and preferences
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+The judge is yours (a model, a panel or human raters). EvalSuite turns its outputs into ratings with intervals and checks how far the judge can be trusted.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+comparisons = [("model_a", "model_b", "win"), ("model_b", "model_c", "win"),
+               ("model_c", "model_a", "loss"), ("model_a", "model_c", "tie"), ("model_b", "model_a", "loss")]
+es.win_rate(["win", "tie", "loss", "win"])          # ties count half; Wilson interval in params
+es.bradley_terry(comparisons, scale="elo")          # MLE (same as choix), Chatbot Arena scale
+es.elo_ratings(comparisons)                         # online Elo, order-dependent
+es.plot.ratings(comparisons)                        # leaderboard with bootstrap intervals
+es.plot.win_matrix(comparisons)
+`} />
+
+## Agreement and judge reliability
+
+<CodeBlock lang="python" code={`
+import numpy as np
+ratings = np.array([[1, 2, 3, 3], [1, 2, 3, 4], [2, 2, 3, np.nan]])   # raters × items, NaN = missing
+es.krippendorff_alpha(ratings, level="ordinal")
+es.fleiss_kappa([["good", "good", "bad"], ["bad", "bad", "bad"], ["good", "bad", "good"]])
+es.judge_agreement([1, 2, 3, 4, 5], [1, 2, 3, 5, 4], kind="ordinal")  # weighted kappa and Spearman
+
+es.position_consistency(["A", "B", "A"], ["A", "A", "A"])   # verdicts with the order swapped
+es.verbosity_bias(["A", "B", "A"], [120, 80, 300], [90, 100, 150])
+es.self_preference_bias([True, True, False], [True, False, False])
+es.rubric_score([[5, 4], [3, 4]], criteria=["helpfulness", "fluency"])
+`} />
+
+Always validate an automatic judge against human labels on a sample of your own data before relying on it, and report position and length controls.
+
+## Metrics
+
+<MetricTable category="llm-judge" />

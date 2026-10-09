@@ -4,6 +4,7 @@ import {
   Brain,
   FileOutput,
   ScanLine,
+  SmartToy,
   type MaterialIcon,
 } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -18,6 +19,7 @@ const row = (feature: string, release: ReleaseTarget, status: Status = "planned"
 const shipped = (feature: string): Row => row(feature, "v0.1.0", "implemented");
 const shipped2 = (feature: string): Row => row(feature, "v0.2.0", "implemented");
 const shipped3 = (feature: string): Row => row(feature, "v0.3.0", "implemented");
+const shipped4 = (feature: string): Row => row(feature, "v0.4.0", "implemented");
 
 export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
@@ -55,6 +57,18 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
     ],
   },
   {
+    domain: "LLM evaluation",
+    rows: [
+      shipped4("Text generation (BLEU, ROUGE, METEOR, chrF, TER, CIDEr)"),
+      shipped4("Semantic (BERTScore, MoverScore, MAUVE)"),
+      shipped4("Factuality and citations"),
+      shipped4("LLM-as-a-judge and preferences"),
+      shipped4("Reasoning (pass@k, GSM8K, MATH)"),
+      shipped4("Retrieval and RAG"),
+      shipped4("Structured output and tool calls"),
+    ],
+  },
+  {
     domain: "Research output",
     rows: [
       shipped("Visualization"),
@@ -71,6 +85,7 @@ const ICONS: Record<string, MaterialIcon> = {
   Clinical: Activity,
   Statistics: BarChart3,
   "Computer vision": ScanLine,
+  "LLM evaluation": SmartToy,
   "Research output": FileOutput,
 };
 

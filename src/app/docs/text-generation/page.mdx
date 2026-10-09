@@ -1,0 +1,60 @@
+export const metadata = { title: "Text generation", description: "BLEU, chrF, TER, ROUGE, METEOR, CIDEr, perplexity, MAUVE, BERTScore and MoverScore in EvalSuite.", alternates: { canonical: "/docs/text-generation" } };
+
+# Text generation and semantic similarity
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+`references` come first (like `y_true`), `predictions` second. Each example can have one reference string or a list of references. BLEU, chrF and TER are corpus-level on a 0–100 scale with sacreBLEU's tokenization, smoothing and multi-reference rules, so scores are comparable with published results. ROUGE follows Google's `rouge-score` (0–1, best reference per example), METEOR follows NLTK, CIDEr-D follows the coco-caption implementation.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+references = [["the cat sat on the mat", "a cat on a mat"], ["a dog ran"], ["hello world"]]
+predictions = ["the cat sat on a mat", "dog ran", "hello there world"]
+
+es.bleu(references, predictions)                 # corpus BLEU (sacrebleu.corpus_bleu)
+es.sentence_bleu(references, predictions, average=None)
+es.chrf(references, predictions, word_order=2)   # chrF++
+es.ter(references, predictions)
+es.rouge_l(references, predictions)              # also rouge_1, rouge_2, rouge_lsum
+es.meteor(references, predictions)               # Porter stemming; pass synonyms=... for WordNet
+es.distinct_n(predictions, n=2)
+es.self_bleu(predictions)
+`} />
+
+METEOR's default stemmer needs NLTK (`pip install "evalsuite-python[llm]"`). WordNet synonyms need a corpus download, so they are off unless you pass a `synonyms` function.
+
+## Language-model likelihood
+
+<CodeBlock lang="python" code={`
+import numpy as np
+token_logprobs = [np.log([0.5, 0.25, 0.8]), np.log([0.9, 0.6])]   # natural-log probability of each token
+es.perplexity(token_logprobs)          # pooled over all tokens
+es.cross_entropy(token_logprobs, base=2)  # bits per token
+`} />
+
+Perplexity is only comparable between models that share a tokenizer.
+
+## Embedding-based metrics
+
+Pass the embeddings your encoder produced; EvalSuite computes the metric exactly.
+
+<CodeBlock lang="python" code={`
+rng = np.random.default_rng(0)
+ref_tokens = [rng.normal(size=(5, 16)) for _ in range(3)]    # token embeddings per reference
+pred_tokens = [rng.normal(size=(4, 16)) for _ in range(3)]
+es.bertscore(ref_tokens, pred_tokens)                          # greedy cosine matching, optional IDF weights
+es.moverscore(ref_tokens, pred_tokens)                         # exact transport (same as POT's ot.emd2)
+es.embedding_similarity(rng.normal(size=(3, 16)), rng.normal(size=(3, 16)), metric="cosine")
+
+human, model = rng.normal(size=(200, 16)), rng.normal(0.3, 1, size=(200, 16))
+es.mauve(human, model, random_state=0)                         # 1 = indistinguishable distributions
+`} />
+
+MAUVE quantizes both feature sets together (L2 normalisation, PCA to 90% of the variance, k-means) and measures the area under the divergence frontier; the divergence step is identical to `mauve-text`, and results depend on the clustering, so report `random_state`.
+
+## Metrics
+
+<MetricTable category="text-generation" />
+
+<MetricTable category="semantic" />

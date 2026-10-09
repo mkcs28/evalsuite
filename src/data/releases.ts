@@ -14,6 +14,30 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.4.0",
+    date: "2026-10-09",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "LLM evaluation: 69 new metrics, each checked against its reference implementation where one exists (sacreBLEU, rouge-score, NLTK, pycocoevalcap, POT, mauve-text, ranx, choix, krippendorff, statsmodels, jsonschema).",
+          "Text generation: BLEU, sentence BLEU, chrF/chrF++, TER, ROUGE-1/2/L/Lsum, METEOR, CIDEr-D, perplexity, cross-entropy, Distinct-n, Self-BLEU, MAUVE; text_report and the evalsuite text command.",
+          "Semantic similarity from your own model: BERTScore, embedding cosine / Euclidean / Manhattan, MoverScore, and model_score for COMET, BLEURT, BARTScore, AlignScore or any judge.",
+          "Factuality and QA: faithfulness, hallucination rate, groundedness, citation precision and recall, claim verification, knowledge consistency, answer correctness and relevance, abstention accuracy, exact match, token F1.",
+          "LLM-as-a-judge: win rate, Bradley–Terry and Elo ratings, Krippendorff's alpha, Fleiss' kappa, judge–human agreement, position consistency, verbosity and self-preference bias, rubric scores.",
+          "Reasoning (pass@k, majority vote, GSM8K / MATH / multiple-choice answer extraction), RAG (ranking metrics, context precision / recall / relevance, latency, task success, failure attribution) and structured output (JSON Schema, XML, required fields, tool calls, instruction following).",
+          "Plots: ratings leaderboard with bootstrap intervals, pairwise win matrix, per-example text score distributions. Benchmark suite llm.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "bootstrap_ci, compare and the paired tests resample whole examples for text, retrieval and other item-level metrics, so corpus metrics such as BLEU get proper intervals.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.3.1",
     date: "2026-10-09",
     changes: [

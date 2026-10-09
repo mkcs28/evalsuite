@@ -10,6 +10,13 @@ export const METRIC_CATEGORIES = [
   "multiple-testing",
   "segmentation",
   "detection",
+  "text-generation",
+  "semantic",
+  "factuality",
+  "llm-judge",
+  "reasoning",
+  "rag",
+  "structured-output",
 ] as const;
 
 export type MetricCategory = (typeof METRIC_CATEGORIES)[number];
@@ -25,4 +32,11 @@ export const CATEGORY_LABEL: Record<MetricCategory, string> = {
   "multiple-testing": "Multiple testing",
   segmentation: "Segmentation",
   detection: "Object detection",
+  "text-generation": "Text generation",
+  semantic: "Semantic similarity",
+  factuality: "Factuality and QA",
+  "llm-judge": "LLM-as-a-judge",
+  reasoning: "Reasoning",
+  rag: "Retrieval and RAG",
+  "structured-output": "Structured output and tools",
 };

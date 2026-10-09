@@ -1,0 +1,55 @@
+export const metadata = { title: "LLM evaluation", description: "Evaluate language models with EvalSuite: text generation, semantic similarity, factuality, LLM-as-a-judge, reasoning, RAG and structured output.", alternates: { canonical: "/docs/llm" } };
+
+# LLM evaluation
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+v0.4.0 adds 69 metrics for evaluating language models and LLM systems, with the same conventions as the rest of EvalSuite: validated inputs, documented definitions and references, confidence intervals, paired model comparison, plots and reports. Every metric that has an established implementation is checked against it in the test suite (sacreBLEU, rouge-score, NLTK, pycocoevalcap, POT, mauve-text, ranx, choix, krippendorff, statsmodels, jsonschema).
+
+| Area | Page | Examples |
+| --- | --- | --- |
+| Text generation and semantic similarity | [Text generation](/docs/text-generation) | BLEU, chrF, TER, ROUGE, METEOR, CIDEr, perplexity, MAUVE, BERTScore, MoverScore |
+| Factuality, question answering and reasoning | [Factuality](/docs/factuality) | faithfulness, hallucination rate, citations, exact match, pass@k, GSM8K/MATH accuracy |
+| LLM-as-a-judge and preferences | [LLM-as-a-judge](/docs/llm-judge) | win rate, Bradley–Terry, Elo, Krippendorff's alpha, judge bias checks |
+| Retrieval-augmented generation | [RAG](/docs/rag) | NDCG, MRR, context precision and recall, latency, failure attribution |
+| Structured output and tools | [Structured output](/docs/structured-output) | JSON Schema, XML, tool calls, instruction compliance |
+
+## Bring your own model
+
+EvalSuite does not download or run language models. Metrics that need a model take what your model produces: token embeddings for BERTScore and MoverScore, feature vectors for MAUVE, per-token log-probabilities for perplexity, claim verdicts from your verifier or judge for faithfulness. Learned metrics such as COMET, BLEURT, BARTScore or AlignScore run through `es.model_score`, which gives their scores the same intervals and comparisons as everything else.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+references = [["the cat sat on the mat", "a cat on a mat"], ["a dog ran"], ["hello world"]]
+predictions = ["the cat sat on a mat", "dog ran", "hello there world"]
+
+print(es.text_report(references, predictions))   # BLEU, chrF(++), TER, ROUGE, METEOR, EM, token F1
+
+# a learned metric through its own model, e.g. COMET:
+# es.model_score(references, predictions, sources=sources,
+#                scorer=lambda r, p, s: comet.predict([{"src": a, "mt": b, "ref": c} for a, b, c in zip(s, p, r)]).scores)
+`} />
+
+## Intervals and comparing models
+
+For text, retrieval and other item-level metrics, `bootstrap_ci` and `compare` resample whole examples (a prediction with its references, a query with its ranking), never single tokens, and never stratify by value. Corpus metrics such as BLEU are recomputed on each resampled corpus, so their intervals are honest.
+
+<CodeBlock lang="python" code={`
+es.bootstrap_ci(es.bleu, references, predictions, random_state=0)
+es.compare(references, {"model_a": predictions, "model_b": [p + " today" for p in predictions]},
+           metrics=["bleu", "rouge_l", "token_f1"], random_state=0)
+`} />
+
+## Plots, reports and the command line
+
+<CodeBlock lang="python" code={`
+es.plot.text_scores(references, {"a": preds_a, "b": preds_b}, metric="rouge_l")  # per-example distributions
+es.plot.ratings(comparisons)       # Bradley–Terry leaderboard with bootstrap intervals
+es.plot.win_matrix(comparisons)    # pairwise win rates
+`} />
+
+<CodeBlock lang="bash" code={`
+evalsuite text outputs.csv --prediction output --reference reference -o report.html
+evalsuite benchmark --suite llm
+`} />

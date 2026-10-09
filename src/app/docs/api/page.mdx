@@ -2,7 +2,7 @@ export const metadata = { title: "API reference", description: "Public Python AP
 
 # API reference
 
-<StatusBadge status="implemented" label="evalsuite-python v0.3.1" />
+<StatusBadge status="implemented" label="evalsuite-python v0.4.0" />
 
 Everything is available from the top-level package: `import evalsuite as es`. Run `help(es.f1)` or `es.metric_info("classification.f1")` for full documentation of any function.
 
@@ -29,6 +29,14 @@ Everything is available from the top-level package: `import evalsuite as es`. Ru
 | `es.dice`, `es.iou`, `es.miou`, `es.pixel_accuracy`, `es.mean_pixel_accuracy`, `es.boundary_iou`, `es.hausdorff_distance`, `es.average_surface_distance`, `es.segmentation_confusion`, `es.per_image_scores`, `es.segmentation_report` | Semantic segmentation | v0.3.0 |
 | `es.box_iou`, `es.detection_report`, `es.mean_average_precision`, `es.average_precision_detection`, `es.detection_pr_curve`, `es.from_coco` | Object detection (COCO protocol) | v0.3.0 |
 | `es.plot.segmentation`, `es.plot.per_class`, `es.plot.detection_pr` | Vision figures | v0.3.0 |
+| `es.bleu`, `es.sentence_bleu`, `es.chrf`, `es.ter`, `es.rouge_1`, `es.rouge_2`, `es.rouge_l`, `es.rouge_lsum`, `es.meteor`, `es.cider`, `es.perplexity`, `es.cross_entropy`, `es.distinct_n`, `es.self_bleu`, `es.mauve`, `es.text_report` | Text generation | v0.4.0 |
+| `es.bertscore`, `es.embedding_similarity`, `es.moverscore`, `es.model_score` | Semantic and learned metrics (your embeddings or scorer) | v0.4.0 |
+| `es.exact_match`, `es.token_f1`, `es.faithfulness`, `es.hallucination_rate`, `es.groundedness`, `es.citation_precision`, `es.citation_recall`, `es.claim_verification_accuracy`, `es.knowledge_consistency`, `es.answer_correctness`, `es.answer_relevance`, `es.abstention_accuracy` | Factuality and question answering | v0.4.0 |
+| `es.win_rate`, `es.bradley_terry`, `es.elo_ratings`, `es.krippendorff_alpha`, `es.fleiss_kappa`, `es.judge_agreement`, `es.position_consistency`, `es.verbosity_bias`, `es.self_preference_bias`, `es.rubric_score` | LLM-as-a-judge and preferences | v0.4.0 |
+| `es.pass_at_k`, `es.majority_vote_accuracy`, `es.benchmark_accuracy`, `es.extract_answer` | Reasoning | v0.4.0 |
+| `es.precision_at_k`, `es.recall_at_k`, `es.hit_rate_at_k`, `es.mrr`, `es.mean_average_precision_at_k`, `es.ndcg_at_k`, `es.context_precision`, `es.context_recall`, `es.context_relevance`, `es.latency_summary`, `es.task_success_rate`, `es.failure_attribution` | Retrieval and RAG | v0.4.0 |
+| `es.json_validity`, `es.json_schema_compliance`, `es.validate_json_schema`, `es.extract_json`, `es.xml_validity`, `es.required_field_accuracy`, `es.tool_selection_accuracy`, `es.tool_argument_accuracy`, `es.tool_call_f1`, `es.api_call_success_rate`, `es.instruction_compliance_rate`, `es.constraint_satisfaction_rate`, `es.format_compliance`, `es.instruction_retention`, `es.extra_content_rate` | Structured output, tools, instructions | v0.4.0 |
+| `es.plot.ratings`, `es.plot.win_matrix`, `es.plot.text_scores` | LLM figures | v0.4.0 |
 
 ## Common signature
 

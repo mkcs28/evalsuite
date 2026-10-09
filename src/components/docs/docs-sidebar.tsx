@@ -8,6 +8,12 @@ import {
   Api,
   Category,
   CompareArrows,
+  DataObject,
+  FactCheck,
+  Gavel,
+  ManageSearch,
+  SmartToy,
+  TextFields,
   HealthAndSafety,
   Home,
   Lightbulb,
@@ -42,6 +48,12 @@ export const DOC_ICONS: Record<string, MaterialIcon> = {
   "/docs/segmentation": Texture,
   "/docs/detection": ScanLine,
   "/docs/reporting": Summarize,
+  "/docs/llm": SmartToy,
+  "/docs/text-generation": TextFields,
+  "/docs/factuality": FactCheck,
+  "/docs/llm-judge": Gavel,
+  "/docs/rag": ManageSearch,
+  "/docs/structured-output": DataObject,
 };
 
 function DocIcon({ href }: { href: string }) {

@@ -36,6 +36,14 @@ evalsuite benchmark --suite vision
 evalsuite benchmark                    # overall summary first, then every case in alphabetical order
 `} />
 
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.4.0" code={`
+evalsuite text outputs.csv --prediction output --reference reference
+evalsuite text outputs.jsonl --prediction output --reference ref1 --reference ref2 --metrics bleu,chrf,rouge_l -o text.html
+evalsuite benchmark --suite llm
+`} />
+
+`evalsuite text` reads CSV, TSV, Parquet or JSON-lines files with one example per row; repeat `--reference` for several reference columns (empty cells are skipped).
+
 Segmentation masks are read from `.npy` or `.npz` files, or from folders of PNG masks with the `vision` extra. Detection reads COCO JSON: the ground-truth annotations file and a results list.
 
 ## Behaviour

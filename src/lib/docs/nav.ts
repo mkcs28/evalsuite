@@ -41,6 +41,17 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Reporting", href: "/docs/reporting" },
     ],
   },
+  {
+    title: "LLM evaluation",
+    links: [
+      { title: "Overview", href: "/docs/llm" },
+      { title: "Text generation", href: "/docs/text-generation" },
+      { title: "Factuality and reasoning", href: "/docs/factuality" },
+      { title: "LLM-as-a-judge", href: "/docs/llm-judge" },
+      { title: "Retrieval and RAG", href: "/docs/rag" },
+      { title: "Structured output and tools", href: "/docs/structured-output" },
+    ],
+  },
 ];
 
 export const DOCS_FLAT: DocLink[] = DOCS_NAV.flatMap((s) => s.links);

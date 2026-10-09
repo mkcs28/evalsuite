@@ -93,6 +93,12 @@ const ICONS = {
   TrendingUp: "trending_up",
   Tune: "tune",
   Verified: "verified",
+  SmartToy: "smart_toy",
+  TextFields: "text_fields",
+  FactCheck: "fact_check",
+  Gavel: "gavel",
+  ManageSearch: "manage_search",
+  DataObject: "data_object",
   X: "close",
 };
 

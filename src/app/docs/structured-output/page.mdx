@@ -1,0 +1,44 @@
+export const metadata = { title: "Structured output and tools", description: "JSON Schema compliance, XML validity, tool-call accuracy and instruction following in EvalSuite.", alternates: { canonical: "/docs/structured-output" } };
+
+# Structured output, tools and instructions
+
+<StatusBadge status="implemented" label="Available since v0.4.0" />
+
+JSON Schema validation is built in (Draft 2020-12 keywords listed in `es.text.structured.SUPPORTED_KEYWORDS`, local `$ref`), so no extra dependency is needed; unknown keywords raise an error instead of being ignored. It agrees with the `jsonschema` package on 20,000 random schema and document pairs in the test suite.
+
+<CodeBlock lang="python" code={`
+import evalsuite as es
+
+outputs = ['{"answer": 18}', '\`\`\`json\\n{"answer": 7}\\n\`\`\`', "Answer: 41"]
+schema = {"type": "object", "properties": {"answer": {"type": "integer"}}, "required": ["answer"]}
+es.json_validity(outputs, mode="fenced")          # strict, fenced or lenient extraction
+es.json_schema_compliance(outputs, schema, mode="fenced")
+es.extra_content_rate(outputs)                    # JSON wrapped in prose or fences
+es.xml_validity(["<a><b>1</b></a>", "<a>"])        # DOCTYPE and entities rejected
+es.required_field_accuracy([{"answer": 18}], ['{"answer": 18}'])
+`} />
+
+## Tool calls
+
+<CodeBlock lang="python" code={`
+expected = [{"name": "search", "arguments": {"q": "evalsuite"}}, []]
+predicted = [{"name": "search", "arguments": '{"q": "evalsuite"}'}, [{"name": "search", "arguments": {}}]]
+es.tool_selection_accuracy(expected, predicted)
+es.tool_argument_accuracy(expected, predicted)
+es.tool_call_f1(expected, predicted)              # precision, recall and invalid-call rate in params
+es.api_call_success_rate([200, 500, True])
+`} />
+
+## Instruction following
+
+<CodeBlock lang="python" code={`
+checks = [[True, True], [True, False]]            # pass/fail of each verifiable instruction per output
+es.instruction_compliance_rate(checks)            # IFEval prompt-level strict accuracy
+es.constraint_satisfaction_rate(checks)           # instruction-level accuracy
+es.format_compliance(["Answer: B", "B"], r"Answer: [A-D]")
+es.instruction_retention([[True, [True, False]]]) # multi-turn
+`} />
+
+## Metrics
+
+<MetricTable category="structured-output" />

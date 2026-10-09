@@ -1,5 +1,6 @@
 import type { MetricDefinition } from "@/lib/metrics/schema";
 import type { ReleaseTarget } from "@/types/status";
+import { LLM_METRICS } from "./llm.generated";
 import { REF } from "./references";
 
 /**
@@ -1215,9 +1216,10 @@ export const METRICS: MetricDefinition[] = [
     outputs: "float",
     range: "[0, 1]",
     limitations: [
-      "Not claimed to be COCO-compatible unless verified against the reference COCO evaluation protocol.",
+      "Follows the COCO protocol (crowd regions, area ranges, 101-point interpolation); all twelve numbers match pycocotools in the test suite.",
     ],
     references: [REF.lin2014],
     apiPath: "es.detection.map",
   }),
+  ...LLM_METRICS,
 ];

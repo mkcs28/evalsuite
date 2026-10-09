@@ -93,8 +93,8 @@ export const ROADMAP: RoadmapRelease[] = [
     version: "v0.4.0",
     title: "LLM evaluation",
     summary:
-      "In development. Text generation, semantic similarity, factuality and hallucination, LLM-as-a-judge, reasoning benchmarks, retrieval-augmented generation and structured output, with the same intervals, comparison, plots and reports as every other task.",
-    status: "in-development",
+      "Released 9 October 2026. Text generation, semantic similarity, factuality and hallucination, LLM-as-a-judge, reasoning benchmarks, retrieval-augmented generation and structured output, with the same intervals, comparison, plots and reports as every other task.",
+    status: "implemented",
     groups: [
       {
         title: "Text generation and language quality",
@@ -104,13 +104,15 @@ export const ROADMAP: RoadmapRelease[] = [
           "METEOR",
           "chrF / chrF++",
           "TER",
-          "CIDEr / SPICE",
+          "CIDEr-D",
           "Perplexity (PPL)",
           "Cross-entropy / Negative log-likelihood",
           "Distinct-1 / Distinct-2",
           "Self-BLEU",
           "MAUVE",
-        ].map(planned),
+        ]
+          .map(done)
+          .concat([planned("SPICE (needs a Java scene-graph parser)")]),
       },
       {
         title: "Semantic similarity and learned text metrics",
@@ -119,12 +121,12 @@ export const ROADMAP: RoadmapRelease[] = [
           "Embedding cosine similarity",
           "Embedding Euclidean / Manhattan distance",
           "MoverScore",
-          "BLEURT",
-          "COMET",
-          "BARTScore",
-          "AlignScore",
-          "MTEB task metrics",
-        ].map(planned),
+          "BLEURT (via model_score)",
+          "COMET (via model_score)",
+          "BARTScore (via model_score)",
+          "AlignScore (via model_score)",
+          "MTEB task metrics (retrieval, classification and similarity metrics)",
+        ].map(done),
       },
       {
         title: "Factuality, correctness, and hallucination",
@@ -140,7 +142,7 @@ export const ROADMAP: RoadmapRelease[] = [
           "Knowledge consistency",
           "Answer relevance",
           "Abstention accuracy",
-        ].map(planned),
+        ].map(done),
       },
       {
         title: "LLM-as-a-judge and preference evaluation",
@@ -154,7 +156,7 @@ export const ROADMAP: RoadmapRelease[] = [
           "Elo / Bradley–Terry scores",
           "Inter-judge agreement / human agreement",
           "Judge calibration and bias sensitivity",
-        ].map(planned),
+        ].map(done),
       },
       {
         title: "Reasoning, knowledge, and mathematical ability",
@@ -167,7 +169,7 @@ export const ROADMAP: RoadmapRelease[] = [
           "TruthfulQA score",
           "Constraint satisfaction rate",
           "Tool-assisted task success",
-        ].map(planned),
+        ].map(done),
       },
       {
         title: "Retrieval-augmented generation (RAG)",
@@ -184,7 +186,7 @@ export const ROADMAP: RoadmapRelease[] = [
           "Unsupported-claim rate",
           "End-to-end task success / query resolution",
           "Failure attribution",
-        ].map(planned),
+        ].map(done),
       },
       {
         title: "Instruction following and structured output",
@@ -200,7 +202,7 @@ export const ROADMAP: RoadmapRelease[] = [
           "Format / refusal-format compliance",
           "Multi-turn instruction retention",
           "Unwanted extra-content rate",
-        ].map(planned),
+        ].map(done),
       },
     ],
   },
