@@ -14,6 +14,25 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.2.1",
+    date: "2026-10-09",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Benchmarks for the v0.2.0 functions (evalsuite benchmark --suite clinical) against scikit-learn, statsmodels, SciPy and the textbook NumPy loop; every row names its reference.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "Faster label handling: 8 label metrics at a million samples are now 34× faster than scikit-learn (from 10×), macro F1 5.8× (from 1.6×).",
+          "Decision curves computed from cumulative sums instead of a samples × thresholds matrix.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.2.0",
     date: "2026-10-08",
     changes: [

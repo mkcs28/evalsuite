@@ -1,6 +1,24 @@
 {
   "releases": [
     {
+      "version": "0.2.1",
+      "date": "2026-10-09",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.2.1-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 102244,
+          "sha256": "c71586f4bda5289f8eca1e2249ab4d5b101696e3e095b9adb3988ef3eac41eb4"
+        },
+        {
+          "filename": "evalsuite_python-0.2.1.tar.gz",
+          "kind": "sdist",
+          "size": 109470,
+          "sha256": "37e3f70b914def7a85d0f24b638bd40c3d0d99abab2e64c6b9e5987d39caa597"
+        }
+      ]
+    },
+    {
       "version": "0.2.0",
       "date": "2026-10-08",
       "files": [

@@ -47,9 +47,8 @@ export default function ResearchPage() {
         <Section title="Shared computation">
           <p>
             Intermediates such as confusion matrices and class counts are computed once per
-            evaluation and reused. In v0.1.0 this makes evaluate() about 10× faster than separate
-            scikit-learn calls for the same metrics, with identical results (see the benchmarks
-            page).
+            evaluation and reused. This makes evaluate() 26–34× faster than separate scikit-learn
+            calls for the same metrics, with identical results (see the benchmarks page).
           </p>
         </Section>
         <Section title="Numerical validation">

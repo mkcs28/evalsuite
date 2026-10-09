@@ -17,7 +17,7 @@ Exception types are `EvalSuiteError`, `InputValidationError`, `MetricInputError`
 
 ## The evaluation context
 
-`EvaluationContext` holds the validated inputs together with expensive intermediates such as the confusion matrix and class counts. Metrics read from the context instead of recomputing those intermediates. This removes redundant computation: `evaluate()` is about 10× faster than separate scikit-learn calls for the same metrics (see [benchmarks](/benchmarks)).
+`EvaluationContext` holds the validated inputs together with expensive intermediates such as the confusion matrix and class counts. Metrics read from the context instead of recomputing those intermediates. This removes redundant computation: `evaluate()` is 26–34× faster than separate scikit-learn calls for the same eight label metrics (see [benchmarks](/benchmarks)).
 
 ## Results are structured and portable
 
