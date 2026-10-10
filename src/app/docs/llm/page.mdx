@@ -4,7 +4,7 @@ export const metadata = { title: "LLM evaluation", description: "Evaluate langua
 
 <StatusBadge status="implemented" label="Available since v0.4.0" />
 
-v0.4.0 adds 69 metrics for evaluating language models and LLM systems, with the same conventions as the rest of EvalSuite: validated inputs, documented definitions and references, confidence intervals, paired model comparison, plots and reports. Every metric that has an established implementation is checked against it in the test suite (sacreBLEU, rouge-score, NLTK, pycocoevalcap, POT, mauve-text, ranx, choix, krippendorff, statsmodels, jsonschema).
+v0.4.0 added 69 metrics for evaluating language models, and v0.5.0 adds SPICE and the [LLM systems](/docs/llm-systems) metrics (safety, robustness, uncertainty, agents, multilingual, code, long context and serving cost), with the same conventions as the rest of EvalSuite: validated inputs, documented definitions and references, confidence intervals, paired model comparison, plots and reports. Every metric that has an established implementation is checked against it in the test suite (sacreBLEU, rouge-score, NLTK, pycocoevalcap, POT, mauve-text, ranx, choix, krippendorff, statsmodels, jsonschema).
 
 | Area | Page | Examples |
 | --- | --- | --- |
@@ -13,6 +13,7 @@ v0.4.0 adds 69 metrics for evaluating language models and LLM systems, with the 
 | LLM-as-a-judge and preferences | [LLM-as-a-judge](/docs/llm-judge) | win rate, Bradley–Terry, Elo, Krippendorff's alpha, judge bias checks |
 | Retrieval-augmented generation | [RAG](/docs/rag) | NDCG, MRR, context precision and recall, latency, failure attribution |
 | Structured output and tools | [Structured output](/docs/structured-output) | JSON Schema, XML, tool calls, instruction compliance |
+| LLM systems (v0.5.0) | [LLM systems](/docs/llm-systems) | harmful-response and refusal rates, AURC, agent trajectories, CodeBLEU, needle-in-a-haystack, TTFT and cost |
 
 ## Bring your own model
 

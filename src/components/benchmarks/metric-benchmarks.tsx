@@ -14,6 +14,9 @@ const fmtMs = (v: number | null) =>
   v === null ? "–" : v < 100 ? v.toFixed(3) : v.toLocaleString("en", { maximumFractionDigits: 1 });
 const fmtX = (v: number | null) => (v === null ? "–" : `${v.toFixed(2)}×`);
 const fmtN = (n: number) => n.toLocaleString("en");
+/** Faster (lower) time of each pair in purple. */
+const cell = (win: boolean) =>
+  `px-4 py-2 text-right tabular-nums ${win ? "font-semibold text-primary" : ""}`;
 
 const KIND_LABEL: Record<MetricBenchmarkRow["kind"], string> = {
   library: "library",
@@ -152,16 +155,24 @@ function MetricGroupTable({ group, rows }: { group: string; rows: MetricBenchmar
                   {r.reference || "–"}
                   <span className="ml-1 text-xs text-muted-foreground">({KIND_LABEL[r.kind]})</span>
                 </td>
-                {sizes.map((n) => (
-                  <td key={`es${n}`} className="px-4 py-2 text-right tabular-nums">
-                    {fmtMs(r.sizes[String(n)]?.es ?? null)}
-                  </td>
-                ))}
-                {sizes.map((n) => (
-                  <td key={`ref${n}`} className="px-4 py-2 text-right tabular-nums">
-                    {fmtMs(r.sizes[String(n)]?.ref ?? null)}
-                  </td>
-                ))}
+                {sizes.map((n) => {
+                  const c = r.sizes[String(n)];
+                  const win = c?.es != null && c.ref != null && c.es < c.ref;
+                  return (
+                    <td key={`es${n}`} className={cell(win)}>
+                      {fmtMs(c?.es ?? null)}
+                    </td>
+                  );
+                })}
+                {sizes.map((n) => {
+                  const c = r.sizes[String(n)];
+                  const win = c?.es != null && c.ref != null && c.ref < c.es;
+                  return (
+                    <td key={`ref${n}`} className={cell(win)}>
+                      {fmtMs(c?.ref ?? null)}
+                    </td>
+                  );
+                })}
                 {sizes.map((n) => {
                   const v = r.sizes[String(n)]?.speedup ?? null;
                   const strong = r.kind === "library" && v !== null && v >= 1;

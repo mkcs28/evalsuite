@@ -8,7 +8,7 @@ import { WEBSITE_MILESTONES } from "@/data/roadmap";
 export const metadata: Metadata = {
   title: "Roadmap",
   description:
-    "EvalSuite v0.1.0 to v0.4.0 (LLM evaluation) are released; v0.5.0 (LLM systems) is planned.",
+    "EvalSuite v0.1.0 to v0.5.0 are released: LLM evaluation in v0.4.0 and LLM systems in v0.5.0, with every roadmap item implemented.",
   alternates: { canonical: "/roadmap" },
 };
 

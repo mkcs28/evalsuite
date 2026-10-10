@@ -4,7 +4,7 @@ export const metadata = { title: "Text generation", description: "BLEU, chrF, TE
 
 <StatusBadge status="implemented" label="Available since v0.4.0" />
 
-`references` come first (like `y_true`), `predictions` second. Each example can have one reference string or a list of references. BLEU, chrF and TER are corpus-level on a 0–100 scale with sacreBLEU's tokenization, smoothing and multi-reference rules, so scores are comparable with published results. ROUGE follows Google's `rouge-score` (0–1, best reference per example), METEOR follows NLTK, CIDEr-D follows the coco-caption implementation.
+`references` come first (like `y_true`), `predictions` second. Each example can have one reference string or a list of references. BLEU, chrF and TER are corpus-level on a 0–100 scale with sacreBLEU's tokenization, smoothing and multi-reference rules, so scores are comparable with published results. ROUGE follows Google's `rouge-score` (0–1, best reference per example), METEOR follows NLTK, CIDEr-D follows the coco-caption implementation. SPICE (`es.spice`, since v0.5.0) scores scene-graph tuples from any parser; see [LLM systems](/docs/llm-systems#spice).
 
 <CodeBlock lang="python" code={`
 import evalsuite as es
