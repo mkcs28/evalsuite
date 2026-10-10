@@ -1,4 +1,13 @@
-import { Boxes, Calculator, FlaskConical, Layers, ScanSearch, Sigma } from "@/components/ui/icons";
+import {
+  Boxes,
+  Calculator,
+  Code,
+  FlaskConical,
+  Layers,
+  ScanSearch,
+  Sigma,
+  TextFields,
+} from "@/components/ui/icons";
 
 const TOOLS = [
   { name: "scikit-learn", role: "Classification and regression metrics", icon: Calculator },
@@ -6,6 +15,12 @@ const TOOLS = [
   { name: "statsmodels", role: "Diagnostics and multiple-testing corrections", icon: FlaskConical },
   { name: "TorchMetrics", role: "Metrics inside training loops", icon: Layers },
   { name: "pycocotools", role: "COCO-style detection evaluation", icon: ScanSearch },
+  {
+    name: "sacreBLEU, rouge-score, ranx",
+    role: "Text generation and retrieval metrics",
+    icon: TextFields,
+  },
+  { name: "radon, codebleu, jsonschema", role: "Code quality and structured output", icon: Code },
   { name: "Custom scripts", role: "Bootstrap, DCA, report tables", icon: Boxes },
 ];
 
@@ -14,7 +29,7 @@ export function Problem() {
     <section className="mx-auto max-w-[1680px] px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-5xl">
-          One study. <span className="text-brand">Six toolchains.</span>
+          One study. <span className="text-brand">Eight toolchains.</span>
         </h2>
         <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
           Research evaluation is usually stitched together from excellent but separate libraries,

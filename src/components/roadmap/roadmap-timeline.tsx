@@ -19,12 +19,10 @@ export function RoadmapTimeline({ compact = false }: { compact?: boolean }) {
           </div>
           <h3 className="mt-3 text-xl font-bold">{release.title}</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{release.summary}</p>
-          {release.status !== "implemented" ? (
-            <p className="mt-2 text-xs text-muted-foreground">
-              {release.groups.length} areas,{" "}
-              {release.groups.reduce((n, g) => n + g.items.length, 0)} metrics planned
-            </p>
-          ) : null}
+          <p className="mt-2 text-xs text-muted-foreground">
+            {release.groups.length} areas, {release.groups.reduce((n, g) => n + g.items.length, 0)}{" "}
+            items {release.status === "implemented" ? "implemented" : "planned"}
+          </p>
           <div
             className={cn(
               "mt-5",

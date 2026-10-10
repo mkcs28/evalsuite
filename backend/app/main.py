@@ -16,7 +16,7 @@ from .email import make_sender
 from .errors import install_error_handlers
 from .observability import CatchUnhandled, RequestContext, configure_logging
 from .ratelimit import make_limiters
-from .routers import auth, downloads, evaluate, keys, stats
+from .routers import auth, downloads, evaluate, extras, keys, stats
 
 
 class BodySizeLimit:
@@ -117,7 +117,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.email = make_sender(settings)
 
     install_error_handlers(app)
-    for router in (evaluate.router, auth.router, keys.router, downloads.router, stats.router):
+    for router in (evaluate.router, extras.router, auth.router, keys.router, downloads.router, stats.router):
         app.include_router(router, prefix="/api/v1")
 
     # Added first, so it sits inside CORS: error responses keep their CORS headers.

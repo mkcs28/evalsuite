@@ -351,6 +351,11 @@ export const WEBSITE_MILESTONES: RoadmapItem[] = [
     status: "implemented",
   },
   { label: "Playground can run on the API when signed in", status: "implemented" },
-  { label: "Metric reference generated from the Python registry", status: "planned" },
+  {
+    label:
+      "Metric reference generated from the Python registry (LLM, LLM-systems and extra entries)",
+    status: "implemented",
+  },
+  { label: "API endpoints for reports, bootstrap intervals and plot data", status: "implemented" },
   { label: "Browser-local execution with Pyodide (under evaluation)", status: "planned" },
 ];

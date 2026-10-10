@@ -291,3 +291,86 @@ class ReadinessResponse(CamelModel):
     status: Literal["ok", "degraded"]
     database: bool
     rate_limit_store: bool
+
+
+# ---------------- reports, bootstrap intervals and plot data ----------------
+ReportFormat = Literal["markdown", "html", "latex", "csv", "json"]
+BootstrapMethod = Literal["percentile", "basic", "bca"]
+PlotKind = Literal["roc", "pr", "calibration", "residuals"]
+
+
+class ReportRequest(EvaluationRequest):
+    format: ReportFormat = "markdown"
+
+
+class ReportResponse(CamelModel):
+    format: ReportFormat
+    content: str
+    engine: Engine
+
+
+class BootstrapRequest(CamelModel):
+    task: Task
+    y_true: list[float] = Field(min_length=2, max_length=MAX_OBSERVATIONS)
+    y_pred: list[float] = Field(min_length=2, max_length=MAX_OBSERVATIONS)
+    y_prob: list[float] | None = Field(default=None, max_length=MAX_OBSERVATIONS)
+    metric: str = Field(min_length=3, max_length=80)
+    method: BootstrapMethod = "percentile"
+    level: float = Field(default=0.95, gt=0.5, lt=1)
+    n_resamples: int = Field(default=1000, ge=MIN_BOOTSTRAP, le=MAX_BOOTSTRAP)
+    random_state: int = Field(default=0, ge=0, le=2**31 - 1)
+
+    @field_validator("y_true", "y_pred")
+    @classmethod
+    def _check_finite(cls, v: list[float]) -> list[float]:
+        return _finite(v, "values")
+
+    @model_validator(mode="after")
+    def _consistent(self) -> BootstrapRequest:
+        if len(self.y_true) != len(self.y_pred):
+            raise ValueError("y_true and y_pred must contain the same number of observations.")
+        if self.y_prob is not None and len(self.y_prob) != len(self.y_true):
+            raise ValueError("y_prob must contain one probability per observation.")
+        if self.y_prob is not None and any(not (0.0 <= p <= 1.0) for p in self.y_prob):
+            raise ValueError("y_prob values must be probabilities in [0, 1].")
+        return self
+
+
+class BootstrapResponse(CamelModel):
+    metric: str
+    estimate: float
+    interval: Interval
+    n_resamples: int
+    engine: Engine
+
+
+class PlotRequest(CamelModel):
+    kind: PlotKind
+    y_true: list[float] = Field(min_length=2, max_length=MAX_OBSERVATIONS)
+    y_score: list[float] = Field(min_length=2, max_length=MAX_OBSERVATIONS)
+    n_bins: int = Field(default=10, ge=2, le=50)
+
+    @field_validator("y_true", "y_score")
+    @classmethod
+    def _check_finite(cls, v: list[float]) -> list[float]:
+        return _finite(v, "values")
+
+    @model_validator(mode="after")
+    def _consistent(self) -> PlotRequest:
+        if len(self.y_true) != len(self.y_score):
+            raise ValueError("y_true and y_score must contain the same number of observations.")
+        return self
+
+
+class PlotSeries(CamelModel):
+    name: str
+    points: list[CurvePoint]
+
+
+class PlotResponse(CamelModel):
+    kind: PlotKind
+    x_label: str
+    y_label: str
+    series: list[PlotSeries]
+    summary: dict[str, float]
+    engine: Engine

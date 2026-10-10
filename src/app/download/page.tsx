@@ -24,7 +24,7 @@ export default function DownloadPage() {
           releases.length ? (
             <StatusBadge status="implemented" label={`Latest v${releases[0]!.version}`} />
           ) : (
-            <StatusBadge status="implemented" label="v0.1.0 on PyPI" />
+            <StatusBadge status="implemented" label="On PyPI" />
           )
         }
       >

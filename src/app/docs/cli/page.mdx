@@ -42,7 +42,8 @@ evalsuite text outputs.jsonl --prediction output --reference ref1 --reference re
 evalsuite benchmark --suite llm
 `} />
 
-<CodeBlock lang="bash" status="implemented" statusLabel="v0.4.1" code={`
+<CodeBlock lang="bash" status="implemented" statusLabel="v0.5.0" code={`
+evalsuite benchmark --suite llmsys    # v0.5.1: LLM-systems workloads (radon, codebleu, scikit-learn, jsonschema, SciPy)
 evalsuite benchmark --suite metrics --sizes 10000 100000   # one row for every metric and statistics function
 `} />
 

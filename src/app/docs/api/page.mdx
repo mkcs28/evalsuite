@@ -134,7 +134,20 @@ print(response.json())
 | POST | `/api/v1/downloads/request` | none (email required) | Record an email for security notices and get a 10-minute signed download link |
 | POST | `/api/v1/downloads/unsubscribe` | unsubscribe token | Stop security notices |
 | POST | `/api/v1/evaluate` | API key or session | Run an evaluation |
-| POST | `/api/v1/plot`, `/report`, `/bootstrap` | | Planned |
+| POST | `/api/v1/report` | API key or session | Run an evaluation and return it as Markdown, HTML, LaTeX, CSV or JSON (`format`) |
+| POST | `/api/v1/bootstrap` | API key or session | Percentile, basic or BCa bootstrap interval for one metric |
+| POST | `/api/v1/plot` | API key or session | Plot data for ROC, precision-recall, calibration or residuals, as point series |
+
+### Reports, bootstrap intervals and plot data
+
+<CodeBlock lang="bash" status="implemented" statusLabel="API" code={`
+curl https://evalsuite-api.onrender.com/api/v1/bootstrap \\
+  -H "X-API-Key: $EVALSUITE_API_KEY" -H "Content-Type: application/json" \\
+  -d '{"task": "binary-classification", "yTrue": [1,1,1,0,0,0,0,1], "yPred": [1,1,0,0,0,1,0,1],
+       "metric": "classification.accuracy", "method": "bca", "nResamples": 1000, "randomState": 0}'
+`} />
+
+`/report` takes the same body as `/evaluate` plus `format`. `/plot` takes `kind` (`roc`, `pr`, `calibration` or `residuals`), `yTrue` and `yScore`, and returns the points with axis labels and a summary (ROC AUC, average precision, ECE or RMSE), so any charting library can draw them. All three count towards the same rate limit as `/evaluate`, and none stores the submitted data.
 
 ### Sessions and passwords
 

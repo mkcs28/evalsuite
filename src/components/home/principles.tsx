@@ -9,6 +9,8 @@ import {
   ScanLine,
   ShieldCheck,
   Sigma,
+  SmartToy,
+  Sparkles,
   type MaterialIcon,
 } from "@/components/ui/icons";
 import { cn } from "@/lib/utils/cn";
@@ -52,6 +54,16 @@ const PRINCIPLES: Array<{ name: string; text: string; icon: MaterialIcon; wide?:
     icon: ScanLine,
   },
   {
+    name: "LLM evaluation",
+    text: "Text generation, factuality, judges, RAG and structured output, identical to the reference libraries.",
+    icon: SmartToy,
+  },
+  {
+    name: "LLM systems",
+    text: "Safety, robustness, uncertainty, agents, multilingual, code, long context and serving cost.",
+    icon: Sparkles,
+  },
+  {
     name: "Publication-ready output",
     text: "LaTeX tables, HTML, Markdown, JSON and CSV from one structured result.",
     icon: FileText,
@@ -60,6 +72,7 @@ const PRINCIPLES: Array<{ name: string; text: string; icon: MaterialIcon; wide?:
     name: "Extensible registry",
     text: "Every metric is described in a registry that powers code and docs alike.",
     icon: Microscope,
+    wide: true,
   },
   {
     name: "Research documentation",

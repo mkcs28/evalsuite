@@ -3,11 +3,14 @@ import {
   BookOpenCheck,
   FileCheck2,
   GraduationCap,
+  HealthAndSafety,
   Microscope,
   Repeat2,
   ScanLine,
   ShieldCheck,
   Sigma,
+  SmartToy,
+  Gauge,
   Timer,
   type MaterialIcon,
 } from "@/components/ui/icons";
@@ -66,6 +69,33 @@ const AUDIENCES: Array<{ icon: MaterialIcon; who: string; gets: string[] }> = [
       "Dice, IoU, boundary and surface metrics",
       "AP and mAP with a documented matching convention",
       "Per-class results with explicit empty-mask handling",
+    ],
+  },
+  {
+    icon: SmartToy,
+    who: "LLM and NLP teams",
+    gets: [
+      "BLEU, ROUGE, METEOR, CIDEr and SPICE matching the reference libraries",
+      "Faithfulness, judge agreement and RAG metrics with intervals",
+      "Paired comparison of two models over the same examples",
+    ],
+  },
+  {
+    icon: HealthAndSafety,
+    who: "AI safety and agent teams",
+    gets: [
+      "Harmful-response, refusal, jailbreak and PII-leakage rates",
+      "Tool-call validity, plan adherence and recovery for agents",
+      "Calibration, AURC and selective prediction",
+    ],
+  },
+  {
+    icon: Gauge,
+    who: "Platform and MLOps teams",
+    gets: [
+      "TTFT, TPOT, latency percentiles and throughput",
+      "Cost per request and per successful task",
+      "Code-generation quality without running untrusted code",
     ],
   },
   {
@@ -159,8 +189,8 @@ export function Benefits() {
         </ul>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-xs text-muted-foreground">
-          v0.1.0 delivers these for classification, regression and model comparison, backed by
-          1,300+ tests and published benchmarks; later releases extend them to more tasks.
+          v0.5.0 delivers these across machine learning, clinical, statistical, computer-vision, LLM
+          and LLM-systems evaluation, backed by 1,800 tests and benchmarks for every metric.
         </p>
       </div>
     </section>

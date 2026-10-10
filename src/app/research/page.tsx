@@ -47,16 +47,18 @@ export default function ResearchPage() {
         <Section title="Shared computation">
           <p>
             Intermediates such as confusion matrices and class counts are computed once per
-            evaluation and reused. This makes evaluate() 26–34× faster than separate scikit-learn
+            evaluation and reused. This makes evaluate() 21–56× faster than separate scikit-learn
             calls for the same metrics, with identical results (see the benchmarks page).
           </p>
         </Section>
         <Section title="Numerical validation">
           <p>
             Each metric is tested against analytically derived cases and, where conventions match,
-            against scikit-learn, SciPy and statsmodels (1,300+ tests on Python 3.9 to 3.14, Linux,
-            Windows and macOS). Intentional differences in convention are documented rather than
-            hidden.
+            against the established implementation: scikit-learn, SciPy, statsmodels, pycocotools,
+            sacreBLEU, rouge-score, NLTK, ranx, jsonschema, radon and others (1,800 tests on Python
+            3.9 to 3.14, Linux, Windows and macOS). Every one of the 225 metrics and statistics
+            functions is benchmarked, and all 204 comparisons with a reference agree. Intentional
+            differences in convention are documented rather than hidden.
           </p>
         </Section>
         <Section title="Reproducibility">
@@ -87,8 +89,9 @@ export default function ResearchPage() {
           <p>
             A single, documented evaluation layer spanning several research domains; a metric
             registry that keeps documentation in sync with code; and publication-ready reporting
-            with uncertainty included by default. v0.1.0 delivers these for classification,
-            regression and model comparison.
+            with uncertainty included by default. v0.1.0 delivered these for classification,
+            regression and model comparison; v0.2.0 to v0.5.0 extended them to clinical,
+            statistical, computer-vision, LLM and LLM-systems evaluation.
           </p>
         </Section>
         <Section title="Limitations">

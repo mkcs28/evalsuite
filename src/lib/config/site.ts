@@ -47,7 +47,7 @@ export const siteConfig: SiteConfig = {
   title: "EvalSuite: Unified evaluation for machine learning and research",
   tagline: "Unified evaluation for modern machine learning and research.",
   description:
-    "EvalSuite brings machine learning, clinical, statistical, segmentation, and object-detection evaluation into one consistent evaluation framework.",
+    "EvalSuite brings machine learning, clinical, statistical, computer-vision, LLM and LLM-systems evaluation into one consistent evaluation framework.",
   url: optionalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000",
   package: {
     latestRelease: "v0.5.0",

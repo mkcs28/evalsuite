@@ -19,9 +19,9 @@ export default function AboutPage() {
       <div className="mx-auto max-w-[1680px] px-4 sm:px-6">
         <Section title="What it is">
           <p>
-            EvalSuite brings machine learning, clinical, statistical, segmentation and
-            object-detection evaluation into one framework with a shared API, structured results and
-            publication-ready reporting.
+            EvalSuite brings machine learning, clinical, statistical, computer-vision (segmentation
+            and object detection), LLM and LLM-systems evaluation into one framework with a shared
+            API, structured results and publication-ready reporting.
           </p>
         </Section>
         <Section title="Why it exists">
@@ -33,9 +33,9 @@ export default function AboutPage() {
         </Section>
         <Section title="Who it is for">
           <p>
-            Machine learning and computer vision researchers, clinical AI researchers,
-            statisticians, data scientists, students, educators and reviewers who need to check how
-            numbers were produced.
+            Machine learning and computer vision researchers, clinical AI researchers, LLM, NLP,
+            AI-safety and agent teams, platform engineers, statisticians, data scientists, students,
+            educators and reviewers who need to check how numbers were produced.
           </p>
         </Section>
         <Section title="Philosophy">
