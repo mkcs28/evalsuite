@@ -137,7 +137,7 @@ def test_public_endpoints(client: TestClient) -> None:
     assert client.get("/api/v1/health").json() == {"status": "ok", "version": es.__version__}
     assert client.get("/api/v1/version").json()["engine"] == "evalsuite"
     metrics = client.get("/api/v1/metrics").json()
-    assert len(metrics) >= 134  # 134 on 0.4.x; grows with each release
+    assert len(metrics) >= 212  # 212 on 0.5.0
     assert (
         client.get("/api/v1/metrics/classification.mcc").json()["name"] == "Matthews correlation coefficient"
     )
