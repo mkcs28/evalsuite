@@ -110,7 +110,11 @@ class CatchUnhandled:
             await self.app(scope, receive, tracking_send)
         except Exception as exc:
             logging.getLogger("evalsuite.error").error(
-                "Unhandled error on %s %s: %s", scope.get("method"), scope.get("path"), type(exc).__name__
+                "Unhandled error on %s %s: %s",
+                scope.get("method"),
+                scope.get("path"),
+                type(exc).__name__,
+                exc_info=exc,
             )
             if started:
                 raise

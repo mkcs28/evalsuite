@@ -56,6 +56,9 @@ def install_error_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(Exception)
-    async def _unexpected(_: Request, __: Exception) -> JSONResponse:
-        # Never leak internals or stack traces.
+    async def _unexpected(request: Request, exc: Exception) -> JSONResponse:
+        # Never leak internals to the client, but log the traceback so the host's logs show the cause.
+        logging.getLogger("evalsuite.error").error(
+            "Unhandled error on %s %s", request.method, request.url.path, exc_info=exc
+        )
         return JSONResponse(_body("internal_error", "An internal error occurred."), status_code=500)
