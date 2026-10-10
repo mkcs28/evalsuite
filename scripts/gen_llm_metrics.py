@@ -94,6 +94,7 @@ EXAMPLES = {
     "rouge_lsum": "es.rouge_lsum(references, predictions)       # one sentence per line",
     "meteor": "es.meteor(references, predictions)             # synonyms=... to add WordNet",
     "cider": "es.cider(caption_references, captions)",
+    "spice": 'es.spice([[("dog",), ("dog", "brown")]], [[("dog",)]], synonyms=None)  # or parser=, synonyms="wordnet"',
     "perplexity": "es.perplexity(token_logprobs)",
     "cross_entropy": "es.cross_entropy(token_logprobs, base=2)  # bits per token",
     "distinct_n": "es.distinct_n(predictions, n=2)",
@@ -229,7 +230,7 @@ for mid in es.list_metrics():
         "assumptions": [],
         "limitations": [],
         "references": [{"citation": c} for c in info.references],
-        "version": "v0.4.0",
+        "version": "v0.5.0" if fn == "spice" else "v0.4.0",
         "status": "implemented",
         "apiPath": f"es.{fn}",
         "example": EXAMPLES[fn],
@@ -237,7 +238,7 @@ for mid in es.list_metrics():
 
 entries.sort(key=lambda e: (e["category"], e["name"].lower()))
 ts = (
-    "// Generated from the evalsuite-python 0.4.0 metric registry by scripts/gen_llm_metrics.py.\n"
+    "// Generated from the evalsuite-python metric registry by scripts/gen_llm_metrics.py.\n"
     "// Every example call was executed against the package. Do not edit by hand.\n"
     'import type { MetricDefinition } from "@/lib/metrics/schema";\n\n'
     "export const LLM_METRICS: MetricDefinition[] = "

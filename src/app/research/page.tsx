@@ -93,11 +93,12 @@ export default function ResearchPage() {
         </Section>
         <Section title="Limitations">
           <p>
-            EvalSuite v0.4.1 covers classification, regression, clinical evaluation, calibration,
-            model comparison, statistical testing, segmentation, object detection and LLM
-            evaluation. It does not replace domain expertise, clinical validation or study design. A
-            unified interface cannot remove the need to choose metrics that fit the question being
-            asked.
+            EvalSuite v0.5.0 covers classification, regression, clinical evaluation, calibration,
+            model comparison, statistical testing, segmentation, object detection, LLM evaluation
+            and LLM systems (safety, robustness, uncertainty, agents, multilingual, code, long
+            context and serving cost). It does not replace domain expertise, clinical validation or
+            study design. A unified interface cannot remove the need to choose metrics that fit the
+            question being asked.
           </p>
         </Section>
       </div>

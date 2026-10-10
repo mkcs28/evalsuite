@@ -50,6 +50,7 @@ export const DOCS_NAV: DocSection[] = [
       { title: "LLM-as-a-judge", href: "/docs/llm-judge" },
       { title: "Retrieval and RAG", href: "/docs/rag" },
       { title: "Structured output and tools", href: "/docs/structured-output" },
+      { title: "LLM systems", href: "/docs/llm-systems" },
     ],
   },
 ];

@@ -107,7 +107,7 @@ export function Benefits() {
       <div aria-hidden className="hero-glow absolute inset-0 opacity-70" />
       <div className="relative mx-auto max-w-[1680px] px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <StatusBadge status="implemented" label="Delivered in v0.1.0, extended through v0.4.1" />
+          <StatusBadge status="implemented" label="Delivered in v0.1.0, extended through v0.5.0" />
           <h2
             id="benefits-title"
             className="mt-5 text-3xl font-bold tracking-tight text-balance sm:text-5xl"

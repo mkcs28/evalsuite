@@ -1,4 +1,4 @@
-// Generated from the evalsuite-python 0.4.0 metric registry by scripts/gen_llm_metrics.py.
+// Generated from the evalsuite-python metric registry by scripts/gen_llm_metrics.py.
 // Every example call was executed against the package. Do not edit by hand.
 import type { MetricDefinition } from "@/lib/metrics/schema";
 
@@ -1792,6 +1792,31 @@ export const LLM_METRICS: MetricDefinition[] = [
     status: "implemented",
     apiPath: "es.sentence_bleu",
     example: "es.sentence_bleu(references, predictions, average=None)",
+  },
+  {
+    id: "text-generation.spice",
+    name: "SPICE",
+    category: "text-generation",
+    subcategory: "Captioning",
+    description:
+      "F-score between the semantic tuples (objects, attributes, relations) of the candidate caption's scene graph and the union of the references' scene graphs, with exact or synonym matching; averaged over images.",
+    formula: "P = |T(c) ⊗ T(S)| / |T(c)|, R = |T(c) ⊗ T(S)| / |T(S)|, SPICE = 2PR / (P + R)",
+    inputs: ["references: one reference string (or a list of references) per example"],
+    outputs: "MetricResult (float, or per-example array with average=None)",
+    range: "[0, 1]",
+    assumptions: [],
+    limitations: [],
+    references: [
+      {
+        citation:
+          "Anderson P, Fernando B, Johnson M, Gould S. SPICE: semantic propositional image caption evaluation. ECCV. 2016:382-398.",
+      },
+    ],
+    version: "v0.5.0",
+    status: "implemented",
+    apiPath: "es.spice",
+    example:
+      'es.spice([[("dog",), ("dog", "brown")]], [[("dog",)]], synonyms=None)  # or parser=, synonyms="wordnet"',
   },
   {
     id: "text-generation.ter",

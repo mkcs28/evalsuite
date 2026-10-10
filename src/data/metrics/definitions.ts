@@ -1,6 +1,7 @@
 import type { MetricDefinition } from "@/lib/metrics/schema";
 import type { ReleaseTarget } from "@/types/status";
 import { LLM_METRICS } from "./llm.generated";
+import { LLMSYS_METRICS } from "./llmsys.generated";
 import { REF } from "./references";
 
 /**
@@ -1222,4 +1223,5 @@ export const METRICS: MetricDefinition[] = [
     apiPath: "es.detection.map",
   }),
   ...LLM_METRICS,
+  ...LLMSYS_METRICS,
 ];

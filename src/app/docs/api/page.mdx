@@ -2,7 +2,7 @@ export const metadata = { title: "API reference", description: "Public Python AP
 
 # API reference
 
-<StatusBadge status="implemented" label="evalsuite-python v0.4.1" />
+<StatusBadge status="implemented" label="evalsuite-python v0.5.0" />
 
 Everything is available from the top-level package: `import evalsuite as es`. Run `help(es.f1)` or `es.metric_info("classification.f1")` for full documentation of any function.
 
@@ -37,6 +37,15 @@ Everything is available from the top-level package: `import evalsuite as es`. Ru
 | `es.precision_at_k`, `es.recall_at_k`, `es.hit_rate_at_k`, `es.mrr`, `es.mean_average_precision_at_k`, `es.ndcg_at_k`, `es.context_precision`, `es.context_recall`, `es.context_relevance`, `es.latency_summary`, `es.task_success_rate`, `es.failure_attribution` | Retrieval and RAG | v0.4.0 |
 | `es.json_validity`, `es.json_schema_compliance`, `es.validate_json_schema`, `es.extract_json`, `es.xml_validity`, `es.required_field_accuracy`, `es.tool_selection_accuracy`, `es.tool_argument_accuracy`, `es.tool_call_f1`, `es.api_call_success_rate`, `es.instruction_compliance_rate`, `es.constraint_satisfaction_rate`, `es.format_compliance`, `es.instruction_retention`, `es.extra_content_rate` | Structured output, tools, instructions | v0.4.0 |
 | `es.plot.ratings`, `es.plot.win_matrix`, `es.plot.text_scores` | LLM figures | v0.4.0 |
+| `es.attack_success_rate`, `es.exposure`, `es.harmful_response_rate`, `es.over_refusal_rate`, `es.pii_leakage_rate`, `es.policy_violation_rate`, `es.red_team_success_rate`, `es.refusal_rate`, `es.stereotype_preference`, `es.toxicity_score`, `es.weat_effect_size`, `es.detect_pii` | Safety, security and responsible AI | v0.5.0 |
+| `es.adversarial_robustness`, `es.contradiction_rate`, `es.distribution_shift_drop`, `es.error_rate`, `es.invariance_violation_rate`, `es.noise_robustness`, `es.ood_accuracy`, `es.paraphrase_consistency`, `es.prompt_sensitivity`, `es.recovery_success_rate`, `es.response_stability`, `es.truncation_sensitivity`, `es.add_typos` | Robustness and reliability | v0.5.0 |
+| `es.adaptive_calibration_error`, `es.aurc`, `es.confidence_accuracy_correlation`, `es.coverage_at_risk`, `es.risk_at_coverage`, `es.selective_risk`, `es.risk_coverage_curve` | Calibration and uncertainty | v0.5.0 |
+| `es.agent_cost_per_task`, `es.human_intervention_rate`, `es.invalid_tool_call_rate`, `es.plan_adherence`, `es.state_tracking_accuracy`, `es.steps_per_task`, `es.task_completion_rate`, `es.tool_failure_recovery_rate`, `es.tool_use_efficiency`, `es.unnecessary_tool_call_rate` | Agents and tool use | v0.5.0 |
+| `es.bitext_mining_accuracy`, `es.code_switching_robustness`, `es.cross_lingual_consistency`, `es.cultural_appropriateness`, `es.direct_assessment`, `es.language_consistency`, `es.language_id_accuracy`, `es.language_parity` | Multilingual | v0.5.0 |
+| `es.code_complexity`, `es.codebleu`, `es.coverage_rate`, `es.execution_success_rate`, `es.patch_acceptance_rate`, `es.resolved_rate`, `es.runtime_efficiency`, `es.security_vulnerability_rate`, `es.static_analysis_violation_rate`, `es.syntax_validity_rate`, `es.unit_test_pass_rate` | Code generation (never executes code) | v0.5.0 |
+| `es.citation_coverage`, `es.compression_ratio`, `es.context_utilization`, `es.cross_document_consistency`, `es.lost_in_the_middle`, `es.needle_in_haystack`, `es.position_accuracy`, `es.retrieval_accuracy_by_length`, `es.summary_coverage` | Long context and summarization | v0.5.0 |
+| `es.availability`, `es.energy_per_request`, `es.inference_cost`, `es.latency_percentiles`, `es.requests_per_second`, `es.resource_utilization`, `es.throughput`, `es.time_per_output_token`, `es.time_to_first_token`, `es.token_usage` | Inference efficiency and cost | v0.5.0 |
+| `es.spice` | SPICE caption metric (scene-graph tuples, any parser) | v0.5.0 |
 
 ## Common signature
 

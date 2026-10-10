@@ -13,6 +13,7 @@ import {
   Gavel,
   ManageSearch,
   SmartToy,
+  Sparkles,
   TextFields,
   HealthAndSafety,
   Home,
@@ -54,6 +55,7 @@ export const DOC_ICONS: Record<string, MaterialIcon> = {
   "/docs/llm-judge": Gavel,
   "/docs/rag": ManageSearch,
   "/docs/structured-output": DataObject,
+  "/docs/llm-systems": Sparkles,
 };
 
 function DocIcon({ href }: { href: string }) {

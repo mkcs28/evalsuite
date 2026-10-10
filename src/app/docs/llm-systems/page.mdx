@@ -1,0 +1,112 @@
+export const metadata = { title: "LLM systems", description: "Safety, robustness, calibration and uncertainty, agents and tool use, multilingual, code generation, long context and inference cost with EvalSuite.", alternates: { canonical: "/docs/llm-systems" } };
+
+# LLM systems
+
+<StatusBadge status="implemented" label="Available since v0.5.0" />
+
+v0.5.0 covers the system around a language model: whether it is safe, robust and calibrated, how well agents use tools, how it behaves across languages and on code, how it copes with long contexts, and what it costs to serve. All 85 items of the v0.5.0 roadmap are implemented: 77 new registered metrics, plus existing functions where they already measure the item (ECE, MCE, Brier score, log loss, pass@k, BLEU, chrF, COMET via `model_score`, ROUGE-L, BERTScore, Recall@k, MRR, tool-call precision and recall).
+
+Most of these metrics aggregate verdicts that come from your own judge, classifier, sandbox or serving logs (harmful or not, test passed or not, a confidence, a timestamp). EvalSuite turns them into rates with 95% Wilson intervals, counts and breakdowns in `params`. A few are computed from raw text: PII detection, CodeBLEU, cyclomatic complexity and the maintainability index. **EvalSuite never executes generated code.**
+
+| Area | Functions |
+| --- | --- |
+| Safety and responsible AI | `harmful_response_rate`, `refusal_rate`, `over_refusal_rate`, `attack_success_rate`, `red_team_success_rate`, `toxicity_score`, `stereotype_preference`, `weat_effect_size`, `pii_leakage_rate`, `detect_pii`, `exposure`, `policy_violation_rate` |
+| Robustness and reliability | `adversarial_robustness`, `noise_robustness`, `add_typos`, `ood_accuracy`, `distribution_shift_drop`, `paraphrase_consistency`, `invariance_violation_rate`, `response_stability`, `contradiction_rate`, `error_rate`, `recovery_success_rate`, `prompt_sensitivity`, `truncation_sensitivity` |
+| Calibration and uncertainty | `adaptive_calibration_error`, `risk_coverage_curve`, `selective_risk`, `aurc`, `risk_at_coverage`, `coverage_at_risk`, `confidence_accuracy_correlation`, and the existing `expected_calibration_error`, `maximum_calibration_error`, `brier_score`, `log_loss`, `abstention_accuracy` |
+| Agents and tool use | `task_completion_rate`, `invalid_tool_call_rate`, `tool_use_efficiency`, `steps_per_task`, `plan_adherence`, `state_tracking_accuracy`, `tool_failure_recovery_rate`, `unnecessary_tool_call_rate`, `human_intervention_rate`, `agent_cost_per_task`, and the existing `tool_call_f1`, `tool_selection_accuracy`, `tool_argument_accuracy` |
+| Multilingual | `language_id_accuracy`, `bitext_mining_accuracy`, `language_parity`, `code_switching_robustness`, `direct_assessment`, `cultural_appropriateness`, `language_consistency`, `cross_lingual_consistency` |
+| Code generation | `unit_test_pass_rate`, `syntax_validity_rate`, `static_analysis_violation_rate`, `execution_success_rate`, `coverage_rate`, `patch_acceptance_rate`, `resolved_rate`, `security_vulnerability_rate`, `runtime_efficiency`, `codebleu`, `code_complexity`, and the existing `pass_at_k` |
+| Long context and summarization | `retrieval_accuracy_by_length`, `needle_in_haystack`, `position_accuracy`, `lost_in_the_middle`, `context_utilization`, `summary_coverage`, `compression_ratio`, `citation_coverage`, `cross_document_consistency` |
+| Inference efficiency and cost | `time_to_first_token`, `time_per_output_token`, `latency_percentiles`, `throughput`, `token_usage`, `inference_cost`, `resource_utilization`, `energy_per_request`, `requests_per_second`, `availability` |
+
+## Safety
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+import evalsuite as es
+
+# unsafe compliance: harmful answers among prompts that asked for harm (HarmBench)
+es.harmful_response_rate([True, False, False, True], harmful_prompt=[True, True, False, True])
+# XSTest: refusals of safe prompts
+es.over_refusal_rate(refused=[True, False, True], should_refuse=[True, False, False])
+# built-in detectors: e-mail, phone, Luhn-checked card numbers, IPv4, US SSN; plus planted canaries
+r = es.pii_leakage_rate(["mail me at a@b.io", "card 4111 1111 1111 1111", "fine"], protected=["SECRET-42"])
+print(r, r.params["by_kind"])
+# RealToxicityPrompts: expected maximum toxicity over k samples per prompt
+es.toxicity_score([[0.1, 0.8, 0.2], [0.05, 0.1, 0.3]])
+`} />
+
+`weat_effect_size` takes embeddings of four word sets and returns Caliskan's effect size with a permutation p-value; `exposure` measures how strongly a planted canary was memorised, in bits (Carlini et al.).
+
+## Robustness and calibration
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+noisy_inputs = es.add_typos(["what is the capital of france"], rate=0.1, random_state=0)
+es.adversarial_robustness(clean_correct=[True, True, False], adversarial_correct=[True, False, False])
+es.paraphrase_consistency([["Paris", "paris"], ["4", "5", "4"]])
+es.prompt_sensitivity({"template_a": [1, 1, 0, 1], "template_b": [1, 0, 0, 0]})
+
+correct = [True, True, False, True, False]
+confidence = [0.95, 0.9, 0.7, 0.6, 0.3]
+es.aurc(correct, confidence)                    # E-AURC in params
+es.coverage_at_risk(correct, confidence, risk=0.2)
+es.adaptive_calibration_error(correct, confidence, n_bins=2)
+`} />
+
+## Agents and tools
+
+A trajectory is the list of tool calls made for one task, each `{"name", "arguments", "ok"}`. Calls are checked against each tool's JSON Schema with EvalSuite's built-in validator.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+tools = {"search": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}
+trajectories = [[
+    {"name": "search", "arguments": {"q": 3}, "ok": False},
+    {"name": "search", "arguments": {"q": "evalsuite"}, "ok": True},
+]]
+es.invalid_tool_call_rate(trajectories, tools)
+es.tool_failure_recovery_rate(trajectories)
+es.plan_adherence([["search", "read", "answer"]], [["search", "answer"]])
+es.agent_cost_per_task([0.02, 0.05, 0.01], completed=[True, False, True])   # cost per success in params
+`} />
+
+## Multilingual
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+es.language_parity({"en": [1, 1, 0, 1], "hi": [1, 0, 1, 1], "sw": [1, 0, 0, 1]})
+es.direct_assessment([70, 85, 40, 55], raters=["r1", "r1", "r2", "r2"], systems=["A", "B", "A", "B"])
+es.cross_lingual_consistency([{"en": "Paris", "fr": "Paris", "hi": "Paris"}, {"en": "4", "fr": "5"}])
+`} />
+
+## Code
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+refs = ["def add(a, b):\\n    return a + b"]
+preds = ["def add(x, y):\\n    return x + y"]
+print(es.codebleu(refs, preds).params)          # n-gram, weighted n-gram, AST and data-flow terms
+es.code_complexity(preds)                       # cyclomatic complexity + maintainability index (= radon)
+es.syntax_validity_rate(preds + ["def broken(:"])  # parsed with compile(), never run
+es.resolved_rate(fail_to_pass=[[True, True], [True]], pass_to_pass=[[True], [False]])  # SWE-bench
+`} />
+
+The two n-gram terms of CodeBLEU match the `codebleu` package exactly; its syntax and data-flow terms use Python's own `ast` instead of tree-sitter, so they apply to Python source. Complexity and the maintainability index match radon on every module of EvalSuite and radon itself.
+
+## Long context and serving
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+r = es.needle_in_haystack(correct=[1, 0, 1, 1], context_lengths=[4000, 4000, 8000, 8000], depths=[0, 0.5, 0, 0.5])
+print(r.params["grid"])                          # length x depth heat map
+es.lost_in_the_middle(correct=[1, 1, 0, 0, 1, 1], positions=[0.0, 0.1, 0.4, 0.6, 0.9, 1.0])
+
+es.time_to_first_token(request_times=[0.0, 1.0], first_token_times=[0.21, 1.35])
+es.latency_percentiles([0.8, 1.1, 0.9, 4.2, 1.0], percentile=99)
+es.inference_cost([1200, 800], [300, 150], input_price=3.0, output_price=15.0)  # prices per 1M tokens
+`} />
+
+## SPICE
+
+SPICE (from the v0.4.0 roadmap) is available from v0.5.0 as `es.spice`. It scores the F-measure between the candidate's and the references' scene-graph tuples. Pass tuples directly or a `parser` for captions; `synonyms="wordnet"` matches WordNet synonyms as the original does. No Java is needed.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v0.5.0" code={`
+refs = [[("girl",), ("girl", "young"), ("girl", "ride", "horse"), ("horse",)]]
+cands = [[("girl",), ("horse",), ("girl", "ride", "horse")]]
+es.spice(refs, cands)
+`} />

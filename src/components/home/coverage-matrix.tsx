@@ -5,6 +5,7 @@ import {
   FileOutput,
   ScanLine,
   SmartToy,
+  Sparkles,
   type MaterialIcon,
 } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -20,6 +21,7 @@ const shipped = (feature: string): Row => row(feature, "v0.1.0", "implemented");
 const shipped2 = (feature: string): Row => row(feature, "v0.2.0", "implemented");
 const shipped3 = (feature: string): Row => row(feature, "v0.3.0", "implemented");
 const shipped4 = (feature: string): Row => row(feature, "v0.4.0", "implemented");
+const shipped5 = (feature: string): Row => row(feature, "v0.5.0", "implemented");
 
 export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
   {
@@ -60,12 +62,26 @@ export const COVERAGE: Array<{ domain: string; rows: Row[] }> = [
     domain: "LLM evaluation",
     rows: [
       shipped4("Text generation (BLEU, ROUGE, METEOR, chrF, TER, CIDEr)"),
+      shipped5("SPICE"),
       shipped4("Semantic (BERTScore, MoverScore, MAUVE)"),
       shipped4("Factuality and citations"),
       shipped4("LLM-as-a-judge and preferences"),
       shipped4("Reasoning (pass@k, GSM8K, MATH)"),
       shipped4("Retrieval and RAG"),
       shipped4("Structured output and tool calls"),
+    ],
+  },
+  {
+    domain: "LLM systems",
+    rows: [
+      shipped5("Safety and responsible AI"),
+      shipped5("Robustness and reliability"),
+      shipped5("Calibration and uncertainty"),
+      shipped5("Agents and tool use"),
+      shipped5("Multilingual"),
+      shipped5("Code generation (CodeBLEU, complexity, SWE-bench)"),
+      shipped5("Long context and summarization"),
+      shipped5("Inference efficiency and cost"),
     ],
   },
   {
@@ -86,6 +102,7 @@ const ICONS: Record<string, MaterialIcon> = {
   Statistics: BarChart3,
   "Computer vision": ScanLine,
   "LLM evaluation": SmartToy,
+  "LLM systems": Sparkles,
   "Research output": FileOutput,
 };
 

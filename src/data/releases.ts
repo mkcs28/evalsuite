@@ -14,6 +14,27 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.5.0",
+    date: "2026-10-10",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "LLM systems: all 85 items of the v0.5.0 roadmap across 8 areas, as 77 new metrics plus existing functions where they already measure the item.",
+          "Safety: harmful-response and unsafe-compliance rate, refusal and over-refusal, jailbreak / prompt-injection and red-team success, expected maximum toxicity, CrowS-Pairs stereotype preference, WEAT, PII leakage with built-in detectors, memorization exposure, policy violations.",
+          "Robustness: adversarial and typo-noise robustness (add_typos), OOD accuracy, distribution-shift drop, paraphrase and counterfactual consistency, response stability, contradiction rate, failure and recovery rates, prompt sensitivity, truncation sensitivity.",
+          "Calibration and uncertainty: adaptive calibration error, risk-coverage curve, AURC / E-AURC, selective risk, risk at coverage, coverage at risk, confidence AUROC.",
+          "Agents: task completion, invalid tool calls checked against JSON Schemas, tool-use efficiency, steps per task, plan adherence, state tracking, tool-failure recovery, loop rate, human intervention, cost per success.",
+          "Multilingual: language-ID accuracy, bitext mining, language parity, code-switching robustness, z-normalised direct assessment, cultural appropriateness, language and cross-lingual consistency.",
+          "Code: unit-test pass rate, syntax validity (never executed), static-analysis and security findings, execution success, coverage, patch acceptance, SWE-bench resolved rate, CodeBLEU, cyclomatic complexity and maintainability index (identical to radon), runtime efficiency.",
+          "Long context and serving: accuracy by length, needle-in-a-haystack grid, position accuracy, lost-in-the-middle gap, summary coverage, compression ratio, citation coverage; TTFT, TPOT, latency percentiles, throughput, tokens, cost, resources, energy, requests per second, availability.",
+          "SPICE (es.spice) from scene-graph tuples or any parser, with WordNet synonym matching; no Java needed.",
+          "Per-metric benchmarks now cover all 225 metrics and statistics functions; all 204 comparisons with a reference agree.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.4.1",
     date: "2026-10-10",
     changes: [

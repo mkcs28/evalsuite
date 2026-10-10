@@ -17,6 +17,14 @@ export const METRIC_CATEGORIES = [
   "reasoning",
   "rag",
   "structured-output",
+  "safety",
+  "robustness",
+  "uncertainty",
+  "agents",
+  "multilingual",
+  "code",
+  "long-context",
+  "efficiency",
 ] as const;
 
 export type MetricCategory = (typeof METRIC_CATEGORIES)[number];
@@ -39,4 +47,12 @@ export const CATEGORY_LABEL: Record<MetricCategory, string> = {
   reasoning: "Reasoning",
   rag: "Retrieval and RAG",
   "structured-output": "Structured output and tools",
+  safety: "Safety and responsible AI",
+  robustness: "Robustness and reliability",
+  uncertainty: "Calibration and uncertainty",
+  agents: "Agents and tool use",
+  multilingual: "Multilingual",
+  code: "Code generation",
+  "long-context": "Long context and summarization",
+  efficiency: "Inference efficiency and cost",
 };
