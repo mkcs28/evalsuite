@@ -53,7 +53,9 @@ export function Hero() {
               <Sparkles className="size-3" aria-hidden />
               {siteConfig.package.latestRelease} released
             </span>
-            <span className="text-muted-foreground">Stable on PyPI · LLM evaluation in v0.4.0</span>
+            <span className="text-muted-foreground">
+              Stable on PyPI · LLM evaluation since v0.4.0 · every metric benchmarked in v0.4.1
+            </span>
           </span>
           <h1 className="text-gradient mt-7 text-[clamp(2.75rem,6.4vw,5rem)] leading-[1.0] font-black tracking-[-0.045em] text-balance">
             Unified evaluation for modern machine learning and research.

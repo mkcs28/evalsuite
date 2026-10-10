@@ -14,6 +14,25 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.4.1",
+    date: "2026-10-10",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Benchmarks for every metric: evalsuite benchmark --suite metrics times each of the 147 registered metrics and statistics functions against a reference library (scikit-learn, SciPy, statsmodels, pycocotools, sacreBLEU, rouge-score, NLTK, pycocoevalcap, ranx, krippendorff, choix, POT, jsonschema) or an independent textbook formula; all 128 comparisons agree to 1e-9.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "net_benefit at one threshold computes in a single pass (about 3× faster); perplexity and cross_entropy validate the pooled tokens once (5–9× faster for many short sequences).",
+          "Benchmark cases whose optional dependency is missing (for example METEOR without nltk) are skipped instead of failing.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.4.0",
     date: "2026-10-09",
     changes: [

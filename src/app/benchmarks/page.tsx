@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import { Callout } from "@/components/ui/callout";
 import { PageHeader, Section } from "@/components/ui/page-header";
 import { StatusBadge } from "@/components/ui/status-badge";
+import {
+  METRIC_BENCHMARK_COUNT,
+  MetricBenchmarkSummaryTable,
+  MetricBenchmarkTables,
+} from "@/components/benchmarks/metric-benchmarks";
 
 export const metadata: Metadata = {
   title: "Benchmarks",
   description:
-    "Speed and memory of EvalSuite against scikit-learn, statsmodels, SciPy, pycocotools, sacreBLEU, rouge-score, NLTK, ranx and jsonschema on the same data, with identical results.",
+    "Every EvalSuite metric benchmarked: speed and memory against scikit-learn, statsmodels, SciPy, pycocotools, sacreBLEU, rouge-score, NLTK, ranx and jsonschema on the same data, with identical results.",
   alternates: { canonical: "/benchmarks" },
 };
 
@@ -1017,25 +1022,28 @@ export default function BenchmarksPage() {
     <>
       <PageHeader
         title="Benchmarks"
-        meta={<StatusBadge status="implemented" label="v0.4.0 results" />}
+        meta={<StatusBadge status="implemented" label="v0.4.1 results" />}
       >
         Speed and peak memory of EvalSuite against reference implementations (scikit-learn,
         statsmodels, SciPy, pycocotools, sacreBLEU, rouge-score, NLTK, ranx, krippendorff,
-        jsonschema), computing the same quantities on the same data. Every result agrees with the
-        reference to floating-point rounding.
+        jsonschema, choix, POT, pycocoevalcap), computing the same quantities on the same data.
+        Every one of the {METRIC_BENCHMARK_COUNT} metrics and statistics functions has its own row
+        below, and every compared result agrees with the reference to floating-point rounding.
       </PageHeader>
       <div className="mx-auto max-w-[1680px] px-4 sm:px-6">
         <Callout title="Environment">
           <p>
-            EvalSuite 0.4.0, Python 3.12.3, NumPy 2.5.3, SciPy 1.18.1, scikit-learn 1.9.1,
-            statsmodels 0.15.0, pycocotools 2.0.11, Linux x86_64. Fastest of 5 runs after a warm-up;
-            peak memory measured with <code>tracemalloc</code>. Speed-up above 1 means EvalSuite is
-            faster. Each row names the reference implementation it is compared with. The same
-            results (every answer matching the reference) were reproduced on Windows with Python
-            3.14.
+            Per-metric tables: EvalSuite 0.4.1, Python 3.13, NumPy 2.5.3, SciPy 1.18.1, scikit-learn
+            1.9.1, statsmodels 0.15.0, pycocotools 2.0.11, Linux x86_64. Workload suites (1,000 /
+            100,000 / 1,000,000 samples): EvalSuite 0.4.0, Python 3.12.3. Fastest of 5 runs after a
+            warm-up; peak memory measured with <code>tracemalloc</code>. Speed-up above 1 means
+            EvalSuite is faster. Each row names the reference implementation it is compared with.
+            The same results (every answer matching the reference) were reproduced on Windows with
+            Python 3.14.
           </p>
         </Callout>
 
+        <MetricBenchmarkSummaryTable />
         <SuiteSummaryTable />
         <OverallTable />
 
@@ -1055,6 +1063,20 @@ export default function BenchmarksPage() {
           caption="LLM evaluation (v0.4) against sacreBLEU, rouge-score, NLTK, ranx, krippendorff, jsonschema"
           rows={LLM}
         />
+
+        <Section title="Every metric, one by one">
+          <p>
+            Each metric is timed on its own at 10,000 and 100,000 samples (n / 100 examples for
+            text, retrieval, RAG, judge and structured-output metrics; n / 1000 for BERTScore,
+            MoverScore, MAUVE and detection images). Where a reference library exists it is timed on
+            the same data; otherwise EvalSuite is checked against an independent textbook formula in
+            NumPy or the Python standard library. A bare formula skips input validation, so it is a
+            correctness check and a lower bound on time, not a competitor. Learned, judge-dependent
+            and randomised procedures (bootstrap, MAUVE, model_score) are timed alone. Metric names
+            link to their documentation.
+          </p>
+        </Section>
+        <MetricBenchmarkTables />
 
         <Section title="Reading the results">
           <p>
@@ -1096,11 +1118,12 @@ export default function BenchmarksPage() {
         </Section>
         <Section title="Reproduce on your machine">
           <pre className="overflow-x-auto rounded-lg border border-border bg-surface-muted/50 p-4 text-sm">
-            <code>{`pip install evalsuite-python scikit-learn statsmodels pycocotools sacrebleu rouge-score nltk ranx krippendorff jsonschema
+            <code>{`pip install "evalsuite-python[llm]" scikit-learn statsmodels pycocotools sacrebleu rouge-score ranx krippendorff jsonschema choix pot pycocoevalcap
 evalsuite benchmark                    # every case at 1,000 / 100,000 / 1,000,000 samples
 evalsuite benchmark --suite clinical   # only the v0.2 clinical, calibration and statistics cases
 evalsuite benchmark --suite vision     # only the v0.3 segmentation and detection cases
 evalsuite benchmark --suite llm        # only the v0.4 LLM cases
+evalsuite benchmark --suite metrics --sizes 10000 100000   # one row per metric (all ${METRIC_BENCHMARK_COUNT})
 evalsuite benchmark --quick            # small sizes only`}</code>
           </pre>
           <p>

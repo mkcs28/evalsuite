@@ -66,7 +66,8 @@ export default function AboutPage() {
         <Section title="Roadmap">
           <p>
             Core metrics and infrastructure shipped in v0.1.0, clinical and statistical evaluation
-            in v0.2.0, computer vision in v0.3.0 and LLM evaluation in v0.4.0. See the{" "}
+            in v0.2.0, computer vision in v0.3.0 and LLM evaluation in v0.4.0, with every metric
+            benchmarked in v0.4.1. See the{" "}
             <Link className="text-primary underline underline-offset-4" href="/roadmap">
               roadmap
             </Link>
