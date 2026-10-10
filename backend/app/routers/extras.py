@@ -7,6 +7,7 @@ import html
 import io
 import json
 import math
+from typing import Any
 
 import evalsuite as es
 import numpy as np
@@ -186,7 +187,7 @@ def bootstrap(
     )
 
 
-def _points(x: np.ndarray, y: np.ndarray) -> list[CurvePoint]:
+def _points(x: Any, y: Any) -> list[CurvePoint]:
     return [CurvePoint(x=float(a), y=float(b)) for a, b in zip(x, y, strict=True)]
 
 
