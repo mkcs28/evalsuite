@@ -46,8 +46,8 @@ export default function AboutPage() {
         </Section>
         <Section title="Open source">
           <p>
-            The package is released under the MIT License, with public issue tracking and a
-            changelog. Source code:{" "}
+            The package is dual-licensed under the MIT License or the Apache License 2.0, at your
+            option, with public issue tracking and a changelog. Source code:{" "}
             <a
               className="text-primary underline underline-offset-4"
               href="https://github.com/mkcs28/evalsuite-python"

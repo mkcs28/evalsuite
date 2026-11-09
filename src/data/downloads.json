@@ -1,6 +1,96 @@
 {
   "releases": [
     {
+      "version": "0.5.5",
+      "date": "2026-11-09",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.5.5-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 287756,
+          "sha256": "33180d57e1770a06f72978825436c1473a4434b0ade6e2f5b1a77cf4b50c6402"
+        },
+        {
+          "filename": "evalsuite_python-0.5.5.tar.gz",
+          "kind": "sdist",
+          "size": 324217,
+          "sha256": "ce721dd502acc63f3bda6fc2c04d60006cf84309f1ada94e00805cdf0b96faa2"
+        }
+      ]
+    },
+    {
+      "version": "0.5.4",
+      "date": "2026-11-09",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.5.4-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 284276,
+          "sha256": "e7291d1ffdf01e6413dad27ac4c469a5c8985a1e60ae24217799b26a5e06ec3e"
+        },
+        {
+          "filename": "evalsuite_python-0.5.4.tar.gz",
+          "kind": "sdist",
+          "size": 319423,
+          "sha256": "358ec82c24869c53a74602a67a673685940d0d296c21842ac8cb7aa98e3bff4f"
+        }
+      ]
+    },
+    {
+      "version": "0.5.3",
+      "date": "2026-11-09",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.5.3-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 273997,
+          "sha256": "9ab8a5be7626e8ba6356cf6aff3840dde29274159218e9c0067678806dd776eb"
+        },
+        {
+          "filename": "evalsuite_python-0.5.3.tar.gz",
+          "kind": "sdist",
+          "size": 306370,
+          "sha256": "d69bafc847900827941b2e8b8acd7ff0deb96df24943294a8506e71f6edd9240"
+        }
+      ]
+    },
+    {
+      "version": "0.5.2",
+      "date": "2026-11-09",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.5.2-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 273439,
+          "sha256": "6164a93f4a868a3a501850a9ce3abf9c2083b9bbbbf037207ddf7469bfb718fa"
+        },
+        {
+          "filename": "evalsuite_python-0.5.2.tar.gz",
+          "kind": "sdist",
+          "size": 304996,
+          "sha256": "368d268e15e9baf4d6ec3276b8b705b5259a345bd159cf2accb90db0b2bc58ce"
+        }
+      ]
+    },
+    {
+      "version": "0.5.1",
+      "date": "2026-10-10",
+      "files": [
+        {
+          "filename": "evalsuite_python-0.5.1-py3-none-any.whl",
+          "kind": "wheel",
+          "size": 271945,
+          "sha256": "6efdaf5ba94fbeb1ce36e36f4ae3691d7c3d7dce728438f3f789c2ad85dcbcde"
+        },
+        {
+          "filename": "evalsuite_python-0.5.1.tar.gz",
+          "kind": "sdist",
+          "size": 302885,
+          "sha256": "3decd5e242d0999a61938f8cdc930eaa824e20af0963fa4e67c1597ddacd07b5"
+        }
+      ]
+    },
+    {
       "version": "0.5.0",
       "date": "2026-10-10",
       "files": [

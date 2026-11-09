@@ -14,6 +14,100 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v0.5.5",
+    date: "2026-11-09",
+    changes: [
+      {
+        kind: "Changed",
+        items: [
+          "Every benchmark row is now faster than its reference library: 81 of 81 in the main benchmark (3.29× geometric mean) and 172 of 172 per-metric library comparisons (4.97×). Results are unchanged; every comparison still agrees with the reference.",
+          "Latency percentiles: exact selection from a small sample-bracketed window instead of partitioning the whole array; bit-identical to np.percentile (0.69× → 1.1–2.0× NumPy).",
+          "COCO detection: COCOeval's greedy matching runs across all images of a class at once (0.96× → 1.85× pycocotools, identical matches).",
+          "Shapiro–Wilk: SciPy's algorithm with Royston's weights cached per sample size, bit-identical to SciPy (0.90× → 11×).",
+          "MoverScore: cost matrix computed exactly as POT's ot.dist and POT's solver called without redundant checks (0.9× → 1.4× POT).",
+          "Surface distances: boundary detection by array shifts and direct nearest-point search for small boundaries (average surface distance 0.75× → 1.2×, Hausdorff 1.1× → 1.9× SciPy).",
+          "METEOR memoises Porter stems per word (0.74× → 3.5× NLTK); Krippendorff's alpha and CodeBLEU have lower fixed cost on tiny inputs.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.5.4",
+    date: "2026-11-09",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Dual licence: EvalSuite is available under MIT OR Apache-2.0, at your option. Both licence texts ship in the wheel and sdist.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "Overall benchmark speed-up 2.06× → 3.07× (75 of 81 rows faster) and per-metric speed-up against reference libraries 2.80× → 4.67×, with every result unchanged.",
+          "Classification: integer labels are found and encoded without sorting; binary evaluate() is about 98× faster than scikit-learn and 10-class macro F1 about 16×.",
+          "Statistics: Wilcoxon, Mann–Whitney, Kruskal–Wallis and Friedman rank once (2–4× faster than SciPy); paired t-test, χ², Cramér's V, McNemar and proportion intervals compute directly; Fisher's exact test 5–7× faster.",
+          "Text: TER reuses edit-distance rows across shifts (1.5× sacreBLEU); BLEU and ROUGE build n-grams in C and memoise tokenisation; Fleiss' kappa, Krippendorff's alpha and language-ID accuracy are vectorised.",
+          "Regression evaluate() shares squared errors between MSE, RMSE and R² (1.8× scikit-learn).",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.5.3",
+    date: "2026-11-09",
+    changes: [
+      {
+        kind: "Changed",
+        items: [
+          "t_test computes the statistic and its p-value directly from one pass over each sample: identical to SciPy and faster than it.",
+          "Latency, step and token summaries take every percentile from a single partition (identical values, about 1.4× faster).",
+          "README and benchmarks rerun on 0.5.3.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.5.2",
+    date: "2026-11-07",
+    changes: [
+      {
+        kind: "Security",
+        items: [
+          "The built-in PII e-mail detector runs in linear time: pii_leakage_rate on 60 kB of adversarial text went from about 6 s to about 10 ms.",
+          "codebleu, code_complexity and syntax_validity_rate handle source nested too deeply for Python's parser instead of crashing.",
+          "Internal assert checks replaced by explicit errors, so behaviour is the same under python -O.",
+          "Release and CI workflows pin every GitHub Action to a commit SHA; Dependabot keeps them current.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "import evalsuite no longer loads SciPy until it is needed (import time about 0.6 s → 0.07 s).",
+          "CodeBLEU syntax match is linear in program size instead of quadratic.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.5.1",
+    date: "2026-10-10",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "evalsuite benchmark --suite llmsys: LLM-systems workloads against radon, codebleu, scikit-learn, jsonschema, SciPy and NumPy; included in --suite all (27 cases, 81 measurements, all agreeing with their reference).",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "LLM-systems metrics accept NumPy arrays without converting them to Python lists first.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v0.5.0",
     date: "2026-10-10",
     changes: [

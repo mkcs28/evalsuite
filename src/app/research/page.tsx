@@ -90,13 +90,13 @@ export default function ResearchPage() {
             A single, documented evaluation layer spanning several research domains; a metric
             registry that keeps documentation in sync with code; and publication-ready reporting
             with uncertainty included by default. v0.1.0 delivered these for classification,
-            regression and model comparison; v0.2.0 to v0.5.0 extended them to clinical,
+            regression and model comparison; v0.2.0 to v0.5.5 extended them to clinical,
             statistical, computer-vision, LLM and LLM-systems evaluation.
           </p>
         </Section>
         <Section title="Limitations">
           <p>
-            EvalSuite v0.5.0 covers classification, regression, clinical evaluation, calibration,
+            EvalSuite v0.5.5 covers classification, regression, clinical evaluation, calibration,
             model comparison, statistical testing, segmentation, object detection, LLM evaluation
             and LLM systems (safety, robustness, uncertainty, agents, multilingual, code, long
             context and serving cost). It does not replace domain expertise, clinical validation or

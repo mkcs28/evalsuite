@@ -8,7 +8,7 @@ import { WEBSITE_MILESTONES } from "@/data/roadmap";
 export const metadata: Metadata = {
   title: "Roadmap",
   description:
-    "EvalSuite v0.1.0 to v0.5.0 are released: LLM evaluation in v0.4.0 and LLM systems in v0.5.0, with every roadmap item implemented.",
+    "EvalSuite v0.1.0 to v0.5.5 are released: LLM evaluation in v0.4.0 and LLM systems in v0.5.0, with every roadmap item implemented.",
   alternates: { canonical: "/roadmap" },
 };
 
@@ -17,7 +17,7 @@ export default function RoadmapPage() {
     <>
       <PageHeader title="Roadmap">
         EvalSuite ships in releases, each with tests, documentation and a PyPI build. v0.1.0 to
-        v0.5.0 are released (current version {siteConfig.package.latestRelease}): v0.4.0 added LLM
+        v0.5.5 are released (current version {siteConfig.package.latestRelease}): v0.4.0 added LLM
         evaluation and v0.5.0 LLM systems, safety and operations. Planned items move to implemented
         only when they ship.
       </PageHeader>

@@ -31,5 +31,10 @@ export const RELEASES = [
   "v0.4.0",
   "v0.4.1",
   "v0.5.0",
+  "v0.5.1",
+  "v0.5.2",
+  "v0.5.3",
+  "v0.5.4",
+  "v0.5.5",
 ] as const;
 export type ReleaseTarget = (typeof RELEASES)[number];

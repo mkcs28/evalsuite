@@ -122,7 +122,7 @@ const AUDIENCES: Array<{ icon: MaterialIcon; who: string; gets: string[] }> = [
     gets: [
       "A typed HTTP API with personal keys",
       "A metric registry that keeps code and docs in sync",
-      "Open source under the MIT License",
+      "Open source under MIT or Apache-2.0, at your option",
     ],
   },
 ];
@@ -137,7 +137,7 @@ export function Benefits() {
       <div aria-hidden className="hero-glow absolute inset-0 opacity-70" />
       <div className="relative mx-auto max-w-[1680px] px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <StatusBadge status="implemented" label="Delivered in v0.1.0, extended through v0.5.0" />
+          <StatusBadge status="implemented" label="Delivered in v0.1.0, extended through v0.5.5" />
           <h2
             id="benefits-title"
             className="mt-5 text-3xl font-bold tracking-tight text-balance sm:text-5xl"
@@ -189,7 +189,7 @@ export function Benefits() {
         </ul>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-xs text-muted-foreground">
-          v0.5.0 delivers these across machine learning, clinical, statistical, computer-vision, LLM
+          v0.5.5 delivers these across machine learning, clinical, statistical, computer-vision, LLM
           and LLM-systems evaluation, backed by 1,800 tests and benchmarks for every metric.
         </p>
       </div>

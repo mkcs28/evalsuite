@@ -133,8 +133,9 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-[1680px] flex-col gap-4 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
           <FooterStatus />
           <p className="text-xs text-muted-foreground lg:max-w-md lg:text-right">
-            EvalSuite is open-source research software under the MIT License. Features are marked
-            implemented only when they ship in a released version; the rest are planned.
+            EvalSuite is open-source research software, licensed under MIT or Apache-2.0 at your
+            option. Features are marked implemented only when they ship in a released version; the
+            rest are planned.
           </p>
         </div>
       </div>
