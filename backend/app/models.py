@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 from sqlalchemy import Date, DateTime, ForeignKey, Index, Integer, String, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -16,12 +16,12 @@ def _uuid() -> str:
 
 
 def utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def as_utc(value: datetime) -> datetime:
     """SQLite returns naive datetimes; treat them as UTC."""
-    return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+    return value if value.tzinfo else value.replace(tzinfo=UTC)
 
 
 class User(Base):

@@ -76,7 +76,7 @@ playground uses its in-browser demo engine.
 API tests run on SQLite with the in-process limiter by default. Set `EVALSUITE_TEST_DATABASE_URL`
 (PostgreSQL) and `EVALSUITE_TEST_REDIS_URL` to run the same suite on real services, as CI does.
 
-CI (`.github/workflows/ci.yml`) runs the website checks, the API suite on Python 3.10 and 3.12 against
+CI (`.github/workflows/ci.yml`) runs the website checks, the API suite on Python 3.11 and 3.12 against
 PostgreSQL 16 and Redis 7 and again on SQLite, a migration-drift check, the full-stack integration suite,
 Docker image builds, dependency audits and Playwright.
 

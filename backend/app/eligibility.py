@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 MINIMUM_AGE = 18
 
 
 def today_utc() -> date:
-    return datetime.now(timezone.utc).date()
+    return datetime.now(UTC).date()
 
 
 def age_on(birth: date, today: date) -> int:

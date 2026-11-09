@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.10", "3.12"]
+        python: ["3.11", "3.12"]
     services:
       postgres:
         image: postgres:16-alpine
@@ -92,20 +92,7 @@ jobs:
         env:
           EVALSUITE_DATABASE_URL: postgresql://evalsuite:evalsuite@localhost:5432/evalsuite_test
       - run: python -m build
-      - name: Audit dependencies
-        # Production runs Python 3.12 (backend/Dockerfile), where the whole environment, dev tools included, is
-        # audited. On 3.10 only what the API installs at runtime is audited: some dev-only tools (filelock, pulled
-        # in by pip-audit's cache) ship their security fixes for Python >= 3.11 only.
-        run: |
-          if [ "${{ matrix.python }}" = "3.10" ]; then
-            python -m venv /tmp/runtime
-            /tmp/runtime/bin/python -m pip install -q --upgrade pip setuptools
-            /tmp/runtime/bin/pip install -q .
-            /tmp/runtime/bin/pip freeze --exclude-editable | grep -v '^evalsuite-api' > /tmp/runtime.txt
-            pip-audit -r /tmp/runtime.txt --no-deps --disable-pip
-          else
-            pip-audit --skip-editable
-          fi
+      - run: pip-audit --skip-editable
 
   integration:
     runs-on: ubuntu-latest

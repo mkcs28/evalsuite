@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "evalsuite-api"
 version = "0.1.0"
 description = "HTTP API for EvalSuite: accounts, personal API keys and authenticated evaluation."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
 dependencies = [
   "fastapi>=0.115",
@@ -35,7 +35,7 @@ include = ["app", "migrations", "alembic.ini", "README.md"]
 
 [tool.ruff]
 line-length = 110
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "S", "N", "SIM"]
@@ -45,7 +45,7 @@ ignore = ["B008"]
 "tests/*" = ["S101", "S105", "S106", "S311"]
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 strict = true
 plugins = ["pydantic.mypy"]
 ignore_missing_imports = true

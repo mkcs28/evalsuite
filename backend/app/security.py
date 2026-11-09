@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from argon2 import PasswordHasher
@@ -37,7 +37,7 @@ def password_version(changed_at: datetime) -> str:
 
 
 def create_access_token(user_id: str, changed_at: datetime, settings: Settings) -> tuple[str, int]:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     expires = timedelta(minutes=settings.access_token_minutes)
     payload = {
         "sub": user_id,
