@@ -2,13 +2,13 @@ export const metadata = { title: "JavaScript, C, R and Julia", description: "One
 
 # JavaScript, C, R and Julia
 
-<StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+<StatusBadge status="implemented" label="Available in v1.0.0" />
 
 Every binding calls the same Rust engine through one JSON entry point, so a metric gives the same value in every language. Available metrics: accuracy, balanced accuracy, precision, recall, F1, specificity, MCC, ROC AUC, average precision, log loss, Brier score, MAE, MSE, RMSE, R², MAPE, median absolute error, max error, BLEU, chrF, TER, ROUGE-1/2/L, PSI and the Kolmogorov–Smirnov drift test. Arguments: `y_true`, `y_pred`, `y_prob`, `average`, `sample_weight`; `references` / `predictions` for text; `reference` / `current` for drift.
 
 ## JavaScript and the browser (npm, WebAssembly)
 
-<CodeBlock lang="javascript" status="coming-soon" statusLabel="v1.0.0" code={`
+<CodeBlock lang="javascript" status="implemented" statusLabel="v1.0.0" code={`
 // npm install evalsuite
 const es = require("evalsuite");
 es.evaluate("f1", { y_true: [0, 1, 1, 0], y_pred: [0, 1, 0, 0] });
@@ -24,7 +24,7 @@ Nothing leaves the page: the engine runs in WebAssembly. Try it in the [playgrou
 
 ## C
 
-<CodeBlock lang="c" status="coming-soon" statusLabel="v1.0.0" code={`
+<CodeBlock lang="c" status="implemented" statusLabel="v1.0.0" code={`
 #include "evalsuite.h"   /* link with -levalsuite_c */
 
 char *r = evalsuite_call("roc_auc", "{\\"y_true\\":[0,0,1,1],\\"y_prob\\":[0.1,0.4,0.35,0.8]}");
@@ -36,7 +36,7 @@ Build the shared and static library with `cargo build --release -p evalsuite-cap
 
 ## R
 
-<CodeBlock lang="r" status="coming-soon" statusLabel="v1.0.0" code={`
+<CodeBlock lang="r" status="implemented" statusLabel="v1.0.0" code={`
 # R CMD INSTALL bindings/r   (needs Rust's cargo)
 library(evalsuite)
 es_metric("f1", y_true = c(0, 1, 1, 0), y_pred = c(0, 1, 0, 0))
@@ -45,7 +45,7 @@ es_metric("rmse", y_true = c(3, 2.5, 4), y_pred = c(2.8, 2.7, 3.6))
 
 ## Julia
 
-<CodeBlock lang="julia" status="coming-soon" statusLabel="v1.0.0" code={`
+<CodeBlock lang="julia" status="implemented" statusLabel="v1.0.0" code={`
 # ENV["EVALSUITE_LIB"] = "/path/to/libevalsuite_c.so"
 using EvalSuite
 metric("f1"; y_true = [0, 1, 1, 0], y_pred = [0, 1, 0, 0])   # 0.6666666666666666

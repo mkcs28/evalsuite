@@ -2,11 +2,11 @@ export const metadata = { title: "Report cards", description: "TRIPOD+AI perform
 
 # Report cards (TRIPOD+AI and model cards)
 
-<StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+<StatusBadge status="implemented" label="Available in v1.0.0" />
 
 `report_card` computes what a reporting standard asks for and writes it up: for TRIPOD+AI (Collins et al., BMJ 2024), the evaluation sample and outcome events, discrimination (c-statistic with a DeLong interval), calibration-in-the-large and calibration slope (bootstrap intervals), the Brier score, sensitivity / specificity / PPV / NPV at a risk threshold (Wilson intervals), net benefit against treat-all and treat-none, and performance by subgroup. It also lists which checklist items are covered and which need your own text (missing data, outcome definition).
 
-<CodeBlock lang="python" status="coming-soon" statusLabel="v1.0.0" code={`
+<CodeBlock lang="python" status="implemented" statusLabel="v1.0.0" code={`
 import evalsuite as es
 
 card = es.report_card(y_true, y_prob, threshold=0.2, groups=site, group_name="site")

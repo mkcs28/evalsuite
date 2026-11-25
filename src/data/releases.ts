@@ -14,6 +14,27 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v1.0.0",
+    date: "2026-11-25",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Confidence intervals by default in evaluate() (Wilson, DeLong and t-intervals; bootstrap on request) and baseline tests with paired differences, p-values and Holm adjustment.",
+          "LLM leaderboards (es.leaderboard, evalsuite leaderboard): intervals, McNemar / paired-bootstrap tests, significance-aware ranks, per-category tables, contamination and judge-consistency checks.",
+          "Integrations: scikit-learn scorers, Hugging Face compute_metrics, Keras and PyTorch Lightning callbacks, MLflow and Weights & Biases logging.",
+          "Monitoring (es.Monitor): sliding-window metrics, PSI and Kolmogorov–Smirnov drift, threshold alerts.",
+          "Report cards (es.report_card): TRIPOD+AI performance sections and model cards with intervals; Markdown, LaTeX, HTML and Word export.",
+          "One engine in every language: the evalsuite npm package (WebAssembly), a C API, and R and Julia bindings; the engine also runs in the website playground.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: ["Faster Rust text metrics: TER 1.9×, chrF 1.6× and BLEU 1.2× versus 0.8.5."],
+      },
+    ],
+  },
+  {
     version: "v0.5.5",
     date: "2026-11-09",
     changes: [

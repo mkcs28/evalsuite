@@ -160,8 +160,8 @@ export function WasmPlayground() {
       </div>
       {state === "unavailable" ? (
         <p role="alert" className="text-sm text-danger">
-          The WebAssembly engine could not be loaded. It is published with EvalSuite 1.0.0 on npm;
-          until then (or offline), use the playground above.
+          The WebAssembly engine could not be loaded (it comes from the npm CDN). Check your
+          connection, or use the playground above.
         </p>
       ) : null}
       {error ? (

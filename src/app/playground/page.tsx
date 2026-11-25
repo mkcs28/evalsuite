@@ -28,7 +28,7 @@ export default function PlaygroundPage() {
           <h2 id="wasm-heading" className="text-2xl font-bold tracking-tight">
             The Rust engine in your browser
           </h2>
-          <StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+          <StatusBadge status="implemented" label="Available in v1.0.0" />
         </div>
         <p className="mt-3 max-w-2xl text-muted-foreground">
           The same engine as the Python package and the Rust crate, compiled to WebAssembly: your
