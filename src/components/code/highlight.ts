@@ -1,6 +1,18 @@
 import { createHighlighter, type Highlighter } from "shiki";
 
-export const CODE_LANGS = ["python", "bash", "json", "typescript", "text"] as const;
+export const CODE_LANGS = [
+  "python",
+  "bash",
+  "json",
+  "typescript",
+  "text",
+  "rust",
+  "c",
+  "r",
+  "julia",
+  "javascript",
+  "toml",
+] as const;
 export type CodeLang = (typeof CODE_LANGS)[number];
 
 let highlighter: Promise<Highlighter> | null = null;

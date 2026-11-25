@@ -7,6 +7,12 @@ import { cn } from "@/lib/utils/cn";
 import {
   Api,
   Category,
+  Checklist,
+  Cpu,
+  Globe2,
+  Leaderboard,
+  Monitor,
+  Puzzle,
   CompareArrows,
   DataObject,
   FactCheck,
@@ -56,6 +62,12 @@ export const DOC_ICONS: Record<string, MaterialIcon> = {
   "/docs/rag": ManageSearch,
   "/docs/structured-output": DataObject,
   "/docs/llm-systems": Sparkles,
+  "/docs/rust": Cpu,
+  "/docs/languages": Globe2,
+  "/docs/report-cards": Checklist,
+  "/docs/monitoring": Monitor,
+  "/docs/integrations": Puzzle,
+  "/docs/leaderboard": Leaderboard,
 };
 
 function DocIcon({ href }: { href: string }) {

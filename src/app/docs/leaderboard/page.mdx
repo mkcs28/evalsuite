@@ -1,0 +1,25 @@
+export const metadata = { title: "LLM leaderboards", description: "Rank LLM runs with intervals, significance tests, contamination and judge-consistency checks.", alternates: { canonical: "/docs/leaderboard" } };
+
+# LLM leaderboards
+
+<StatusBadge status="implemented" label="Available in v1.0.0" />
+
+`leaderboard` scores several models on the same items and ranks them honestly: each accuracy has an interval (Wilson for right/wrong scores, bootstrap otherwise), every pair of models is compared on the same items (McNemar or a paired bootstrap, Holm-adjusted), and a model's rank is one plus the number of models significantly better than it, so models that cannot be told apart share a rank.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.0.0" code={`
+import evalsuite as es
+
+board = es.leaderboard(
+    {"model-a": "runs/a.jsonl", "model-b": "runs/b.jsonl", "model-c": "runs/c.jsonl"},
+    scorer="gsm8k",                 # exact_match, contains, boxed, choice, numeric, last_line, or a function
+    train_corpus=open("pretraining_sample.txt").read().split("\n\n"),   # 13-gram contamination check
+)
+print(board.summary())
+board.to_markdown(); board.to_latex(); board.to_html()
+`} />
+
+Records are JSON lines with `id`, `prediction` and `reference` (or a precomputed `correct` / `score`), optionally `category` for per-category tables and `verdict` / `verdict_swapped` for LLM-judge position consistency. The report flags unmatched items, answers the scorer could not extract, and items that overlap the training corpus.
+
+<CodeBlock lang="bash" status="implemented" statusLabel="v1.0.0" code={`
+evalsuite leaderboard runs/*.jsonl --scorer gsm8k --references gold.jsonl -o leaderboard.md
+`} />
