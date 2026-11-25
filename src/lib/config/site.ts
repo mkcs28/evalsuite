@@ -50,8 +50,8 @@ export const siteConfig: SiteConfig = {
     "EvalSuite brings machine learning, clinical, statistical, computer-vision, LLM and LLM-systems evaluation into one consistent evaluation framework.",
   url: optionalUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000",
   package: {
-    latestRelease: "v0.5.5",
-    nextRelease: "v0.5.5",
+    latestRelease: "v1.0.0",
+    nextRelease: "v1.0.0",
     status: "implemented",
   },
   links: {
