@@ -24,6 +24,8 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Metric reference", href: "/docs/metrics" },
       { title: "API reference", href: "/docs/api" },
       { title: "CLI reference", href: "/docs/cli" },
+      { title: "Rust crate and CLI", href: "/docs/rust" },
+      { title: "JavaScript, C, R and Julia", href: "/docs/languages" },
     ],
   },
   {
@@ -39,6 +41,9 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Segmentation", href: "/docs/segmentation" },
       { title: "Object detection", href: "/docs/detection" },
       { title: "Reporting", href: "/docs/reporting" },
+      { title: "Report cards", href: "/docs/report-cards" },
+      { title: "Monitoring", href: "/docs/monitoring" },
+      { title: "Integrations", href: "/docs/integrations" },
     ],
   },
   {
@@ -51,6 +56,7 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Retrieval and RAG", href: "/docs/rag" },
       { title: "Structured output and tools", href: "/docs/structured-output" },
       { title: "LLM systems", href: "/docs/llm-systems" },
+      { title: "Leaderboards", href: "/docs/leaderboard" },
     ],
   },
 ];

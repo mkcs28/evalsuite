@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Playground } from "@/components/playground/playground";
+import { WasmPlayground } from "@/components/playground/wasm-playground";
+import { StatusBadge } from "@/components/ui/status-badge";
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -21,6 +23,21 @@ export default function PlaygroundPage() {
       <div className="mt-10">
         <Playground />
       </div>
+      <section className="mt-16" aria-labelledby="wasm-heading">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 id="wasm-heading" className="text-2xl font-bold tracking-tight">
+            The Rust engine in your browser
+          </h2>
+          <StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+        </div>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          The same engine as the Python package and the Rust crate, compiled to WebAssembly: your
+          data never leaves this page. Pick a metric, edit the arguments and compute.
+        </p>
+        <div className="mt-6">
+          <WasmPlayground />
+        </div>
+      </section>
     </div>
   );
 }

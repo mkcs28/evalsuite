@@ -10,6 +10,12 @@ const LANG_LABEL: Record<CodeLang, string> = {
   json: "JSON",
   typescript: "TypeScript",
   text: "Text",
+  rust: "Rust",
+  c: "C",
+  r: "R",
+  julia: "Julia",
+  javascript: "JavaScript",
+  toml: "TOML",
 };
 
 export interface CodeBlockProps {

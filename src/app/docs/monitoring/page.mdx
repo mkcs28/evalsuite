@@ -1,0 +1,26 @@
+export const metadata = { title: "Monitoring", description: "Sliding-window metrics, drift detection and alerts for deployed models.", alternates: { canonical: "/docs/monitoring" } };
+
+# Monitoring
+
+<StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+
+`Monitor` keeps the most recent labelled observations of a deployed model, recomputes its metrics on that window as labels arrive, compares the model's scores with a reference distribution for drift, and raises alerts when a threshold is crossed. `snapshot()` evaluates the window with confidence intervals, so a dip can be told apart from noise.
+
+<CodeBlock lang="python" status="coming-soon" statusLabel="v1.0.0" code={`
+import evalsuite as es
+
+mon = es.Monitor(
+    window=2000,
+    alerts={"roc_auc": ("<", 0.80), "psi": (">", 0.25), "ks_p": ("<", 0.01)},
+    reference_scores=validation_probabilities,
+    min_n=200,
+    on_alert=lambda a: notify(f"{a.name} = {a.value:.3f}"),
+)
+
+mon.observe(scores_without_labels)            # drift only, before labels arrive
+alerts = mon.update(y_true, y_pred=pred, y_prob=prob)
+print(mon.snapshot())                         # evaluate() on the window, with intervals
+mon.drift()                                   # {"psi": ..., "ks": ..., "ks_p": ...}
+`} />
+
+The population stability index uses bins at the reference's quantiles (below 0.1 is usually read as stable, above 0.25 as a major shift); the Kolmogorov–Smirnov test compares the two score distributions directly. The same monitor is in the Rust crate (`evalsuite::monitor`), and PSI and KS are available in JavaScript, C, R and Julia.

@@ -1,0 +1,27 @@
+export const metadata = { title: "Integrations", description: "EvalSuite in scikit-learn, Hugging Face, Keras, PyTorch Lightning, MLflow and Weights & Biases.", alternates: { canonical: "/docs/integrations" } };
+
+# Integrations
+
+<StatusBadge status="coming-soon" label="Coming in v1.0.0" />
+
+None of these frameworks is a dependency of EvalSuite: each is imported only when its helper is used (extras: `sklearn`, `keras`, `lightning`, `mlflow`, `wandb`).
+
+<CodeBlock lang="python" status="coming-soon" statusLabel="v1.0.0" code={`
+from evalsuite import integrations as ei
+
+# scikit-learn: any metric as a scorer (probabilities and direction handled)
+cross_val_score(model, X, y, scoring=ei.sklearn_scorer("mcc"))
+GridSearchCV(model, grid, scoring=ei.sklearn_scorer("brier_score"))
+
+# Hugging Face Trainer
+Trainer(model=model, args=args, compute_metrics=ei.hf_compute_metrics(["accuracy", "f1"], ci="analytic"))
+
+# Keras and PyTorch Lightning: evaluate after every epoch, log metrics and intervals
+model.fit(X, y, callbacks=[ei.keras_callback(X_val, y_val)])
+Trainer(callbacks=[ei.lightning_callback(lambda module: (y_val, module.predict(X_val), None))])
+
+# Experiment trackers
+result = es.evaluate(y_true, y_pred, y_prob=y_prob, baseline_pred=old_pred)
+ei.log_mlflow(result)     # metrics, intervals, baseline tests and the JSON report
+ei.log_wandb(result)      # flat metrics plus a table
+`} />
