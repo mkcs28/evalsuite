@@ -7,9 +7,9 @@ describe("site configuration", () => {
     expect(siteConfig.links.issues).toBe("https://github.com/mkcs28/evalsuite-python/issues");
   });
 
-  it("reports v1.0.0 as the latest release", () => {
-    expect(siteConfig.package.latestRelease).toBe("v1.0.0");
-    expect(packageStateLabel()).toBe("Latest release v1.0.0");
+  it("reports v1.2.0 as the latest release", () => {
+    expect(siteConfig.package.latestRelease).toBe("v1.2.0");
+    expect(packageStateLabel()).toBe("Latest release v1.2.0");
   });
 
   it("only accepts http(s) URLs", () => {

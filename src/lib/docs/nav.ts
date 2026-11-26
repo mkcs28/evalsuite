@@ -44,6 +44,12 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Report cards", href: "/docs/report-cards" },
       { title: "Monitoring", href: "/docs/monitoring" },
       { title: "Integrations", href: "/docs/integrations" },
+      { title: "HTML report", href: "/docs/html-report" },
+      { title: "GitHub Action", href: "/docs/github-action" },
+      { title: "Planning a test set", href: "/docs/planning" },
+      { title: "Clustered data", href: "/docs/clustered-data" },
+      { title: "Fairness", href: "/docs/fairness" },
+      { title: "Survival analysis", href: "/docs/survival" },
     ],
   },
   {
@@ -57,6 +63,8 @@ export const DOCS_NAV: DocSection[] = [
       { title: "Structured output and tools", href: "/docs/structured-output" },
       { title: "LLM systems", href: "/docs/llm-systems" },
       { title: "Leaderboards", href: "/docs/leaderboard" },
+      { title: "LLM judges and rubrics", href: "/docs/llm-judges" },
+      { title: "RAG evaluation", href: "/docs/rag-evaluation" },
     ],
   },
 ];

@@ -1,0 +1,18 @@
+export const metadata = { title: "Fairness", description: "Per-group performance, gap measures with confidence intervals and corrected tests.", alternates: { canonical: "/docs/fairness" } };
+
+# Fairness
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+report = es.fairness_report(y_true, y_pred, y_prob, groups={"sex": sex, "age": age_band})
+print(report.summary())
+report.to_markdown()
+`} />
+
+For every group (and every intersection of attributes, such as `sex=F & age=65+`): selection rate, true and false
+positive rates, positive predictive value and accuracy with Wilson intervals, ROC AUC (DeLong) and
+calibration-in-the-large. Then the gap measures with bootstrap intervals that resample within each group:
+demographic parity difference and ratio, equalized odds, equal opportunity and predictive parity differences,
+and Fisher tests of every group against the reference group, Holm-adjusted. Gap values are identical to Fairlearn's.
+Groups below `min_group_size` are listed but not tested.

@@ -1,0 +1,17 @@
+export const metadata = { title: "Clustered data", description: "Cluster-bootstrap confidence intervals and tests for patients, documents and sites.", alternates: { canonical: "/docs/clustered-data" } };
+
+# Clustered data
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+Several scans per patient, several questions per document, several images per site: observations within a
+cluster are correlated, and intervals that treat them as independent are too narrow. Pass the cluster of each
+row and EvalSuite resamples whole clusters for every interval and every paired test against a baseline.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+result = es.evaluate(y_true, y_pred, y_prob=y_prob, clusters=patient_id, baseline_pred=old_pred)
+es.bootstrap_ci("roc_auc", y_true, y_prob=y_prob, clusters=patient_id)
+`} />
+
+In a simulation with 60 patients of 10 scans each, ordinary 95% intervals contained the true accuracy only 77% of
+the time; cluster-bootstrap intervals 93%. The CLI takes `--clusters COLUMN`.

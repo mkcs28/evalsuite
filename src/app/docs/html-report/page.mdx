@@ -1,0 +1,16 @@
+export const metadata = { title: "HTML report", description: "One self-contained HTML file for a whole evaluation.", alternates: { canonical: "/docs/html-report" } };
+
+# HTML report
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+es.html_report(
+    {"Test set": result, "Fairness": fairness, "Leaderboard": board, "ROC": es.plot.roc(y_true, y_prob)},
+    title="Model v3 evaluation", intro="Evaluated on the 2026 hold-out set.", path="report.html",
+)
+`} />
+
+Any EvalSuite result, Matplotlib figure (embedded as PNG) or Markdown text becomes a section. The file has inline
+CSS, no scripts and no external requests, escapes all text and ends with a provenance footer (date, EvalSuite and
+Python versions, your metadata) — ready to attach to a paper, a pull request or an e-mail.

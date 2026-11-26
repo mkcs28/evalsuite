@@ -27,7 +27,7 @@ describe("download button", () => {
     const link = screen.getByRole("link", { name: /Download/ });
     expect(link).toHaveAttribute("href", "/download#get");
     expect(link).not.toHaveAttribute("download");
-    expect(link).toHaveTextContent("Download v1.0.0");
+    expect(link).toHaveTextContent("Download v1.2.0");
   });
 });
 

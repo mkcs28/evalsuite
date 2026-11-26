@@ -1,0 +1,27 @@
+export const metadata = { title: "Planning a test set", description: "Sample size and power for accuracy, model comparisons, ROC AUC and mean scores.", alternates: { canonical: "/docs/planning" } };
+
+# Planning a test set
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+How many test items do you need? Reviewers ask, and the answer depends on what you want to show. EvalSuite gives
+the standard formulas, rounded up, with the assumptions recorded in the result.
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+import evalsuite as es
+
+es.sample_size_proportion(0.90, 0.02)                         # accuracy near 0.90, ± 2 points: 865 items
+es.sample_size_two_proportions(0.80, 0.83, discordance=0.10)  # detect +3 points between two models (McNemar)
+es.sample_size_two_proportions(0.70, 0.80, paired=False)      # separate samples: 294 per group
+es.sample_size_auc(0.85, prevalence=0.2, half_width=0.03)     # positives and negatives for an AUC interval
+es.sample_size_auc(0.85, prevalence=0.2, auc0=0.75)           # show the AUC beats 0.75
+es.sample_size_mean_difference(0.05, 0.2)                     # a 0.05 drop in a per-item loss (paired t)
+es.power_two_proportions(500, 0.80, 0.83, discordance=0.10)   # power with the items you already have
+`} />
+
+**Paired comparisons need fewer items.** Two models scored on the same items are compared with McNemar's test, and
+what matters is how often they disagree (`discordance`, the share of items exactly one model gets right). Without
+it EvalSuite assumes independent errors, which is conservative; a pilot run usually gives a much smaller number.
+
+References: Connor (1987) for paired proportions; Fleiss, Levin & Paik (2003) for two samples; Hanley & McNeil
+(1982) and Obuchowski (1998) for the AUC. Power values match statsmodels.

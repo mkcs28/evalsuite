@@ -1,0 +1,37 @@
+export const metadata = { title: "LLM judges and rubrics", description: "Pairwise judge reports with bias checks, rubric reports and benchmark presets.", alternates: { canonical: "/docs/llm-judges" } };
+
+# LLM judges, rubrics and benchmarks
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+## Judge report
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+report = es.judge_report(judgements)   # one record per comparison
+print(report.summary())
+`} />
+
+Each record has `model_a`, `model_b` and `verdict` (A, B or tie), and optionally `verdict_swapped` (the verdict
+with the responses in the other order), `length_a` / `length_b`, `judge` and a `human` verdict. The report gives
+win rates (Wilson) and Bradley–Terry ratings (bootstrap), and checks the judge: position consistency and
+first-position preference, length bias, self-preference (a judge favouring its own model) and agreement with
+humans (Cohen's kappa). Each bias has its test and is flagged only when significant.
+
+## Rubric report
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+es.rubric_report(scores)   # records: id, model, criterion, score, optional rater and human
+`} />
+
+Means per model and criterion with intervals, inter-rater reliability (Krippendorff's alpha) and correlation with
+human scores.
+
+## Benchmark presets
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+items = es.load_benchmark("gsm8k")       # pip install "evalsuite-python[benchmarks]"
+board = es.leaderboard({"model-a": runs_a, "model-b": runs_b}, benchmark="gsm8k", references=items)
+`} />
+
+`gsm8k`, `mmlu` (subjects as categories), `arc`, `arc-easy`, `truthfulqa` (MC1) and `humaneval`. EvalSuite never
+runs model-generated code: score HumanEval in your own sandbox and pass `passed` per item (pass@1).

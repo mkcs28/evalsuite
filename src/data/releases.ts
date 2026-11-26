@@ -14,6 +14,64 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v1.2.0",
+    date: "2026-11-26",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "LLM benchmark presets (GSM8K, MMLU, ARC, TruthfulQA, HumanEval) for the leaderboard and load_benchmark().",
+          "judge_report (win rates, Bradley–Terry, position / length / self-preference bias, agreement with humans) and rubric_report.",
+          "rag_report: retrieval, grounding and answer quality with each failure blamed on retrieval or generation.",
+          "html_report: one self-contained HTML file for a whole evaluation.",
+          "Sample-size and power planning for accuracy, model comparisons, ROC AUC and mean scores.",
+          "Cluster-bootstrap intervals and baseline tests (clusters=) for patients, documents and sites.",
+          "fairness_report: per-group metrics with CIs, parity and equalized-odds gaps with CIs, intersectional groups, Holm-adjusted tests.",
+          "Survival metrics: Harrell's and Uno's C-index, time-dependent AUC, integrated Brier score (identical to scikit-survival).",
+          "A GitHub Action that comments metrics with intervals on pull requests and fails on significant regressions.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "Benchmarks re-run on 1.2.0: 200 of 200 per-metric comparisons agree, 164 of 164 faster than the reference libraries.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v1.1.2",
+    date: "2026-11-26",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "A once-a-day notice when a newer release exists, and evalsuite upgrade / es.upgrade().",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: ["READMEs and benchmarks refreshed; regression intervals in evaluate() 2× faster."],
+      },
+    ],
+  },
+  {
+    version: "v1.1.1",
+    date: "2026-11-26",
+    changes: [
+      {
+        kind: "Fixed",
+        items: [
+          "Engine hardening: every metric fuzzed, NaN / Infinity preserved in every language, strict option checks, task detection fixes in evaluate().",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: ["Engine bootstrap intervals 2.4–6× faster."],
+      },
+    ],
+  },
+  {
     version: "v1.1.0",
     date: "2026-11-26",
     changes: [

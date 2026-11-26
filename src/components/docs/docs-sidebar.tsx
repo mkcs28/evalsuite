@@ -68,6 +68,14 @@ export const DOC_ICONS: Record<string, MaterialIcon> = {
   "/docs/monitoring": Monitor,
   "/docs/integrations": Puzzle,
   "/docs/leaderboard": Leaderboard,
+  "/docs/llm-judges": Leaderboard,
+  "/docs/rag-evaluation": Sparkles,
+  "/docs/html-report": Checklist,
+  "/docs/github-action": Puzzle,
+  "/docs/planning": Checklist,
+  "/docs/clustered-data": Globe2,
+  "/docs/fairness": Checklist,
+  "/docs/survival": Monitor,
 };
 
 function DocIcon({ href }: { href: string }) {

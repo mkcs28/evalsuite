@@ -1,0 +1,33 @@
+export const metadata = { title: "GitHub Action", description: "Evaluate predictions on every pull request and catch regressions.", alternates: { canonical: "/docs/github-action" } };
+
+# GitHub Action
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+<CodeBlock lang="text" status="implemented" statusLabel="v1.2.0" code={`
+# .github/workflows/evaluate.yml
+on: pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # ... write predictions.csv (columns: label, pred, prob, base_pred, base_prob) ...
+      - uses: mkcs28/evalsuite-python@v1.2.0
+        with:
+          predictions: predictions.csv
+          y-true: label
+          y-pred: pred
+          y-prob: prob
+          baseline-pred: base_pred
+          baseline-prob: base_prob
+          fail-on-regression: "true"
+`} />
+
+The action installs EvalSuite, evaluates the file, posts the metrics with confidence intervals and paired tests
+against the baseline as a pull-request comment (updated on every push, not duplicated), writes the job summary
+and, with `fail-on-regression`, fails when a metric is significantly worse than the baseline (Holm-adjusted
+p &lt; 0.05). Inputs also include `clusters`, `metrics`, `ci` and `version`.

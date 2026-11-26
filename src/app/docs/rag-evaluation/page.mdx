@@ -1,0 +1,17 @@
+export const metadata = { title: "RAG evaluation", description: "Retrieval, grounding and answer quality, with each failure traced to its stage.", alternates: { canonical: "/docs/rag-evaluation" } };
+
+# RAG evaluation
+
+<StatusBadge status="implemented" label="Available in v1.2.0" />
+
+<CodeBlock lang="python" status="implemented" statusLabel="v1.2.0" code={`
+report = es.rag_report(records, k=5)
+print(report.summary())
+report.examples["retrieval_failure"]   # ids to inspect
+`} />
+
+One record per question: `retrieved` (ranked ids), `relevant`, `answer`, `reference`, and optionally `grounded`
+or `support` scores. The report gives hit rate, recall and MRR at k, exact match, token F1 and the grounded rate
+with intervals, and classifies every question as correct, **retrieval failure** (no relevant document retrieved),
+**generation failure** (relevant document retrieved, wrong answer), correct but unsupported, or unknown cause, then
+names the biggest problem.

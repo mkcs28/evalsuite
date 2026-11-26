@@ -8,10 +8,12 @@ import { Principles } from "@/components/home/principles";
 import { Problem } from "@/components/home/problem";
 import { RoadmapTimeline } from "@/components/roadmap/roadmap-timeline";
 import { ButtonLink } from "@/components/ui/button-link";
+import { UpgradeBanner } from "@/components/home/upgrade-banner";
 
 export default function HomePage() {
   return (
     <>
+      <UpgradeBanner />
       <Hero />
       <Problem />
       <Benefits />
