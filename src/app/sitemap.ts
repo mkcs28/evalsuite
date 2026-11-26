@@ -6,6 +6,7 @@ import { metricSlug, registry } from "@/lib/metrics/registry";
 export const STATIC_ROUTES = [
   "/",
   "/playground",
+  "/tools",
   "/benchmarks",
   "/research",
   "/roadmap",

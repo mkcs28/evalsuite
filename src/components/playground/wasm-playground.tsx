@@ -18,10 +18,15 @@ interface WasmModule {
 
 const EXAMPLES: Record<string, string> = {
   f1: '{ "y_true": [0, 1, 1, 0, 1, 1], "y_pred": [0, 1, 0, 0, 1, 1] }',
-  roc_auc: '{ "y_true": [0, 0, 1, 1, 0, 1], "y_prob": [0.1, 0.4, 0.35, 0.8, 0.2, 0.9] }',
+  roc_auc:
+    '{ "y_true": [0, 0, 1, 1, 0, 1], "y_prob": [0.1, 0.4, 0.35, 0.8, 0.2, 0.9], "ci": "analytic" }',
   rmse: '{ "y_true": [3, -0.5, 2, 7], "y_pred": [2.5, 0.0, 2, 8] }',
   bleu: '{ "references": ["the cat sat on the mat"], "predictions": ["the cat sat on a mat"] }',
   chrf: '{ "references": [["the cat sat on the mat", "a cat was on the mat"]], "predictions": ["the cat sat on a mat"] }',
+  ndcg: '{ "relevant": [{ "a": 3, "b": 1 }, ["x"]], "retrieved": [["b", "a", "c"], ["y", "x"]], "k": 3 }',
+  net_benefit:
+    '{ "y_true": [0, 0, 1, 1, 0, 1], "y_prob": [0.1, 0.4, 0.35, 0.8, 0.2, 0.9], "threshold": 0.3 }',
+  dice: '{ "shape": [2, 3], "y_true": [0, 1, 1, 0, 1, 1], "y_pred": [0, 1, 0, 0, 1, 1], "num_classes": 2 }',
   psi: '{ "reference": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], "current": [0.5, 0.6, 0.7, 0.8, 0.9, 0.9, 0.95, 0.99] }',
 };
 
@@ -120,6 +125,16 @@ export function WasmPlayground() {
               "rouge_1",
               "rouge_2",
               "rouge_l",
+              "sensitivity",
+              "ppv",
+              "npv",
+              "net_benefit",
+              "calibration_slope",
+              "expected_calibration_error",
+              "ndcg",
+              "mrr",
+              "map",
+              "dice",
               "psi",
               "ks",
             ].map((m) => (

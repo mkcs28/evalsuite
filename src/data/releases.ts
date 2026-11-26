@@ -14,6 +14,27 @@ export interface ReleaseNote {
  */
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "v1.1.0",
+    date: "2026-11-26",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "The engine everywhere: npm, C, R and Julia gain clinical, calibration, retrieval and segmentation metrics, plus confidence intervals (Wilson, DeLong or seeded BCa bootstrap) on request.",
+          "A significance-aware leaderboard in the engine, and in-browser Tools on this site: an LLM leaderboard and a monitoring dashboard that never upload your data.",
+          "R source package with vendored Rust (offline build, Windows support) on every release and an R-universe branch; a BinaryBuilder recipe for Julia.",
+          "Example notebooks for Colab: classification, clinical TRIPOD+AI, LLM leaderboard, monitoring and vision.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "BLEU 1.3× and HD95 1.6× faster than the Python reference path, results unchanged.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v1.0.0",
     date: "2026-11-25",
     changes: [
@@ -31,6 +52,90 @@ export const RELEASE_NOTES: ReleaseNote[] = [
       {
         kind: "Changed",
         items: ["Faster Rust text metrics: TER 1.9×, chrF 1.6× and BLEU 1.2× versus 0.8.5."],
+      },
+    ],
+  },
+  {
+    version: "v0.8.5",
+    date: "2026-11-25",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Every registered metric now has a Rust counterpart, including code_complexity and full CodeBLEU.",
+          "evalsuite-cli on crates.io: evaluate CSV, TSV and JSON files from the command line.",
+          "Python retrieval metrics run on the Rust engine (3–3.5× faster, bit-identical).",
+        ],
+      },
+      {
+        kind: "Fixed",
+        items: ["Wilson intervals keep the estimate inside the interval at 0 and n successes."],
+      },
+    ],
+  },
+  {
+    version: "v0.8.0",
+    date: "2026-11-25",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "The evalsuite crate on crates.io: a full Rust edition of EvalSuite, verified against the Python package on more than 36,000 randomised cases.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.7.1",
+    date: "2026-11-25",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Bootstrap of ROC AUC and average precision, DeLong tests, QA metrics, surface distances, calibration and WEAT in the compiled core (results bit-identical).",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.7.0",
+    date: "2026-11-24",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "ROC AUC, average precision, consistency metrics and pairwise preferences in the compiled core: evaluate() with probabilities 2.5–4.3× faster.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.6.1",
+    date: "2026-11-24",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "Whole COCO evaluation, CIDEr-D, CodeBLEU and distinct-n compiled; every per-example kernel multithreaded with thread-count-independent results; opt-in native resampling.",
+        ],
+      },
+    ],
+  },
+  {
+    version: "v0.6.0",
+    date: "2026-11-24",
+    changes: [
+      {
+        kind: "Added",
+        items: [
+          "A compiled core written in Rust with binary wheels for Linux, macOS and Windows; identical results to the Python implementation, which stays as the fallback.",
+        ],
+      },
+      {
+        kind: "Changed",
+        items: [
+          "Benchmarks: 3.70× geometric-mean speed-up overall, 172 of 172 per-metric comparisons faster than the reference libraries.",
+        ],
       },
     ],
   },

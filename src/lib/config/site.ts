@@ -65,6 +65,7 @@ export const siteConfig: SiteConfig = {
     { label: "Docs", href: "/docs" },
     { label: "Metrics", href: "/docs/metrics" },
     { label: "Playground", href: "/playground" },
+    { label: "Tools", href: "/tools" },
     { label: "Benchmarks", href: "/benchmarks" },
     { label: "Research", href: "/research" },
     { label: "Roadmap", href: "/roadmap" },
